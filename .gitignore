@@ -1,0 +1,27 @@
+# Dependencias
+node_modules/
+
+# Build outputs
+.next/
+out/
+
+# Variables de entorno (NUNCA subir al repo)
+.env*.local
+.env
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
