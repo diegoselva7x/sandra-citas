@@ -70,6 +70,11 @@ Migraciones 0001-0003 aplicadas. `.env.local` configurado.
 - `app/sobre-mi`, `app/recursos`, `app/privacidad`, `app/terminos` — `revalidate = 86400` (ISR 24h)
 - `app/reservar/loading.tsx`, `app/admin/loading.tsx` — skeletons de streaming
 
+### ✅ Pulido mobile y UX admin (2026-06-02)
+- `components/header.tsx` + `components/mobile-nav.tsx` — link "Panel admin" visible solo para admins (consulta `profiles.role`)
+- `components/admin/admin-calendar.tsx` — en mobile reemplaza react-big-calendar con mini-cal + lista de citas del día seleccionado
+- `components/mobile-nav.tsx` — links nav con `text-foreground` y más padding, visualmente obvios como elementos clickeables
+
 ### ✅ DEPLOY DEMO — https://sandra-citas.vercel.app (live desde 2026-06-02)
 
 ---
@@ -98,10 +103,11 @@ Migraciones 0001-0003 aplicadas. `.env.local` configurado.
 - [x] Registro y login funcionan en la demo
 
 **Próximos pasos (con datos de Sandra):**
-1. Correr `supabase/migrations/0004_seed.sql` con el correo real de Sandra → la convierte en admin
-2. Sandra configura en `/admin/configuracion`: WhatsApp, email, disponibilidad, servicios
-3. Agregar contenido (ver `docs/CONTENIDO-PENDIENTE.md`)
-4. Agregar foto (`public/foto-sandra.jpg`) y og-image (`public/og-image.jpg`)
+1. Reactivar "Confirm email" en Supabase → Authentication → Sign In/Providers → Email (fue desactivado para testing)
+2. Sandra se registra → correr SQL: `UPDATE profiles SET role='admin' WHERE email='CORREO_SANDRA';`
+3. Sandra configura en `/admin/configuracion`: WhatsApp, email, disponibilidad, servicios
+4. Agregar contenido (ver `docs/CONTENIDO-PENDIENTE.md`)
+5. Agregar foto (`public/foto-sandra.jpg`) y og-image (`public/og-image.jpg`)
 
 ---
 
