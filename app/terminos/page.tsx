@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 export const revalidate = 86400; // 24h — contenido legal estático
 
 export const metadata: Metadata = {
-  title: "Términos de uso · Sandra Mora Psicóloga",
-  description: "Términos y condiciones de uso del sitio web de Sandra Mora, psicóloga.",
+  title: "Términos de uso · Sandra Carpio Psicóloga",
+  description: "Términos y condiciones de uso del sitio web de Sandra Carpio, psicóloga.",
 };
 
 export default function TerminosPage() {
@@ -33,7 +33,7 @@ export default function TerminosPage() {
           <div className="space-y-3">
             <h2 className="text-lg font-semibold text-foreground">2. Descripción del servicio</h2>
             <p>
-              Este sitio facilita la reserva en línea de citas con Sandra Mora, psicóloga
+              Este sitio facilita la reserva en línea de citas con Sandra Carpio, psicóloga
               colegiada en Costa Rica. No reemplaza la relación terapéutica ni constituye
               un servicio de emergencias de salud mental.
             </p>
@@ -98,7 +98,7 @@ export default function TerminosPage() {
             <h2 className="text-lg font-semibold text-foreground">7. Propiedad intelectual</h2>
             <p>
               Todo el contenido de este sitio (textos, diseño, imágenes) es propiedad de
-              Sandra Mora y está protegido por las leyes de propiedad intelectual. No está
+              Sandra Carpio y está protegido por las leyes de propiedad intelectual. No está
               permitida su reproducción sin autorización expresa.
             </p>
           </div>

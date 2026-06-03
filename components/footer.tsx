@@ -10,7 +10,7 @@ export default async function Footer() {
       <div className="max-w-5xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
         {/* Marca */}
         <div className="space-y-2">
-          <p className="font-semibold text-base">Sandra Mora</p>
+          <p className="font-semibold text-base">Sandra Carpio</p>
           <p className="text-sm text-muted-foreground">
             Psicóloga · Costa Rica
           </p>
@@ -74,7 +74,7 @@ export default async function Footer() {
 
       <div className="border-t py-4 text-center">
         <p className="text-xs text-muted-foreground">
-          © {year} Sandra Mora. Todos los derechos reservados.
+          © {year} Sandra Carpio. Todos los derechos reservados.
         </p>
       </div>
     </footer>

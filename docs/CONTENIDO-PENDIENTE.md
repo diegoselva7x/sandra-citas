@@ -26,7 +26,7 @@ Subir como: `public/foto-sandra.jpg` (o similar, luego actualizar la ruta en el 
 
 | # | Qué necesito | Dónde va |
 |---|---|---|
-| 5 | **Nombre completo y título profesional** (ej: "Sandra Mora — Psicóloga Clínica") | Encabezado de la página |
+| 5 | **Nombre completo y título profesional** (ej: "Sandra Carpio — Psicóloga Clínica") | Encabezado de la página |
 | 6 | **Descripción corta** (1 oración) | Bajo el nombre |
 | 7 | **Párrafo 1 de biografía**: motivación personal para ser psicóloga | Sección "Mi historia" |
 | 8 | **Párrafo 2 de biografía**: experiencia y áreas de trabajo | Sección "Mi historia" |

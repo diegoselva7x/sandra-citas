@@ -5,8 +5,8 @@ import type { Metadata } from "next";
 export const revalidate = 86400; // 24h — contenido estático
 
 export const metadata: Metadata = {
-  title: "Sobre mí · Sandra Mora Psicóloga",
-  description: "Conocé la historia, formación y enfoque de Sandra Mora, psicóloga en Costa Rica.",
+  title: "Sobre mí · Sandra Carpio Psicóloga",
+  description: "Conocé la historia, formación y enfoque de Sandra Carpio, psicóloga en Costa Rica.",
 };
 
 export default function SobreMiPage() {
@@ -25,7 +25,7 @@ export default function SobreMiPage() {
           </div>
           <div className="space-y-4">
             {/* TODO: contenido de Sandra — nombre completo y título */}
-            <h1 className="text-3xl font-semibold">Sandra Mora</h1>
+            <h1 className="text-3xl font-semibold">Sandra Carpio</h1>
             <p className="text-primary font-medium">Psicóloga clínica · Colegiada</p>
             {/* TODO: contenido de Sandra — descripción corta */}
             <p className="text-muted-foreground leading-relaxed">

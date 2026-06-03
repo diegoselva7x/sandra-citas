@@ -19,8 +19,8 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://psicologasandra.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "Sandra Mora · Psicóloga",
-    template: "%s · Sandra Mora Psicóloga",
+    default: "Sandra Carpio · Psicóloga",
+    template: "%s · Sandra Carpio Psicóloga",
   },
   description:
     "Agenda tu cita de psicología en línea. Atención individual, de pareja y familiar. Modalidad presencial y virtual en Costa Rica.",
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_CR",
     url: SITE,
-    siteName: "Sandra Mora Psicóloga",
-    title: "Sandra Mora · Psicóloga",
+    siteName: "Sandra Carpio Psicóloga",
+    title: "Sandra Carpio · Psicóloga",
     description:
       "Agenda tu cita de psicología en línea. Atención individual, de pareja y familiar en Costa Rica.",
     images: [
@@ -37,13 +37,13 @@ export const metadata: Metadata = {
         url: "/og-image.jpg", // TODO: agregar imagen real de Sandra
         width: 1200,
         height: 630,
-        alt: "Sandra Mora · Psicóloga en Costa Rica",
+        alt: "Sandra Carpio · Psicóloga en Costa Rica",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sandra Mora · Psicóloga",
+    title: "Sandra Carpio · Psicóloga",
     description: "Agenda tu cita en línea. Atención presencial y virtual en Costa Rica.",
     images: ["/og-image.jpg"],
   },

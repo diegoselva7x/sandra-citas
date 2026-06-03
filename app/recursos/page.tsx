@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const revalidate = 86400; // 24h — contenido educativo estático
 
 export const metadata: Metadata = {
-  title: "Recursos · Sandra Mora Psicóloga",
+  title: "Recursos · Sandra Carpio Psicóloga",
   description: "Contenido educativo sobre salud mental, terapia de pareja y bienestar familiar.",
 };
 

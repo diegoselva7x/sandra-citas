@@ -5,8 +5,8 @@ import { Clock, Monitor, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Servicios · Sandra Mora Psicóloga",
-  description: "Conocé los servicios de psicología que ofrece Sandra Mora en Costa Rica.",
+  title: "Servicios · Sandra Carpio Psicóloga",
+  description: "Conocé los servicios de psicología que ofrece Sandra Carpio en Costa Rica.",
 };
 
 function formatPrice(price: number | null): string {

@@ -27,7 +27,7 @@ export default async function Header() {
           href="/"
           className="font-semibold text-base tracking-tight hover:text-primary transition-colors shrink-0"
         >
-          Sandra Mora
+          Sandra Carpio
         </Link>
 
         {/* Navegación desktop */}

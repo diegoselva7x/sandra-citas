@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Mi cuenta · Sandra Mora Psicóloga",
+  title: "Mi cuenta · Sandra Carpio Psicóloga",
   robots: { index: false, follow: false },
 };
 import { redirect } from "next/navigation";

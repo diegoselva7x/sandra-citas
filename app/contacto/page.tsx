@@ -5,8 +5,8 @@ import ContactForm from "./contact-form";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contacto · Sandra Mora Psicóloga",
-  description: "Contactá a Sandra Mora por email, WhatsApp o el formulario de contacto.",
+  title: "Contacto · Sandra Carpio Psicóloga",
+  description: "Contactá a Sandra Carpio por email, WhatsApp o el formulario de contacto.",
 };
 
 export default async function ContactoPage() {

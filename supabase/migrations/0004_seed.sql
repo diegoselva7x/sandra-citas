@@ -27,6 +27,6 @@ insert into public.service_types (name, description, duration_minutes, price, so
 
 -- 4) Datos de contacto del sitio.
 update public.settings
-set whatsapp_number = '+506 0000 0000',
+set whatsapp_number = '+506 8922-9507',
     contact_email   = 'sandra@ejemplo.com'
 where id = 1;

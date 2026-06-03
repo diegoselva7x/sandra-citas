@@ -2,7 +2,7 @@
 
 ## Qué se construyó
 
-Sitio web profesional completo para **Sandra Mora**, psicóloga en Costa Rica. Incluye:
+Sitio web profesional completo para **Sandra Carpio**, psicóloga en Costa Rica. Incluye:
 - Sitio público (presentación, servicios, recursos educativos, contacto)
 - Sistema de reservas de citas en línea (wizard 4 pasos)
 - Portal del paciente (ver citas, cancelar, reagendar, editar perfil)

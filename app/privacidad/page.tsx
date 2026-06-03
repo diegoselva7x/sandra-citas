@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const revalidate = 86400; // 24h — contenido legal estático
 
 export const metadata: Metadata = {
-  title: "Política de privacidad · Sandra Mora Psicóloga",
+  title: "Política de privacidad · Sandra Carpio Psicóloga",
   description: "Información sobre el tratamiento de datos personales conforme a la Ley 8968 de Costa Rica.",
 };
 
@@ -26,7 +26,7 @@ export default function PrivacidadPage() {
             <h2 className="text-lg font-semibold text-foreground">1. Responsable del tratamiento</h2>
             <p>
               La responsable del tratamiento de los datos personales es{" "}
-              <strong className="text-foreground">Sandra Mora</strong>, psicóloga
+              <strong className="text-foreground">Sandra Carpio</strong>, psicóloga
               colegiada en Costa Rica. Para cualquier consulta relacionada con sus datos
               podés escribirnos a través del{" "}
               <a href="/contacto" className="text-primary underline">formulario de contacto</a>.

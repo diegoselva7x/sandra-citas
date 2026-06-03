@@ -39,7 +39,7 @@ export function BaseEmail({ preview, children, siteUrl, whatsapp }: BaseEmailPro
           {/* Header */}
           <Section style={{ textAlign: "center", marginBottom: 24 }}>
             <Text style={{ fontSize: 20, fontWeight: 600, color: BRAND, margin: 0 }}>
-              Sandra Mora
+              Sandra Carpio
             </Text>
             <Text style={{ fontSize: 13, color: MUTED, margin: "2px 0 0" }}>
               Psicóloga · Costa Rica
@@ -68,7 +68,7 @@ export function BaseEmail({ preview, children, siteUrl, whatsapp }: BaseEmailPro
               </Text>
             )}
             <Text style={{ fontSize: 11, color: "#aaa", margin: 0 }}>
-              © {new Date().getFullYear()} Sandra Mora. Todos los derechos reservados.
+              © {new Date().getFullYear()} Sandra Carpio. Todos los derechos reservados.
               {" "}·{" "}
               <Link href={`${siteUrl}/privacidad`} style={{ color: "#aaa" }}>
                 Privacidad
