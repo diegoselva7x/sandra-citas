@@ -20,6 +20,16 @@ export default async function Header() {
 
   const name = user?.user_metadata?.full_name as string | undefined;
 
+  let isAdmin = false;
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+    isAdmin = profile?.role === "admin";
+  }
+
   return (
     <header className="border-b bg-background sticky top-0 z-20">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
@@ -45,6 +55,14 @@ export default async function Header() {
         <div className="hidden md:flex items-center gap-2 shrink-0">
           {user ? (
             <>
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2"
+                >
+                  Admin
+                </Link>
+              )}
               <Link
                 href="/mi-cuenta"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2"
@@ -68,7 +86,7 @@ export default async function Header() {
         </div>
 
         {/* Hamburger mobile */}
-        <MobileNav navLinks={NAV_LINKS} user={user ? { name } : null} />
+        <MobileNav navLinks={NAV_LINKS} user={user ? { name, isAdmin } : null} />
       </div>
     </header>
   );

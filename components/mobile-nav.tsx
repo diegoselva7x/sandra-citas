@@ -10,7 +10,7 @@ import { signOut } from "@/app/auth/actions";
 
 interface Props {
   navLinks: { href: string; label: string }[];
-  user: { name?: string } | null;
+  user: { name?: string; isAdmin?: boolean } | null;
 }
 
 export function MobileNav({ navLinks, user }: Props) {
@@ -46,6 +46,15 @@ export function MobileNav({ navLinks, user }: Props) {
           <div className="mt-6 border-t pt-6 space-y-2">
             {user ? (
               <>
+                {user.isAdmin && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setOpen(false)}
+                    className="block px-3 py-2.5 rounded-md text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                  >
+                    Admin
+                  </Link>
+                )}
                 <Link
                   href="/mi-cuenta"
                   onClick={() => setOpen(false)}
