@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getBookingSettings } from "@/app/booking/actions";
 
 export default async function Footer() {
@@ -10,7 +11,10 @@ export default async function Footer() {
       <div className="max-w-5xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
         {/* Marca */}
         <div className="space-y-2">
-          <p className="font-semibold text-base">Sandra Carpio</p>
+          <div className="flex items-center gap-2">
+            <Image src="/logo.png" alt="Sandra Carpio" width={28} height={28} className="object-contain" />
+            <p className="font-semibold text-base">Sandra Carpio</p>
+          </div>
           <p className="text-sm text-muted-foreground">
             Psicóloga · Costa Rica
           </p>

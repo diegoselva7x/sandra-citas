@@ -1,5 +1,5 @@
-// Header principal con navegación y estado de sesión.
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
@@ -23,11 +23,9 @@ export default async function Header() {
   return (
     <header className="border-b bg-background sticky top-0 z-20">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-        <Link
-          href="/"
-          className="font-semibold text-base tracking-tight hover:text-primary transition-colors shrink-0"
-        >
-          Sandra Carpio
+        <Link href="/" className="shrink-0 flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Image src="/logo.png" alt="Sandra Carpio" width={32} height={32} className="object-contain" />
+          <span className="font-semibold text-base tracking-tight">Sandra Carpio</span>
         </Link>
 
         {/* Navegación desktop */}

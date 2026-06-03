@@ -38,6 +38,13 @@ export function BaseEmail({ preview, children, siteUrl, whatsapp }: BaseEmailPro
 
           {/* Header */}
           <Section style={{ textAlign: "center", marginBottom: 24 }}>
+            <Img
+              src={`${siteUrl}/logo.png`}
+              alt="Sandra Carpio"
+              width={48}
+              height={48}
+              style={{ margin: "0 auto 8px", display: "block" }}
+            />
             <Text style={{ fontSize: 20, fontWeight: 600, color: BRAND, margin: 0 }}>
               Sandra Carpio
             </Text>
