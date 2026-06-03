@@ -27,12 +27,10 @@ export default async function HomePage() {
             <div className="inline-block rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
               Psicóloga · Costa Rica
             </div>
-            {/* TODO: contenido de Sandra — título principal */}
             <h1 className="text-4xl md:text-5xl font-semibold leading-tight tracking-tight">
               Tu bienestar emocional{" "}
               <span className="text-primary">importa</span>
             </h1>
-            {/* TODO: contenido de Sandra — subtítulo */}
             <p className="text-lg text-muted-foreground leading-relaxed">
               Acompañamiento psicológico individual, de pareja y familiar.
               Modalidad presencial y virtual desde la comodidad de tu hogar.
@@ -51,7 +49,6 @@ export default async function HomePage() {
           <div className="rounded-2xl bg-muted flex items-center justify-center aspect-square max-w-sm mx-auto md:mx-0 w-full">
             <div className="text-center text-muted-foreground space-y-2 p-8">
               <div className="w-16 h-16 rounded-full bg-muted-foreground/20 mx-auto" />
-              {/* TODO: contenido de Sandra — foto profesional */}
               <p className="text-sm">Foto de Sandra</p>
             </div>
           </div>
@@ -62,12 +59,8 @@ export default async function HomePage() {
       <section className="py-16 px-4">
         <div className="max-w-3xl mx-auto text-center space-y-4">
           <h2 className="text-2xl font-semibold">Hola, soy Sandra</h2>
-          {/* TODO: contenido de Sandra — presentación breve (2-3 líneas) */}
           <p className="text-muted-foreground leading-relaxed">
-            Soy psicóloga con años de experiencia acompañando a personas en su
-            proceso de crecimiento personal. Me especializo en terapia
-            individual, de pareja y familiar, con un enfoque cálido, empático y
-            orientado a resultados concretos.
+            Pendiente
           </p>
           <Button asChild variant="outline">
             <Link href="/sobre-mi" className="inline-flex items-center gap-2">
@@ -133,8 +126,7 @@ export default async function HomePage() {
               <MapPin className="w-6 h-6 text-primary" />
               <h3 className="font-semibold">Presencial</h3>
               <p className="text-sm text-muted-foreground">
-                {/* TODO: contenido de Sandra — dirección del consultorio */}
-                En el consultorio, en un ambiente cómodo y privado.
+                Pendiente
               </p>
             </div>
             <div className="rounded-xl border p-6 space-y-3">

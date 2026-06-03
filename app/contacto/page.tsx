@@ -77,9 +77,8 @@ export default async function ContactoPage() {
                   <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                   <div>
                     <p className="font-medium">Consultorio</p>
-                    {/* TODO: contenido de Sandra — dirección del consultorio */}
                     <p className="text-sm text-muted-foreground">
-                      [TODO: dirección del consultorio]
+                      Pendiente
                     </p>
                   </div>
                 </li>
@@ -88,9 +87,8 @@ export default async function ContactoPage() {
                   <Clock className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                   <div>
                     <p className="font-medium">Horario de atención</p>
-                    {/* TODO: contenido de Sandra — horario */}
                     <p className="text-sm text-muted-foreground">
-                      [TODO: horario de atención]
+                      Pendiente
                     </p>
                   </div>
                 </li>

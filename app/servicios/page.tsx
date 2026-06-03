@@ -31,9 +31,7 @@ export default async function ServiciosPage() {
         <div className="max-w-2xl mx-auto space-y-4">
           <h1 className="text-3xl font-semibold">Servicios</h1>
           <p className="text-muted-foreground leading-relaxed">
-            {/* TODO: contenido de Sandra — descripción general de los servicios */}
-            Ofrezco acompañamiento psicológico adaptado a tus necesidades, con
-            modalidad presencial y virtual.
+            Pendiente
           </p>
         </div>
       </section>
@@ -89,10 +87,8 @@ export default async function ServiciosPage() {
             <div className="rounded-xl bg-card border p-6 space-y-3">
               <MapPin className="w-5 h-5 text-primary" />
               <h3 className="font-semibold">Presencial</h3>
-              {/* TODO: contenido de Sandra — dirección del consultorio y horario */}
               <p className="text-sm text-muted-foreground">
-                Consultorio ubicado en [TODO: dirección]. Horario de atención:
-                [TODO: horario].
+                Pendiente
               </p>
             </div>
             <div className="rounded-xl bg-card border p-6 space-y-3">

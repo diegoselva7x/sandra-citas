@@ -19,18 +19,14 @@ export default function SobreMiPage() {
           <div className="rounded-2xl bg-muted flex items-center justify-center aspect-square max-w-xs mx-auto w-full">
             <div className="text-center text-muted-foreground space-y-2 p-8">
               <div className="w-20 h-20 rounded-full bg-muted-foreground/20 mx-auto" />
-              {/* TODO: contenido de Sandra — foto profesional */}
               <p className="text-sm">Foto de Sandra</p>
             </div>
           </div>
           <div className="space-y-4">
-            {/* TODO: contenido de Sandra — nombre completo y título */}
             <h1 className="text-3xl font-semibold">Sandra Carpio</h1>
             <p className="text-primary font-medium">Psicóloga clínica · Colegiada</p>
-            {/* TODO: contenido de Sandra — descripción corta */}
             <p className="text-muted-foreground leading-relaxed">
-              Acompañando a personas, parejas y familias en su proceso de bienestar
-              emocional desde hace más de [X] años.
+              Pendiente
             </p>
           </div>
         </div>
@@ -40,17 +36,8 @@ export default function SobreMiPage() {
       <section className="py-14 px-4">
         <div className="max-w-2xl mx-auto space-y-6">
           <h2 className="text-2xl font-semibold">Mi historia</h2>
-          {/* TODO: contenido de Sandra — bio completa (3-5 párrafos) */}
           <div className="space-y-4 text-muted-foreground leading-relaxed">
-            <p>
-              [TODO: contenido de Sandra — párrafo 1: motivación personal para ser psicóloga]
-            </p>
-            <p>
-              [TODO: contenido de Sandra — párrafo 2: experiencia y áreas de trabajo]
-            </p>
-            <p>
-              [TODO: contenido de Sandra — párrafo 3: valores y forma de trabajar con los pacientes]
-            </p>
+            <p>Pendiente</p>
           </div>
         </div>
       </section>
@@ -61,10 +48,10 @@ export default function SobreMiPage() {
           <h2 className="text-2xl font-semibold">Formación y credenciales</h2>
           <ul className="space-y-4">
             {[
-              "TODO: Licenciatura en Psicología — Universidad [X], año [X]",
-              "TODO: Especialización en [área] — [institución], año [X]",
-              "TODO: Cursos y certificaciones adicionales",
-              "TODO: Número de colegiatura: [X]",
+              "Pendiente",
+              "Pendiente",
+              "Pendiente",
+              "Pendiente",
             ].map((item, i) => (
               <li key={i} className="flex gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
@@ -79,10 +66,8 @@ export default function SobreMiPage() {
       <section className="py-14 px-4">
         <div className="max-w-2xl mx-auto space-y-6">
           <h2 className="text-2xl font-semibold">Mi enfoque terapéutico</h2>
-          {/* TODO: contenido de Sandra — enfoque (cognitivo-conductual, sistémico, etc.) */}
           <p className="text-muted-foreground leading-relaxed">
-            [TODO: contenido de Sandra — descripción del enfoque terapéutico, cómo trabaja,
-            qué puede esperar el paciente de las sesiones]
+            Pendiente
           </p>
         </div>
       </section>

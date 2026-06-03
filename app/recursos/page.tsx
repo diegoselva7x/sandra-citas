@@ -13,30 +13,27 @@ const RECURSOS = [
   {
     id: "ayuda",
     titulo: "¿Por qué buscar ayuda psicológica?",
-    // TODO: contenido de Sandra — normalizar la terapia
     contenido: `Buscar apoyo psicológico no es señal de debilidad, sino de valentía y autoconocimiento.
     Muchas personas esperan hasta estar en crisis para pedir ayuda, cuando en realidad la terapia
     puede ser valiosa en cualquier momento: cuando queremos crecer, cuando algo nos pesa, o
     simplemente cuando necesitamos un espacio para nosotros.
 
-    [TODO: contenido de Sandra — expandir este tema con su perspectiva personal]`,
+    Pendiente`,
     cta: false,
   },
   {
     id: "primera-sesion",
     titulo: "¿Qué esperar de la primera sesión?",
-    // TODO: contenido de Sandra — cómo funciona la primera consulta
     contenido: `La primera sesión es una conversación. No hay preguntas correctas ni incorrectas.
     Es un espacio para que te conozcamos y podamos entender qué te trajo aquí. No te preocupes
     por "prepararte" — llegá como estás.
 
-    [TODO: contenido de Sandra — descripción de cómo conduce la primera consulta]`,
+    Pendiente`,
     cta: true,
   },
   {
     id: "pareja",
     titulo: "Terapia de pareja",
-    // TODO: contenido de Sandra — señales de que la pareja se beneficiaría de terapia
     contenido: `Las relaciones pasan por ciclos y momentos difíciles. La terapia de pareja no
     es solo para cuando hay crisis: también es una herramienta de crecimiento conjunto, de
     aprender a comunicarse mejor y a construir una relación más sana.
@@ -47,29 +44,27 @@ const RECURSOS = [
     • Se alejaron emocionalmente
     • Atravesaron un evento difícil (infidelidad, pérdida, cambio grande)
 
-    [TODO: contenido de Sandra — ampliar con su experiencia en terapia de pareja]`,
+    Pendiente`,
     cta: false,
   },
   {
     id: "familia",
     titulo: "Orientación familiar",
-    // TODO: contenido de Sandra — cuándo buscar ayuda familiar
     contenido: `Las familias son sistemas vivos: cambian, se reorganizan, atraviesan crisis.
     La terapia familiar ayuda a mejorar la comunicación, a resolver conflictos entre generaciones
     y a acompañar cambios importantes como divorcios, duelos o la llegada de un nuevo miembro.
 
-    [TODO: contenido de Sandra — perspectiva personal sobre trabajo con familias]`,
+    Pendiente`,
     cta: false,
   },
   {
     id: "salud-mental",
     titulo: "Cuidar tu salud mental",
-    // TODO: contenido de Sandra — educación sobre salud mental general
     contenido: `La salud mental es tan importante como la física, pero solemos ignorarla hasta
     que algo falla. Pequeños hábitos diarios, saber reconocer las señales de alerta y tener a
     alguien con quien hablar marcan una diferencia enorme.
 
-    [TODO: contenido de Sandra — consejos, recursos, perspectiva profesional]`,
+    Pendiente`,
     cta: false,
   },
 ];

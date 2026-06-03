@@ -34,7 +34,7 @@ export const metadata: Metadata = {
       "Agenda tu cita de psicología en línea. Atención individual, de pareja y familiar en Costa Rica.",
     images: [
       {
-        url: "/og-image.jpg", // TODO: agregar imagen real de Sandra
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Sandra Carpio · Psicóloga en Costa Rica",
