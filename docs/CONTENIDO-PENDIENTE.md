@@ -95,3 +95,22 @@ Sandra puede configurar esto directamente en `/admin/configuracion`:
 - Horarios de disponibilidad semanal
 - Servicios (nombre, precio, duración, descripción)
 - Bloqueo de fechas (vacaciones, etc.)
+
+---
+
+## Setup inicial con los datos de Sandra (una sola vez)
+
+Cuando Sandra te dé su correo real, hay que correr este SQL en Supabase → SQL Editor:
+
+```sql
+-- 1. Convertirla en admin
+UPDATE public.profiles SET role = 'admin' WHERE email = 'CORREO_REAL_DE_SANDRA';
+
+-- 2. Configurar WhatsApp y email de contacto
+UPDATE public.settings
+SET whatsapp_number = 'NUMERO_WHATSAPP',
+    contact_email   = 'CORREO_DE_CONTACTO'
+WHERE id = 1;
+```
+
+El archivo `supabase/migrations/0004_seed.sql` ya tiene el script completo con disponibilidad de ejemplo y servicios de ejemplo. Solo hay que actualizar el correo y correrlo.

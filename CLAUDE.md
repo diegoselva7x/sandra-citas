@@ -7,7 +7,7 @@ reservas de citas en línea**, y un **panel de administración** para que ella
 gestione su agenda y edite contenido. Lo desarrolla el dueño del repo (ing.
 fullstack).
 
-## Estado actual — Código completo. Deploy demo en Vercel pendiente de env vars.
+## Estado actual — Demo live en https://sandra-citas.vercel.app · Pendiente: contenido de Sandra + setup inicial DB
 
 ### ✅ Fase 0 — Entorno
 Node v22 + Next.js 16 + Supabase (`sandra-web`, West US Oregon) + shadcn/ui.
@@ -70,8 +70,7 @@ Migraciones 0001-0003 aplicadas. `.env.local` configurado.
 - `app/sobre-mi`, `app/recursos`, `app/privacidad`, `app/terminos` — `revalidate = 86400` (ISR 24h)
 - `app/reservar/loading.tsx`, `app/admin/loading.tsx` — skeletons de streaming
 
-### ⏳ DEPLOY DEMO — pendiente configurar env vars en Vercel
-Ver checklist abajo.
+### ✅ DEPLOY DEMO — https://sandra-citas.vercel.app (live desde 2026-06-02)
 
 ---
 
@@ -89,28 +88,20 @@ Ver checklist abajo.
 
 ## Checklist de deploy DEMO (gratis, .vercel.app)
 
-**Pre-deploy (ya hecho):**
-- [x] `.gitignore` creado
+**Todo completado:**
+- [x] `.gitignore` creado (incluye `.claude/`)
 - [x] `vercel.json` — cron ajustado a diario (`0 6 * * *`)
 - [x] `lib/email/send.ts` — FROM cambiado a `onboarding@resend.dev`
+- [x] Repo GitHub: `diegoselva7x/sandra-citas` (privado)
+- [x] Deploy en Vercel con 6 env vars configuradas
+- [x] Supabase redirect URL configurada
+- [x] Registro y login funcionan en la demo
 
-**Por hacer:**
-1. `git init` en el directorio del proyecto
-2. `git add . && git commit -m "Initial commit"`
-3. Crear repo en GitHub: `gh repo create sandra-citas --private --source=. --push`
-4. Importar en Vercel (vercel.com/new) o `npx vercel`
-5. **Configurar 6 env vars en Vercel:**
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-   - `RESEND_API_KEY`
-   - `CRON_SECRET` → generar con `openssl rand -hex 32`
-   - `NEXT_PUBLIC_SITE_URL` = URL asignada por Vercel (ej: `https://sandra-citas-xyz.vercel.app`)
-6. En **Supabase** → Authentication → URL Configuration: agregar la URL de Vercel + `/auth/callback`
-7. Redeploy para que `NEXT_PUBLIC_SITE_URL` tome efecto
-
-**Post-deploy:**
-- Verificar registro + login + reserva + admin en la URL live
+**Próximos pasos (con datos de Sandra):**
+1. Correr `supabase/migrations/0004_seed.sql` con el correo real de Sandra → la convierte en admin
+2. Sandra configura en `/admin/configuracion`: WhatsApp, email, disponibilidad, servicios
+3. Agregar contenido (ver `docs/CONTENIDO-PENDIENTE.md`)
+4. Agregar foto (`public/foto-sandra.jpg`) y og-image (`public/og-image.jpg`)
 
 ---
 
