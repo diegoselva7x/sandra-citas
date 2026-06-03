@@ -32,10 +32,10 @@ export function MobileNav({ navLinks, user }: Props) {
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className={`px-3 py-2.5 rounded-md text-sm transition-colors ${
+                className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                   pathname === href
-                    ? "bg-accent text-foreground font-medium"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    ? "bg-accent text-foreground"
+                    : "text-foreground hover:bg-accent"
                 }`}
               >
                 {label}
@@ -43,27 +43,27 @@ export function MobileNav({ navLinks, user }: Props) {
             ))}
           </nav>
 
-          <div className="mt-6 border-t pt-6 space-y-2">
+          <div className="mt-4 border-t pt-4 space-y-2">
             {user ? (
               <>
                 {user.isAdmin && (
                   <Link
                     href="/admin"
                     onClick={() => setOpen(false)}
-                    className="block px-3 py-2.5 rounded-md text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                    className="flex items-center px-4 py-3 rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors"
                   >
-                    Admin
+                    Panel admin
                   </Link>
                 )}
                 <Link
                   href="/mi-cuenta"
                   onClick={() => setOpen(false)}
-                  className="block px-3 py-2.5 rounded-md text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                  className="flex items-center px-4 py-3 rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors"
                 >
-                  {user.name?.split(" ")[0] ?? "Mi cuenta"}
+                  Mi cuenta
                 </Link>
                 <form action={signOut}>
-                  <Button type="submit" variant="outline" size="sm" className="w-full">
+                  <Button type="submit" variant="outline" className="w-full">
                     Salir
                   </Button>
                 </form>
