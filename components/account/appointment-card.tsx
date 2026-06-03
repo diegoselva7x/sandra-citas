@@ -58,7 +58,7 @@ export function AppointmentCard({ appointment, upcoming }: Props) {
         <div className="space-y-1.5 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <CalendarDays className="w-4 h-4 shrink-0" />
-            <span className="capitalize">{dateLabel}</span>
+            <span className="capitalize break-words">{dateLabel}</span>
           </div>
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 shrink-0" />

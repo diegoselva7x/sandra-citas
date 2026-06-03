@@ -25,7 +25,7 @@ export function MobileNav({ navLinks, user }: Props) {
             <Menu className="w-5 h-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="right" className="w-64 pt-10">
+        <SheetContent side="right" className="w-72 pt-10">
           <nav className="flex flex-col gap-1">
             {navLinks.map(({ href, label }) => (
               <Link
@@ -61,10 +61,10 @@ export function MobileNav({ navLinks, user }: Props) {
               </>
             ) : (
               <>
-                <Button asChild variant="outline" size="sm" className="w-full" onClick={() => setOpen(false)}>
+                <Button asChild variant="outline" className="w-full" onClick={() => setOpen(false)}>
                   <Link href="/login">Ingresar</Link>
                 </Button>
-                <Button asChild size="sm" className="w-full" onClick={() => setOpen(false)}>
+                <Button asChild className="w-full" onClick={() => setOpen(false)}>
                   <Link href="/reservar">Reservar cita</Link>
                 </Button>
               </>

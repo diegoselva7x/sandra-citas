@@ -77,13 +77,13 @@ export function StepSchedule({ durationMinutes, selectedSlot, onSelect }: Props)
                 type="button"
                 onClick={() => setSelectedDay(day)}
                 className={cn(
-                  "flex flex-col items-center rounded-md py-2 px-1 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "flex flex-col items-center rounded-md py-1.5 px-0.5 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   isSelected
                     ? "bg-primary text-primary-foreground"
                     : "hover:bg-accent",
                 )}
               >
-                <span className="text-xs uppercase tracking-wide leading-none">
+                <span className="text-[10px] uppercase tracking-wide leading-none">
                   {formatInTimeZone(day, TIMEZONE, "EEE", { locale: es })}
                 </span>
                 <span className="text-sm font-medium mt-1">

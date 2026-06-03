@@ -75,7 +75,7 @@ export function StepConfirm({
           <CalendarCheck className="w-4 h-4 text-muted-foreground shrink-0" />
           <div>
             <p className="font-medium">{serviceName}</p>
-            <p className="text-muted-foreground capitalize">{dateLabel}</p>
+            <p className="text-muted-foreground capitalize break-words">{dateLabel}</p>
           </div>
         </div>
 

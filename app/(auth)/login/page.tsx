@@ -60,11 +60,11 @@ export default function LoginPage() {
           </div>
 
           <div className="space-y-1.5">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-1">
               <Label htmlFor="password">Contraseña</Label>
               <Link
                 href="/auth/recuperar"
-                className="text-sm text-muted-foreground underline hover:text-foreground"
+                className="text-xs text-muted-foreground underline hover:text-foreground"
               >
                 ¿Olvidaste tu contraseña?
               </Link>
