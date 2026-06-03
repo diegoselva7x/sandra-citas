@@ -37,7 +37,7 @@ export async function signUp(input: unknown): Promise<ActionResult> {
     },
   });
 
-  if (error) return { error: traducirAuthError(error.message) };
+  if (error) return { error: error.message };
 
   // El correo de verificación lo manda Supabase. El de bienvenida es nuestro.
   await sendWelcomeEmail({ to: email, name: fullName }).catch(() => {});
