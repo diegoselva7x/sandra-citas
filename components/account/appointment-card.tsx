@@ -9,21 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CancelDialog } from "./cancel-dialog";
 import { RescheduleDialog } from "./reschedule-dialog";
+import { STATUS_LABEL, STATUS_VARIANT } from "@/lib/constants";
 import { CalendarDays, Clock, MapPin, Monitor } from "lucide-react";
-
-const STATUS_LABEL: Record<string, string> = {
-  confirmed: "Confirmada",
-  completed: "Completada",
-  no_show:   "No asistió",
-  cancelled: "Cancelada",
-};
-
-const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-  confirmed: "default",
-  completed: "secondary",
-  no_show:   "destructive",
-  cancelled: "outline",
-};
 
 interface Props {
   appointment: AppointmentWithService;

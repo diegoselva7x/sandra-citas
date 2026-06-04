@@ -1,12 +1,18 @@
+import Link from "next/link";
 import { getBookingSettings } from "@/app/booking/actions";
 import { Button } from "@/components/ui/button";
+import { Section } from "@/components/ui/section";
+import { PageHeader } from "@/components/ui/page-header";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { Mail, MessageCircle, MapPin, Clock } from "lucide-react";
 import ContactForm from "./contact-form";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contacto · Sandra Carpio Psicóloga",
-  description: "Contactá a Sandra Carpio por email, WhatsApp o el formulario de contacto.",
+  title: "Contacto",
+  description:
+    "Contactá a Sandra Carpio por email, WhatsApp o el formulario de contacto.",
+  alternates: { canonical: "/contacto" },
 };
 
 export default async function ContactoPage() {
@@ -16,38 +22,32 @@ export default async function ContactoPage() {
   const waUrl = waNumber ? `https://wa.me/${waNumber}` : null;
 
   return (
-    <div className="flex flex-col">
-      {/* Hero */}
-      <section className="bg-muted/40 py-14 px-4 text-center">
-        <div className="max-w-2xl mx-auto space-y-4">
-          <h1 className="text-3xl font-semibold">Contacto</h1>
-          <p className="text-muted-foreground leading-relaxed">
-            ¿Tenés preguntas o querés coordinar algo antes de reservar? Estoy
-            disponible por WhatsApp, email o el formulario de abajo.
-          </p>
-        </div>
-      </section>
+    <main className="flex flex-col">
+      <PageHeader
+        title="Contacto"
+        subtitle="¿Tenés preguntas o querés coordinar algo antes de reservar? Estoy disponible por WhatsApp, email o el formulario de abajo."
+      />
 
       {/* Contenido principal */}
-      <section className="py-14 px-4">
+      <Section>
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12">
-
           {/* Info de contacto */}
-          <div className="space-y-8">
+          <ScrollReveal className="space-y-8">
             <div>
-              <h2 className="text-xl font-semibold mb-6">Información de contacto</h2>
+              <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-6">
+                Información de contacto
+              </h2>
               <ul className="space-y-5">
-
                 {waUrl && (
                   <li className="flex items-start gap-4">
                     <MessageCircle className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                     <div>
-                      <p className="font-medium">WhatsApp</p>
+                      <p className="font-medium text-foreground">WhatsApp</p>
                       <a
                         href={waUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-primary underline"
+                        className="text-sm text-primary underline underline-offset-4"
                       >
                         {settings?.whatsapp_number}
                       </a>
@@ -62,10 +62,10 @@ export default async function ContactoPage() {
                   <li className="flex items-start gap-4">
                     <Mail className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                     <div>
-                      <p className="font-medium">Email</p>
+                      <p className="font-medium text-foreground">Email</p>
                       <a
                         href={`mailto:${settings.contact_email}`}
-                        className="text-sm text-primary underline"
+                        className="text-sm text-primary underline underline-offset-4"
                       >
                         {settings.contact_email}
                       </a>
@@ -76,8 +76,9 @@ export default async function ContactoPage() {
                 <li className="flex items-start gap-4">
                   <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                   <div>
-                    <p className="font-medium">Consultorio</p>
+                    <p className="font-medium text-foreground">Consultorio</p>
                     <p className="text-sm text-muted-foreground">
+                      {/* TODO: contenido de Sandra — dirección del consultorio */}
                       Pendiente
                     </p>
                   </div>
@@ -86,19 +87,21 @@ export default async function ContactoPage() {
                 <li className="flex items-start gap-4">
                   <Clock className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                   <div>
-                    <p className="font-medium">Horario de atención</p>
+                    <p className="font-medium text-foreground">Horario de atención</p>
                     <p className="text-sm text-muted-foreground">
+                      {/* TODO: contenido de Sandra — horario de atención */}
                       Pendiente
                     </p>
                   </div>
                 </li>
-
               </ul>
             </div>
 
             {waUrl && (
-              <div className="rounded-xl border bg-card p-5 space-y-3">
-                <p className="text-sm font-medium">¿Preferís escribir directo?</p>
+              <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
+                <p className="text-sm font-medium text-foreground">
+                  ¿Preferís escribir directo?
+                </p>
                 <p className="text-sm text-muted-foreground">
                   Si tenés una consulta rápida, WhatsApp suele ser la forma más ágil.
                 </p>
@@ -110,29 +113,32 @@ export default async function ContactoPage() {
                 </Button>
               </div>
             )}
-          </div>
+          </ScrollReveal>
 
           {/* Formulario */}
-          <div>
-            <h2 className="text-xl font-semibold mb-6">Enviame un mensaje</h2>
+          <ScrollReveal delay={100}>
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-6">
+              Enviame un mensaje
+            </h2>
             <ContactForm contactEmail={settings?.contact_email ?? null} />
-          </div>
-
+          </ScrollReveal>
         </div>
-      </section>
+      </Section>
 
       {/* CTA */}
-      <section className="bg-muted/40 py-14 px-4 text-center">
-        <div className="max-w-md mx-auto space-y-4">
-          <h2 className="text-xl font-semibold">¿Listo/a para reservar?</h2>
-          <p className="text-sm text-muted-foreground">
+      <Section variant="cream">
+        <ScrollReveal className="max-w-md mx-auto space-y-5 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
+            ¿Listo/a para reservar?
+          </h2>
+          <p className="text-muted-foreground">
             Podés reservar tu cita directamente desde la web, sin necesidad de llamar.
           </p>
-          <Button asChild size="lg">
-            <a href="/reservar">Reservar mi cita</a>
+          <Button asChild variant="glass" size="lg" className="text-base px-8 py-5 h-auto">
+            <Link href="/reservar">Reservar mi cita</Link>
           </Button>
-        </div>
-      </section>
-    </div>
+        </ScrollReveal>
+      </Section>
+    </main>
   );
 }

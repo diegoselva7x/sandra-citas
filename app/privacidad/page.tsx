@@ -1,25 +1,25 @@
+import Link from "next/link";
+import { Section } from "@/components/ui/section";
+import { PageHeader } from "@/components/ui/page-header";
 import type { Metadata } from "next";
 
 export const revalidate = 86400; // 24h — contenido legal estático
 
 export const metadata: Metadata = {
-  title: "Política de privacidad · Sandra Carpio Psicóloga",
+  title: "Política de privacidad",
   description: "Información sobre el tratamiento de datos personales conforme a la Ley 8968 de Costa Rica.",
+  alternates: { canonical: "/privacidad" },
 };
 
 export default function PrivacidadPage() {
   return (
-    <div className="flex flex-col">
-      <section className="bg-muted/40 py-14 px-4 text-center">
-        <div className="max-w-2xl mx-auto space-y-3">
-          <h1 className="text-3xl font-semibold">Política de privacidad</h1>
-          <p className="text-muted-foreground text-sm">
-            Última actualización: mayo de 2026
-          </p>
-        </div>
-      </section>
+    <main className="flex flex-col">
+      <PageHeader
+        title="Política de privacidad"
+        subtitle="Última actualización: mayo de 2026"
+      />
 
-      <section className="py-14 px-4">
+      <Section>
         <div className="max-w-2xl mx-auto space-y-10 text-muted-foreground leading-relaxed">
 
           <div className="space-y-3">
@@ -29,7 +29,7 @@ export default function PrivacidadPage() {
               <strong className="text-foreground">Sandra Carpio</strong>, psicóloga
               colegiada en Costa Rica. Para cualquier consulta relacionada con sus datos
               podés escribirnos a través del{" "}
-              <a href="/contacto" className="text-primary underline">formulario de contacto</a>.
+              <Link href="/contacto" className="text-primary underline underline-offset-4">formulario de contacto</Link>.
             </p>
           </div>
 
@@ -136,7 +136,7 @@ export default function PrivacidadPage() {
             </ul>
             <p>
               Para ejercer cualquiera de estos derechos, escribinos a través del{" "}
-              <a href="/contacto" className="text-primary underline">formulario de contacto</a>.
+              <Link href="/contacto" className="text-primary underline underline-offset-4">formulario de contacto</Link>.
               Respondemos en un plazo máximo de 5 días hábiles.
             </p>
           </div>
@@ -170,7 +170,7 @@ export default function PrivacidadPage() {
           </div>
 
         </div>
-      </section>
-    </div>
+      </Section>
+    </main>
   );
 }

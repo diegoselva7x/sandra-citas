@@ -1,25 +1,24 @@
+import { Section } from "@/components/ui/section";
+import { PageHeader } from "@/components/ui/page-header";
 import type { Metadata } from "next";
 
 export const revalidate = 86400; // 24h — contenido legal estático
 
 export const metadata: Metadata = {
-  title: "Términos de uso · Sandra Carpio Psicóloga",
+  title: "Términos de uso",
   description: "Términos y condiciones de uso del sitio web de Sandra Carpio, psicóloga.",
+  alternates: { canonical: "/terminos" },
 };
 
 export default function TerminosPage() {
   return (
-    <div className="flex flex-col">
-      <section className="bg-muted/40 py-14 px-4 text-center">
-        <div className="max-w-2xl mx-auto space-y-3">
-          <h1 className="text-3xl font-semibold">Términos de uso</h1>
-          <p className="text-muted-foreground text-sm">
-            Última actualización: mayo de 2026
-          </p>
-        </div>
-      </section>
+    <main className="flex flex-col">
+      <PageHeader
+        title="Términos de uso"
+        subtitle="Última actualización: mayo de 2026"
+      />
 
-      <section className="py-14 px-4">
+      <Section>
         <div className="max-w-2xl mx-auto space-y-10 text-muted-foreground leading-relaxed">
 
           <div className="space-y-3">
@@ -129,7 +128,7 @@ export default function TerminosPage() {
           </div>
 
         </div>
-      </section>
-    </div>
+      </Section>
+    </main>
   );
 }

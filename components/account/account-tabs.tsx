@@ -7,6 +7,8 @@ import type { AppointmentWithService } from "@/app/mi-cuenta/actions";
 import type { Profile } from "@/lib/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
+import { CalendarDays } from "lucide-react";
 
 interface Props {
   upcoming: AppointmentWithService[];
@@ -36,12 +38,16 @@ export function AccountTabs({ upcoming, past, profile }: Props) {
             Próximas
           </h2>
           {upcoming.length === 0 ? (
-            <div className="text-center py-8 space-y-3 rounded-lg border border-dashed">
-              <p className="text-sm text-muted-foreground">No tenés citas próximas.</p>
-              <Button asChild size="sm">
-                <Link href="/reservar">Reservar una cita</Link>
-              </Button>
-            </div>
+            <EmptyState
+              icon={CalendarDays}
+              title="No tenés citas próximas"
+              description="Cuando reservés una cita, aparecerá acá."
+              action={
+                <Button asChild size="sm">
+                  <Link href="/reservar">Reservar una cita</Link>
+                </Button>
+              }
+            />
           ) : (
             <div className="space-y-3">
               {upcoming.map((appt) => (

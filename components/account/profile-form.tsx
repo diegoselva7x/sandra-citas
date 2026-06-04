@@ -9,6 +9,7 @@ import type { Profile } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { SuccessMessage } from "@/components/ui/success-message";
 
 interface Props {
   profile: Profile;
@@ -75,9 +76,7 @@ export function ProfileForm({ profile }: Props) {
       )}
 
       {saved && (
-        <p className="text-sm text-green-600 rounded-md bg-green-50 px-3 py-2">
-          Perfil actualizado correctamente.
-        </p>
+        <SuccessMessage>Perfil actualizado correctamente.</SuccessMessage>
       )}
 
       <Button type="submit" disabled={isPending}>

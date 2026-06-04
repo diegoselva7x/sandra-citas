@@ -1,89 +1,116 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Section } from "@/components/ui/section";
+import { PageHeader } from "@/components/ui/page-header";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import type { Metadata } from "next";
 
 export const revalidate = 86400; // 24h — contenido estático
 
 export const metadata: Metadata = {
-  title: "Sobre mí · Sandra Carpio Psicóloga",
-  description: "Conocé la historia, formación y enfoque de Sandra Carpio, psicóloga en Costa Rica.",
+  title: "Sobre mí",
+  description:
+    "Conocé la historia, formación y enfoque de Sandra Carpio, psicóloga en Costa Rica.",
+  alternates: { canonical: "/sobre-mi" },
 };
+
+const FORMACION = [
+  "Pendiente",
+  "Pendiente",
+  "Pendiente",
+  "Pendiente",
+];
 
 export default function SobreMiPage() {
   return (
-    <div className="flex flex-col">
-      {/* Hero */}
-      <section className="bg-muted/40 py-16 px-4">
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          {/* Placeholder foto */}
-          <div className="rounded-2xl bg-muted flex items-center justify-center aspect-square max-w-xs mx-auto w-full">
-            <div className="text-center text-muted-foreground space-y-2 p-8">
-              <div className="w-20 h-20 rounded-full bg-muted-foreground/20 mx-auto" />
-              <p className="text-sm">Foto de Sandra</p>
+    <main className="flex flex-col">
+      <PageHeader
+        title="Sandra Carpio"
+        subtitle="Psicóloga clínica · Colegiada"
+      />
+
+      {/* Presentación con foto */}
+      <Section>
+        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+          <ScrollReveal className="flex justify-center md:justify-start">
+            {/* TODO: reemplazar con next/image cuando Sandra provea la foto */}
+            <div className="relative w-full max-w-xs aspect-[3/4] rounded-3xl overflow-hidden bg-accent shadow-sm">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
+                <div className="w-20 h-20 rounded-full bg-muted-foreground/15" />
+                <p className="text-sm font-medium text-foreground/80">TODO: Foto de Sandra</p>
+              </div>
             </div>
-          </div>
-          <div className="space-y-4">
-            <h1 className="text-3xl font-semibold">Sandra Carpio</h1>
-            <p className="text-primary font-medium">Psicóloga clínica · Colegiada</p>
-            <p className="text-muted-foreground leading-relaxed">
+          </ScrollReveal>
+
+          <ScrollReveal delay={100} className="space-y-4">
+            <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+              Te acompaño en tu proceso
+            </p>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              {/* TODO: contenido de Sandra — presentación breve */}
               Pendiente
             </p>
-          </div>
+          </ScrollReveal>
         </div>
-      </section>
+      </Section>
 
-      {/* Bio */}
-      <section className="py-14 px-4">
-        <div className="max-w-2xl mx-auto space-y-6">
-          <h2 className="text-2xl font-semibold">Mi historia</h2>
+      {/* Mi historia */}
+      <Section variant="cream">
+        <ScrollReveal className="max-w-2xl mx-auto space-y-6">
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
+            Mi historia
+          </h2>
           <div className="space-y-4 text-muted-foreground leading-relaxed">
+            {/* TODO: contenido de Sandra — bio completa */}
             <p>Pendiente</p>
           </div>
-        </div>
-      </section>
+        </ScrollReveal>
+      </Section>
 
-      {/* Formación */}
-      <section className="bg-muted/40 py-14 px-4">
-        <div className="max-w-2xl mx-auto space-y-6">
-          <h2 className="text-2xl font-semibold">Formación y credenciales</h2>
+      {/* Formación y credenciales */}
+      <Section>
+        <ScrollReveal className="max-w-2xl mx-auto space-y-6">
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
+            Formación y credenciales
+          </h2>
           <ul className="space-y-4">
-            {[
-              "Pendiente",
-              "Pendiente",
-              "Pendiente",
-              "Pendiente",
-            ].map((item, i) => (
+            {FORMACION.map((item, i) => (
               <li key={i} className="flex gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 shrink-0" />
                 <span className="text-muted-foreground">{item}</span>
               </li>
             ))}
           </ul>
-        </div>
-      </section>
+        </ScrollReveal>
+      </Section>
 
-      {/* Enfoque */}
-      <section className="py-14 px-4">
-        <div className="max-w-2xl mx-auto space-y-6">
-          <h2 className="text-2xl font-semibold">Mi enfoque terapéutico</h2>
+      {/* Mi enfoque terapéutico */}
+      <Section variant="cream">
+        <ScrollReveal className="max-w-2xl mx-auto space-y-6">
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
+            Mi enfoque terapéutico
+          </h2>
           <p className="text-muted-foreground leading-relaxed">
+            {/* TODO: contenido de Sandra — enfoque terapéutico */}
             Pendiente
           </p>
-        </div>
-      </section>
+        </ScrollReveal>
+      </Section>
 
       {/* CTA */}
-      <section className="bg-muted/40 py-14 px-4 text-center">
-        <div className="max-w-md mx-auto space-y-4">
-          <h2 className="text-xl font-semibold">¿Querés conocernos mejor?</h2>
-          <p className="text-muted-foreground text-sm">
+      <Section>
+        <ScrollReveal className="max-w-md mx-auto space-y-5 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
+            ¿Querés conocernos mejor?
+          </h2>
+          <p className="text-muted-foreground">
             La primera sesión es el mejor lugar para empezar.
           </p>
-          <Button asChild size="lg">
+          <Button asChild variant="glass" size="lg" className="text-base px-8 py-5 h-auto">
             <Link href="/reservar">Reservar mi primera cita</Link>
           </Button>
-        </div>
-      </section>
-    </div>
+        </ScrollReveal>
+      </Section>
+    </main>
   );
 }

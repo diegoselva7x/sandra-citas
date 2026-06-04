@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Section } from "@/components/ui/section";
+import { PageHeader } from "@/components/ui/page-header";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import type { Metadata } from "next";
 
 export const revalidate = 86400; // 24h — contenido educativo estático
 
 export const metadata: Metadata = {
-  title: "Recursos · Sandra Carpio Psicóloga",
+  title: "Recursos",
   description: "Contenido educativo sobre salud mental, terapia de pareja y bienestar familiar.",
+  alternates: { canonical: "/recursos" },
 };
 
 const RECURSOS = [
@@ -71,53 +75,54 @@ const RECURSOS = [
 
 export default function RecursosPage() {
   return (
-    <div className="flex flex-col">
-      {/* Hero */}
-      <section className="bg-muted/40 py-14 px-4 text-center">
-        <div className="max-w-2xl mx-auto space-y-4">
-          <h1 className="text-3xl font-semibold">Recursos</h1>
-          <p className="text-muted-foreground leading-relaxed">
-            Información y perspectivas sobre salud mental para que tomes decisiones
-            informadas sobre tu bienestar.
-          </p>
-        </div>
-      </section>
+    <main className="flex flex-col">
+      <PageHeader
+        title="Recursos"
+        subtitle="Información y perspectivas sobre salud mental para que tomes decisiones informadas sobre tu bienestar."
+      />
 
       {/* Contenido */}
-      <section className="py-14 px-4">
+      <Section>
         <div className="max-w-3xl mx-auto space-y-14">
           {RECURSOS.map((recurso, i) => (
-            <article
-              key={recurso.id}
-              id={recurso.id}
-              className={`space-y-4 ${i !== RECURSOS.length - 1 ? "pb-14 border-b" : ""}`}
-            >
-              <h2 className="text-xl font-semibold">{recurso.titulo}</h2>
-              <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                {recurso.contenido}
-              </div>
-              {recurso.cta && (
-                <Button asChild>
-                  <Link href="/reservar">Reservar tu primera cita</Link>
-                </Button>
-              )}
-            </article>
+            <ScrollReveal key={recurso.id} delay={i * 60}>
+              <article
+                id={recurso.id}
+                className={`space-y-4 scroll-mt-24 ${
+                  i !== RECURSOS.length - 1 ? "pb-14 border-b" : ""
+                }`}
+              >
+                <h2 className="text-xl md:text-2xl font-semibold text-foreground">
+                  {recurso.titulo}
+                </h2>
+                <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                  {recurso.contenido}
+                </div>
+                {recurso.cta && (
+                  <Button asChild>
+                    <Link href="/reservar">Reservar tu primera cita</Link>
+                  </Button>
+                )}
+              </article>
+            </ScrollReveal>
           ))}
         </div>
-      </section>
+      </Section>
 
       {/* CTA */}
-      <section className="bg-muted/40 py-14 px-4 text-center">
-        <div className="max-w-md mx-auto space-y-4">
-          <h2 className="text-xl font-semibold">¿Tenés preguntas?</h2>
-          <p className="text-sm text-muted-foreground">
+      <Section variant="cream">
+        <ScrollReveal className="max-w-md mx-auto space-y-5 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
+            ¿Tenés preguntas?
+          </h2>
+          <p className="text-muted-foreground">
             No hay preguntas tontas. Escribime y con gusto te oriento.
           </p>
-          <Button asChild size="lg">
+          <Button asChild variant="glass" size="lg" className="text-base px-8 py-5 h-auto">
             <Link href="/contacto">Contactarme</Link>
           </Button>
-        </div>
-      </section>
-    </div>
+        </ScrollReveal>
+      </Section>
+    </main>
   );
 }

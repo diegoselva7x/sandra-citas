@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { SuccessMessage } from "@/components/ui/success-message";
 import { CheckCircle } from "lucide-react";
 
 interface ContactFormProps {
@@ -30,12 +31,12 @@ export default function ContactForm({ contactEmail }: ContactFormProps) {
 
   if (enviado) {
     return (
-      <div className="rounded-xl border bg-card p-8 text-center space-y-3">
+      <div className="rounded-2xl border border-border bg-card p-8 text-center space-y-4">
         <CheckCircle className="w-10 h-10 text-primary mx-auto" />
-        <p className="font-medium">¡Gracias por escribir!</p>
-        <p className="text-sm text-muted-foreground">
+        <p className="font-medium text-foreground">¡Gracias por escribir!</p>
+        <SuccessMessage className="text-center">
           Se abrió tu cliente de correo con el mensaje listo para enviar.
-        </p>
+        </SuccessMessage>
         <Button
           variant="outline"
           size="sm"

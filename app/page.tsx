@@ -144,7 +144,7 @@ export default async function HomePage() {
                 {/* TODO: reemplazar con next/image cuando Sandra provea la foto */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
                   <div className="w-24 h-24 rounded-full bg-muted-foreground/15" />
-                  <p className="text-sm font-medium opacity-60">
+                  <p className="text-sm font-medium text-foreground/80">
                     TODO: Foto de Sandra
                   </p>
                 </div>
@@ -173,7 +173,7 @@ export default async function HomePage() {
               <div className="relative w-full max-w-xs aspect-[3/4] rounded-3xl overflow-hidden bg-accent shadow-sm">
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
                   <div className="w-20 h-20 rounded-full bg-muted-foreground/15" />
-                  <p className="text-sm font-medium opacity-60">
+                  <p className="text-sm font-medium text-foreground/80">
                     TODO: Foto de Sandra
                   </p>
                 </div>
@@ -183,7 +183,7 @@ export default async function HomePage() {
             {/* Texto */}
             <ScrollReveal delay={100} className="space-y-6 order-1 md:order-2">
               <div className="space-y-3">
-                <p className="text-sm font-semibold uppercase tracking-widest text-primary/80">
+                <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
                   Sobre mí
                 </p>
                 <h2
@@ -224,7 +224,7 @@ export default async function HomePage() {
         >
           <div className="max-w-5xl mx-auto space-y-12">
             <ScrollReveal className="text-center space-y-4 max-w-xl mx-auto">
-              <p className="text-sm font-semibold uppercase tracking-widest text-primary/80">
+              <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
                 Servicios
               </p>
               <h2
@@ -315,7 +315,7 @@ export default async function HomePage() {
         >
           <div className="max-w-4xl mx-auto space-y-12">
             <ScrollReveal className="text-center space-y-4 max-w-xl mx-auto">
-              <p className="text-sm font-semibold uppercase tracking-widest text-primary/80">
+              <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
                 Recursos
               </p>
               <h2
@@ -340,7 +340,7 @@ export default async function HomePage() {
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {r.resumen}
                       </p>
-                      <span className="inline-flex items-center gap-1 text-sm font-medium text-foreground/60 group-hover:text-foreground transition-colors">
+                      <span className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
                         Leer más
                         <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                       </span>
@@ -369,7 +369,7 @@ export default async function HomePage() {
         >
           <div className="max-w-4xl mx-auto">
             <ScrollReveal className="text-center space-y-4 max-w-xl mx-auto mb-14">
-              <p className="text-sm font-semibold uppercase tracking-widest text-primary/80">
+              <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
                 Contacto
               </p>
               <h2

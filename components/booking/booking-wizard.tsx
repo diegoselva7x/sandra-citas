@@ -81,12 +81,19 @@ export function BookingWizard({ services, settings }: Props) {
               Paso {step} de 4 — {STEP_LABELS[step]}
             </p>
           </div>
-          <div className="flex gap-1">
+          <div
+            role="progressbar"
+            aria-valuemin={1}
+            aria-valuemax={4}
+            aria-valuenow={step}
+            aria-valuetext={`Paso ${step} de 4 — ${STEP_LABELS[step]}`}
+            className="flex gap-1"
+          >
             {[1, 2, 3, 4].map((s) => (
               <div
                 key={s}
                 className={`h-1 flex-1 rounded-full transition-colors ${
-                  s <= step ? "bg-primary" : "bg-muted"
+                  s <= step ? "bg-primary" : "bg-accent"
                 }`}
               />
             ))}
