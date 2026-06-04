@@ -245,7 +245,10 @@ export default async function HomePage() {
               <div className="grid sm:grid-cols-2 gap-5 auto-rows-fr max-w-3xl mx-auto">
                 {services.slice(0, 6).map((service, i) => (
                   <ScrollReveal key={service.id} delay={i * 60} className="h-full">
-                    <article className="group flex flex-col h-full rounded-2xl border border-border bg-card p-6 hover:border-primary/30 hover:shadow-md transition-all duration-200">
+                    <Link
+                      href="/reservar"
+                      className="group flex flex-col h-full rounded-2xl border border-border bg-card p-6 hover:border-primary/30 hover:shadow-md transition-all duration-200"
+                    >
                       <h3 className="font-semibold text-foreground">
                         {service.name}
                       </h3>
@@ -265,7 +268,11 @@ export default async function HomePage() {
                           </span>
                         )}
                       </div>
-                    </article>
+                      <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                        Reservar
+                        <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                      </span>
+                    </Link>
                   </ScrollReveal>
                 ))}
               </div>
@@ -284,9 +291,20 @@ export default async function HomePage() {
                   </div>
                   <h3 className="font-semibold text-foreground">Presencial</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    {/* TODO: contenido de Sandra — dirección del consultorio */}
                     Sesión en consultorio. Ambiente tranquilo y confidencial.
                   </p>
+                  <div className="space-y-2 pt-1">
+                    <p className="text-sm text-foreground">
+                      {settings?.address ?? "Cartago, Provincia de Cartago, Costa Rica"}
+                    </p>
+                    <Link
+                      href="/contacto#ubicacion"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
+                    >
+                      Cómo llegar
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
                 </div>
                 <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
                   <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center">
@@ -449,7 +467,6 @@ export default async function HomePage() {
                       href={whatsappHref}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label="Contactar por WhatsApp"
                     >
                       Escribir por WhatsApp
                     </a>

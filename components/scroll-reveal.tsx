@@ -8,6 +8,7 @@ interface ScrollRevealProps {
   className?: string;
   delay?: number;
   as?: React.ElementType;
+  id?: string;
 }
 
 /**
@@ -20,11 +21,12 @@ export function ScrollReveal({
   className,
   delay = 0,
   as: Tag = "div",
+  id,
 }: ScrollRevealProps) {
   const ref = useScrollReveal<HTMLDivElement>({ delay });
 
   return (
-    <Tag ref={ref} className={cn(className)}>
+    <Tag ref={ref} id={id} className={cn(className)}>
       {children}
     </Tag>
   );

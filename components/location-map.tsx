@@ -19,7 +19,7 @@ export function LocationMap({ latitude, longitude, mapsUrl, address }: LocationM
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border">
+      <div className="relative h-64 sm:h-72 w-full overflow-hidden rounded-2xl border border-border">
         <iframe
           src={embedSrc}
           title="Ubicación del consultorio de Sandra"

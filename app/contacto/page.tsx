@@ -101,8 +101,7 @@ export default async function ContactoPage() {
                   <div>
                     <p className="font-medium text-foreground">Consultorio</p>
                     <p className="text-sm text-muted-foreground">
-                      {/* dirección exacta: settings.address (pendiente de Sandra) */}
-                      {settings?.address ?? "Pendiente"}
+                      {settings?.address ?? "Cartago, Provincia de Cartago, Costa Rica"}
                     </p>
                   </div>
                 </li>
@@ -162,7 +161,10 @@ export default async function ContactoPage() {
 
         {/* Mapa del consultorio */}
         {hasMap && (
-          <ScrollReveal className="max-w-5xl mx-auto mt-14 space-y-5">
+          <ScrollReveal
+            id="ubicacion"
+            className="max-w-2xl mx-auto mt-14 space-y-5 scroll-mt-24"
+          >
             <h2 className="text-xl md:text-2xl font-semibold text-foreground">
               Dónde estoy
             </h2>
@@ -170,7 +172,7 @@ export default async function ContactoPage() {
               latitude={settings!.latitude!}
               longitude={settings!.longitude!}
               mapsUrl={settings!.maps_url}
-              address={settings!.address}
+              address={settings!.address ?? "Cartago, Provincia de Cartago, Costa Rica"}
             />
           </ScrollReveal>
         )}
