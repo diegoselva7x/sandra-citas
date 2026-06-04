@@ -1,16 +1,42 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { getActiveServices, getBookingSettings } from "@/app/booking/actions";
-import { Clock, Monitor, MapPin, ArrowRight } from "lucide-react";
+import { formatPrice } from "@/lib/constants";
+import {
+  Clock,
+  Monitor,
+  MapPin,
+  ArrowRight,
+  Phone,
+  Mail,
+  MessageCircle,
+} from "lucide-react";
 
-function formatPrice(price: number | null): string {
-  if (!price) return "";
-  return new Intl.NumberFormat("es-CR", {
-    style: "currency",
-    currency: "CRC",
-    maximumFractionDigits: 0,
-  }).format(price);
-}
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://psicologasandra.com";
+
+// Vista previa de recursos para la landing
+const RECURSOS_PREVIEW = [
+  {
+    id: "ayuda",
+    titulo: "¿Por qué buscar ayuda psicológica?",
+    resumen:
+      "Buscar apoyo no es señal de debilidad, sino de valentía y autoconocimiento.",
+  },
+  {
+    id: "primera-sesion",
+    titulo: "¿Qué esperar de la primera sesión?",
+    resumen:
+      "La primera sesión es una conversación tranquila, sin preguntas correctas ni incorrectas.",
+  },
+  {
+    id: "pareja",
+    titulo: "Terapia de pareja",
+    resumen:
+      "Un espacio seguro para mejorar la comunicación y construir una relación más sana.",
+  },
+];
 
 export default async function HomePage() {
   const [services, settings] = await Promise.all([
@@ -18,151 +44,429 @@ export default async function HomePage() {
     getBookingSettings(),
   ]);
 
+  const whatsappHref = settings?.whatsapp_number
+    ? `https://wa.me/${settings.whatsapp_number.replace(/\D/g, "")}`
+    : null;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["LocalBusiness", "MedicalBusiness"],
+        "@id": SITE,
+        name: "Sandra Carpio · Psicóloga",
+        description:
+          "Servicio de psicología individual, de pareja y familiar en Costa Rica. Modalidad presencial y virtual.",
+        url: SITE,
+        image: `${SITE}/og-image.jpg`,
+        priceRange: "$$",
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: "CR",
+          addressRegion: "San José",
+        },
+        areaServed: {
+          "@type": "Country",
+          name: "Costa Rica",
+        },
+        founder: {
+          "@type": "Person",
+          name: "Sandra Carpio",
+          jobTitle: "Psicóloga",
+          url: `${SITE}/sobre-mi`,
+        },
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Servicios de psicología",
+          itemListElement: services.slice(0, 5).map((s, i) => ({
+            "@type": "Offer",
+            position: i + 1,
+            itemOffered: {
+              "@type": "Service",
+              name: s.name,
+              description: s.description ?? undefined,
+            },
+          })),
+        },
+      },
+    ],
+  };
+
   return (
-    <div className="flex flex-col">
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="bg-muted/40 py-20 px-4">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div className="inline-block rounded-full bg-accent px-4 py-1 text-sm font-medium text-foreground">
-              Psicóloga · Costa Rica
-            </div>
-            <h1 className="text-4xl md:text-5xl font-semibold leading-tight tracking-tight">
-              Tu bienestar emocional{" "}
-              <span className="text-foreground">importa</span>
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Acompañamiento psicológico individual, de pareja y familiar.
-              Modalidad presencial y virtual desde la comodidad de tu hogar.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button asChild size="lg">
+    <>
+      {/* JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <main className="flex flex-col">
+        {/* ── HERO ─────────────────────────────────────────────────────── */}
+        <section
+          id="inicio"
+          aria-labelledby="hero-title"
+          className="relative flex items-center bg-background min-h-[calc(100vh-3.5rem)] px-4 py-20 md:py-0"
+        >
+          <div className="max-w-5xl mx-auto w-full grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+            {/* Texto */}
+            <ScrollReveal className="space-y-7">
+              <span className="inline-block rounded-full bg-accent px-4 py-1 text-sm font-medium text-foreground">
+                Psicóloga · Costa Rica
+              </span>
+              <h1
+                id="hero-title"
+                className="text-5xl md:text-6xl font-semibold leading-[1.1] tracking-tight text-foreground"
+              >
+                Tu bienestar
+                <br />
+                <span className="text-foreground/80 italic">
+                  emocional
+                </span>{" "}
+                importa
+              </h1>
+              <p className="text-lg text-muted-foreground leading-relaxed max-w-md">
+                Acompañamiento psicológico individual, de pareja y familiar.
+                Modalidad presencial y virtual desde la comodidad de tu hogar.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                <Button asChild variant="glass" size="lg" className="text-base px-7 py-5 h-auto">
+                  <Link href="/reservar">Reservar mi cita</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="text-base px-7 py-5 h-auto">
+                  <a href="#sobre-mi">Conocer a Sandra</a>
+                </Button>
+              </div>
+            </ScrollReveal>
+
+            {/* Foto placeholder */}
+            <ScrollReveal delay={150} className="flex justify-center md:justify-end">
+              <div className="relative w-full max-w-sm aspect-[3/4] rounded-3xl overflow-hidden bg-accent shadow-sm">
+                {/* TODO: reemplazar con next/image cuando Sandra provea la foto */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
+                  <div className="w-24 h-24 rounded-full bg-muted-foreground/15" />
+                  <p className="text-sm font-medium opacity-60">
+                    TODO: Foto de Sandra
+                  </p>
+                </div>
+                {/* Decoración: círculo lila tenue en esquina */}
+                <div className="absolute -bottom-8 -right-8 w-40 h-40 rounded-full bg-primary/20 blur-2xl" />
+              </div>
+            </ScrollReveal>
+          </div>
+
+          {/* Indicador scroll */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground/50 motion-reduce:hidden">
+            <span className="text-xs tracking-widest uppercase">scroll</span>
+            <div className="w-px h-8 bg-gradient-to-b from-muted-foreground/40 to-transparent" />
+          </div>
+        </section>
+
+        {/* ── SOBRE MÍ ─────────────────────────────────────────────────── */}
+        <section
+          id="sobre-mi"
+          aria-labelledby="sobre-mi-title"
+          className="bg-muted py-24 md:py-32 px-4"
+        >
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+            {/* Foto placeholder */}
+            <ScrollReveal className="flex justify-center md:justify-start order-2 md:order-1">
+              <div className="relative w-full max-w-xs aspect-[3/4] rounded-3xl overflow-hidden bg-accent shadow-sm">
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
+                  <div className="w-20 h-20 rounded-full bg-muted-foreground/15" />
+                  <p className="text-sm font-medium opacity-60">
+                    TODO: Foto de Sandra
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Texto */}
+            <ScrollReveal delay={100} className="space-y-6 order-1 md:order-2">
+              <div className="space-y-3">
+                <p className="text-sm font-semibold uppercase tracking-widest text-primary/80">
+                  Sobre mí
+                </p>
+                <h2
+                  id="sobre-mi-title"
+                  className="text-3xl md:text-4xl font-semibold leading-tight text-foreground"
+                >
+                  Hola, soy Sandra
+                </h2>
+              </div>
+              <div className="space-y-4 text-muted-foreground leading-relaxed">
+                {/* TODO: contenido de Sandra — bio breve (2-3 párrafos) */}
+                <p>
+                  Soy psicóloga con formación en terapia individual, de pareja y
+                  familiar. Creo en un acompañamiento cálido, sin juicios, donde
+                  cada persona pueda explorar su mundo interior a su propio ritmo.
+                </p>
+                <p>
+                  {/* TODO: contenido de Sandra — especialidad, enfoque terapéutico */}
+                  Mi enfoque es integrador, adaptado a las necesidades de cada
+                  persona. Trabajo tanto de forma presencial como virtual.
+                </p>
+              </div>
+              <Button asChild variant="outline" className="group">
+                <Link href="/sobre-mi" className="inline-flex items-center gap-2">
+                  Conocer mi historia
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </Button>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {/* ── SERVICIOS ──────────────────────────────────────────────────── */}
+        <section
+          id="servicios"
+          aria-labelledby="servicios-title"
+          className="py-24 md:py-32 px-4"
+        >
+          <div className="max-w-5xl mx-auto space-y-12">
+            <ScrollReveal className="text-center space-y-4 max-w-xl mx-auto">
+              <p className="text-sm font-semibold uppercase tracking-widest text-primary/80">
+                Servicios
+              </p>
+              <h2
+                id="servicios-title"
+                className="text-3xl md:text-4xl font-semibold text-foreground"
+              >
+                ¿En qué te puedo acompañar?
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Elegí el tipo de acompañamiento que mejor se adapte a lo que
+                necesitás.
+              </p>
+            </ScrollReveal>
+
+            {services.length > 0 ? (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {services.slice(0, 6).map((service, i) => (
+                  <ScrollReveal key={service.id} delay={i * 60}>
+                    <article className="group rounded-2xl border border-border bg-card p-6 space-y-4 hover:border-primary/30 hover:shadow-md transition-all duration-200">
+                      <h3 className="font-semibold text-foreground">
+                        {service.name}
+                      </h3>
+                      {service.description && (
+                        <p className="text-sm text-muted-foreground leading-snug">
+                          {service.description}
+                        </p>
+                      )}
+                      <div className="flex items-center justify-between text-xs text-muted-foreground pt-1">
+                        <span className="flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5" />
+                          {service.duration_minutes} min
+                        </span>
+                        {service.price && (
+                          <span className="font-semibold text-foreground">
+                            {formatPrice(service.price)}
+                          </span>
+                        )}
+                      </div>
+                    </article>
+                  </ScrollReveal>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-muted-foreground">
+                Servicios próximamente.
+              </p>
+            )}
+
+            {/* Modalidades */}
+            <ScrollReveal>
+              <div className="grid sm:grid-cols-2 gap-5 pt-4">
+                <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center">
+                    <MapPin className="w-5 h-5 text-foreground/70" />
+                  </div>
+                  <h3 className="font-semibold text-foreground">Presencial</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {/* TODO: contenido de Sandra — dirección del consultorio */}
+                    Sesión en consultorio. Ambiente tranquilo y confidencial.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center">
+                    <Monitor className="w-5 h-5 text-foreground/70" />
+                  </div>
+                  <h3 className="font-semibold text-foreground">Virtual</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Sesión por videollamada. Sandra te envía el enlace por
+                    WhatsApp uno o dos días antes.
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal className="text-center">
+              <Button asChild variant="glass" size="lg" className="text-base px-8 py-5 h-auto">
                 <Link href="/reservar">Reservar mi cita</Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/sobre-mi">Conocer a Sandra</Link>
-              </Button>
-            </div>
+            </ScrollReveal>
           </div>
+        </section>
 
-          {/* Placeholder foto de Sandra */}
-          <div className="rounded-2xl bg-muted flex items-center justify-center aspect-square max-w-sm mx-auto md:mx-0 w-full">
-            <div className="text-center text-muted-foreground space-y-2 p-8">
-              <div className="w-16 h-16 rounded-full bg-muted-foreground/20 mx-auto" />
-              <p className="text-sm">Foto de Sandra</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SOBRE MÍ BREVE ──────────────────────────────────────────── */}
-      <section className="py-16 px-4">
-        <div className="max-w-3xl mx-auto text-center space-y-4">
-          <h2 className="text-2xl font-semibold">Hola, soy Sandra</h2>
-          <p className="text-muted-foreground leading-relaxed">
-            Pendiente
-          </p>
-          <Button asChild variant="outline">
-            <Link href="/sobre-mi" className="inline-flex items-center gap-2">
-              Conocer mi historia <ArrowRight className="w-4 h-4" />
-            </Link>
-          </Button>
-        </div>
-      </section>
-
-      {/* ── SERVICIOS ──────────────────────────────────────────────── */}
-      {services.length > 0 && (
-        <section className="bg-muted/40 py-16 px-4">
-          <div className="max-w-5xl mx-auto space-y-8">
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-semibold">Servicios</h2>
-              <p className="text-muted-foreground">
-                Elegí el tipo de acompañamiento que mejor se adapte a lo que necesitás.
+        {/* ── RECURSOS ──────────────────────────────────────────────────── */}
+        <section
+          id="recursos"
+          aria-labelledby="recursos-title"
+          className="bg-muted py-24 md:py-32 px-4"
+        >
+          <div className="max-w-4xl mx-auto space-y-12">
+            <ScrollReveal className="text-center space-y-4 max-w-xl mx-auto">
+              <p className="text-sm font-semibold uppercase tracking-widest text-primary/80">
+                Recursos
               </p>
-            </div>
+              <h2
+                id="recursos-title"
+                className="text-3xl md:text-4xl font-semibold text-foreground"
+              >
+                Aprende sobre salud mental
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Artículos y reflexiones para acompañarte en tu proceso.
+              </p>
+            </ScrollReveal>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {services.slice(0, 6).map((service) => (
-                <div
-                  key={service.id}
-                  className="rounded-xl border bg-card p-5 space-y-3 hover:shadow-sm transition-shadow"
-                >
-                  <h3 className="font-semibold">{service.name}</h3>
-                  {service.description && (
-                    <p className="text-sm text-muted-foreground leading-snug">
-                      {service.description}
-                    </p>
-                  )}
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      {service.duration_minutes} min
-                    </span>
-                    {service.price && (
-                      <span className="font-medium text-foreground">
-                        {formatPrice(service.price)}
+            <div className="grid sm:grid-cols-3 gap-5">
+              {RECURSOS_PREVIEW.map((r, i) => (
+                <ScrollReveal key={r.id} delay={i * 80}>
+                  <Link href={`/recursos#${r.id}`} className="group block">
+                    <article className="rounded-2xl border border-border bg-background p-6 space-y-3 h-full hover:border-primary/30 hover:shadow-md transition-all duration-200">
+                      <h3 className="font-semibold text-foreground leading-snug group-hover:text-foreground/80 transition-colors">
+                        {r.titulo}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {r.resumen}
+                      </p>
+                      <span className="inline-flex items-center gap-1 text-sm font-medium text-foreground/60 group-hover:text-foreground transition-colors">
+                        Leer más
+                        <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                       </span>
-                    )}
-                  </div>
-                </div>
+                    </article>
+                  </Link>
+                </ScrollReveal>
               ))}
             </div>
 
-            <div className="text-center">
+            <ScrollReveal className="text-center">
               <Button asChild variant="outline">
-                <Link href="/servicios">Ver todos los servicios</Link>
+                <Link href="/recursos" className="inline-flex items-center gap-2">
+                  Ver todos los recursos
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </Button>
-            </div>
+            </ScrollReveal>
           </div>
         </section>
-      )}
 
-      {/* ── MODALIDADES ─────────────────────────────────────────────── */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <h2 className="text-2xl font-semibold text-center">¿Cómo querés atenderte?</h2>
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div className="rounded-xl border p-6 space-y-3">
-              <MapPin className="w-6 h-6 text-primary" />
-              <h3 className="font-semibold">Presencial</h3>
-              <p className="text-sm text-muted-foreground">
-                Pendiente
+        {/* ── CONTACTO ──────────────────────────────────────────────────── */}
+        <section
+          id="contacto"
+          aria-labelledby="contacto-title"
+          className="py-24 md:py-32 px-4"
+        >
+          <div className="max-w-4xl mx-auto">
+            <ScrollReveal className="text-center space-y-4 max-w-xl mx-auto mb-14">
+              <p className="text-sm font-semibold uppercase tracking-widest text-primary/80">
+                Contacto
               </p>
-            </div>
-            <div className="rounded-xl border p-6 space-y-3">
-              <Monitor className="w-6 h-6 text-primary" />
-              <h3 className="font-semibold">Virtual</h3>
-              <p className="text-sm text-muted-foreground">
-                Sesión por videollamada. Sandra te envía el enlace por WhatsApp uno o
-                dos días antes.
+              <h2
+                id="contacto-title"
+                className="text-3xl md:text-4xl font-semibold text-foreground"
+              >
+                ¿Listo/a para dar el primer paso?
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Reservar tu cita es fácil y toma menos de un minuto.
               </p>
-              {settings?.whatsapp_number && (
-                <a
-                  href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, "")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-foreground underline"
+            </ScrollReveal>
+
+            <ScrollReveal className="grid sm:grid-cols-2 gap-5 mb-10">
+              {/* Info de contacto */}
+              <div className="rounded-2xl border border-border bg-card p-7 space-y-5">
+                <h3 className="font-semibold text-foreground">
+                  Información de contacto
+                </h3>
+                <ul className="space-y-4">
+                  {settings?.contact_email && (
+                    <li className="flex items-center gap-3 text-sm text-muted-foreground">
+                      <Mail className="w-4 h-4 shrink-0 text-foreground/50" />
+                      <span>{settings.contact_email}</span>
+                    </li>
+                  )}
+                  {settings?.whatsapp_number && (
+                    <li className="flex items-center gap-3 text-sm text-muted-foreground">
+                      <Phone className="w-4 h-4 shrink-0 text-foreground/50" />
+                      <span>{settings.whatsapp_number}</span>
+                    </li>
+                  )}
+                  <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <MapPin className="w-4 h-4 shrink-0 text-foreground/50 mt-0.5" />
+                    <span>
+                      {/* TODO: contenido de Sandra — dirección consultorio */}
+                      Costa Rica · Modalidad presencial y virtual
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* CTA glass */}
+              <div className="rounded-2xl border border-border bg-gradient-to-br from-primary/10 to-accent p-7 space-y-5 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
+                    <MessageCircle className="w-5 h-5 text-foreground/70" />
+                  </div>
+                  <h3 className="font-semibold text-foreground">
+                    Hablemos por WhatsApp
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    ¿Tenés dudas antes de reservar? Escribime directamente.
+                  </p>
+                </div>
+                {whatsappHref ? (
+                  <Button
+                    asChild
+                    variant="glass"
+                    className="w-full text-sm"
+                  >
+                    <a
+                      href={whatsappHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Contactar por WhatsApp"
+                    >
+                      Escribir por WhatsApp
+                    </a>
+                  </Button>
+                ) : (
+                  <p className="text-xs text-muted-foreground italic">
+                    WhatsApp próximamente
+                  </p>
+                )}
+              </div>
+            </ScrollReveal>
+
+            {/* CTA principal */}
+            <ScrollReveal className="text-center space-y-4">
+              <Button asChild variant="glass" size="lg" className="text-base px-10 py-5 h-auto">
+                <Link href="/reservar">Reservar mi cita ahora</Link>
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                También podés{" "}
+                <Link
+                  href="/contacto"
+                  className="underline underline-offset-4 hover:text-foreground transition-colors"
                 >
-                  Escribir por WhatsApp
-                </a>
-              )}
-            </div>
+                  enviarnos un mensaje
+                </Link>
+                .
+              </p>
+            </ScrollReveal>
           </div>
-        </div>
-      </section>
-
-      {/* ── CTA FINAL ───────────────────────────────────────────────── */}
-      <section className="bg-primary text-primary-foreground py-16 px-4">
-        <div className="max-w-2xl mx-auto text-center space-y-6">
-          <h2 className="text-3xl font-semibold">¿Listo/a para dar el primer paso?</h2>
-          <p className="text-primary-foreground leading-relaxed">
-            Reservar tu cita es fácil y toma menos de un minuto.
-          </p>
-          <Button asChild size="lg" variant="secondary">
-            <Link href="/reservar">Reservar ahora</Link>
-          </Button>
-        </div>
-      </section>
-    </div>
+        </section>
+      </main>
+    </>
   );
 }
