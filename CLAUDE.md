@@ -75,6 +75,20 @@ Migraciones 0001-0003 aplicadas. `.env.local` configurado.
 - `components/admin/admin-calendar.tsx` — en mobile reemplaza react-big-calendar con mini-cal + lista de citas del día seleccionado
 - `components/mobile-nav.tsx` — links nav con `text-foreground` y más padding, visualmente obvios como elementos clickeables
 
+### ✅ Rediseño visual por fases (2026-06-04)
+- **F1 sistema de diseño:** paleta cálida + lila `oklch(0.795 0.09 300)` como ÚNICO acento, serif Playfair en titulares, botón `glass`, componentes compartidos en `components/ui/` (`Section`, `PageHeader`, `SuccessMessage`, `EmptyState`, `StatusBadge`) + `components/scroll-reveal.tsx`, constantes en `lib/constants.ts` (`NAV_LINKS`, `MODALITY_LABEL`, `STATUS_LABEL/VARIANT`, `formatPrice`, `waLink`)
+- **F2 landing** single-scroll, **F3 páginas internas**, **F4 panel admin** — todo con los componentes compartidos
+- **Contraste WCAG real (un solo estándar):** links que usaban lila como texto → `text-foreground` + subrayado lila (`decoration-primary`); eyebrows en `text-muted-foreground`; calendario admin con colores de marca a L≈0.48. Lighthouse A11Y/SEO 100.
+- **Regla de cierre de fase:** build + Lighthouse + **commit y push a `main`** (dispara deploy Vercel para revisión), luego pausar. NUNCA `Co-Authored-By` en commits.
+
+### 🔄 Fase 5 — contenido real + contacto (2026-06-04)
+- Fotos reales de Sandra en `public/` (`sandra-principal.jpg` hero, `sandra-origami.jpg`, extras); originales en `fotos_sandra/`. Vía `next/image`.
+- **Datos de contacto en DB** (editables en `/admin/configuracion`): migración `0005_contact_fields.sql` agrega a `settings` → `instagram_url`, `address`, `maps_url`, `latitude`, `longitude`. WhatsApp `+506 8922 9507`, IG `@sandcarpio`, consultorio `9.8612814, -83.9111481`.
+- **Mapa embebido** (iframe Google Maps sin API key) en contacto → requiere `frame-src 'self' https://www.google.com` en la CSP de `next.config.ts`.
+- Botones WhatsApp + Instagram en footer, contacto y landing (no en header).
+- Fix: cards de servicios de la landing con alturas parejas (`auto-rows-fr` + `flex flex-col h-full` + meta `mt-auto`).
+- ⚠️ El usuario debe correr 0005 (y 0004 si falta) en el SQL editor de Supabase para ver los datos en producción.
+
 ### ✅ DEPLOY DEMO — https://sandra-citas.vercel.app (live desde 2026-06-02)
 
 ---

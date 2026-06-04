@@ -60,6 +60,11 @@ function SettingsSection({ settings }: { settings: Settings }) {
     whatsapp_number: settings.whatsapp_number ?? "",
     contact_email: settings.contact_email ?? "",
     online_instructions: settings.online_instructions ?? "",
+    instagram_url: settings.instagram_url ?? "",
+    address: settings.address ?? "",
+    maps_url: settings.maps_url ?? "",
+    latitude: settings.latitude?.toString() ?? "",
+    longitude: settings.longitude?.toString() ?? "",
   });
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -68,10 +73,15 @@ function SettingsSection({ settings }: { settings: Settings }) {
     setError(null); setSaved(false);
     startTransition(async () => {
       const result = await updateSettings({
-        ...form,
+        accepting_new_patients: form.accepting_new_patients,
         whatsapp_number: form.whatsapp_number || null,
         contact_email: form.contact_email || null,
         online_instructions: form.online_instructions || null,
+        instagram_url: form.instagram_url || null,
+        address: form.address || null,
+        maps_url: form.maps_url || null,
+        latitude: form.latitude ? Number(form.latitude) : null,
+        longitude: form.longitude ? Number(form.longitude) : null,
       });
       if (result.error) setError(result.error);
       else { setSaved(true); router.refresh(); }
@@ -94,6 +104,7 @@ function SettingsSection({ settings }: { settings: Settings }) {
       {[
         { key: "whatsapp_number", label: "Número de WhatsApp", placeholder: "+506 8888-8888" },
         { key: "contact_email", label: "Correo de contacto", placeholder: "sandra@ejemplo.com" },
+        { key: "instagram_url", label: "Instagram (URL)", placeholder: "https://www.instagram.com/usuario/" },
       ].map(({ key, label, placeholder }) => (
         <div key={key} className="space-y-1.5">
           <Label>{label}</Label>
@@ -113,6 +124,54 @@ function SettingsSection({ settings }: { settings: Settings }) {
           onChange={(e) => setForm((f) => ({ ...f, online_instructions: e.target.value }))}
         />
       </div>
+
+      <Separator />
+      <p className="text-sm font-medium">Ubicación del consultorio</p>
+
+      <div className="space-y-1.5">
+        <Label>Dirección (texto)</Label>
+        <Input
+          placeholder="Ej: Cartago, Costa Rica"
+          value={form.address}
+          onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
+        />
+      </div>
+
+      <div className="space-y-1.5">
+        <Label>Link de Google Maps (botón “Cómo llegar”)</Label>
+        <Input
+          placeholder="https://www.google.com/maps/place/…"
+          value={form.maps_url}
+          onChange={(e) => setForm((f) => ({ ...f, maps_url: e.target.value }))}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-2">
+        <div className="space-y-1.5">
+          <Label className="text-xs">Latitud</Label>
+          <Input
+            type="number"
+            step="any"
+            placeholder="9.8612814"
+            value={form.latitude}
+            onChange={(e) => setForm((f) => ({ ...f, latitude: e.target.value }))}
+          />
+        </div>
+        <div className="space-y-1.5">
+          <Label className="text-xs">Longitud</Label>
+          <Input
+            type="number"
+            step="any"
+            placeholder="-83.9111481"
+            value={form.longitude}
+            onChange={(e) => setForm((f) => ({ ...f, longitude: e.target.value }))}
+          />
+        </div>
+      </div>
+      <p className="text-xs text-muted-foreground">
+        El mapa de la página de contacto usa la latitud y longitud. Las podés sacar de
+        Google Maps (clic derecho sobre el punto → copiar coordenadas).
+      </p>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
       {saved && <SuccessMessage>Cambios guardados.</SuccessMessage>}

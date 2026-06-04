@@ -13,6 +13,8 @@ const csp = [
   `img-src 'self' data: blob: https:`,
   `font-src 'self' data:`,
   `connect-src 'self' https://${supabaseHost} wss://${supabaseHost}`,
+  // Mapa embebido de Google Maps (iframe, sin API key)
+  `frame-src 'self' https://www.google.com`,
   `frame-ancestors 'none'`,
   `base-uri 'self'`,
   `form-action 'self'`,

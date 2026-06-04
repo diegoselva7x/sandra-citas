@@ -55,6 +55,11 @@ export interface Settings {
   contact_email: string | null;
   timezone: string;
   online_instructions: string | null;
+  instagram_url: string | null;
+  address: string | null;
+  maps_url: string | null;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 export const TIMEZONE = "America/Costa_Rica";

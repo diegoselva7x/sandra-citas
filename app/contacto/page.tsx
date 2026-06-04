@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { PageHeader } from "@/components/ui/page-header";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import { LocationMap } from "@/components/location-map";
+import { InstagramIcon } from "@/components/ui/brand-icons";
+import { waLink } from "@/lib/constants";
 import { Mail, MessageCircle, MapPin, Clock } from "lucide-react";
 import ContactForm from "./contact-form";
 import type { Metadata } from "next";
@@ -18,8 +21,11 @@ export const metadata: Metadata = {
 export default async function ContactoPage() {
   const settings = await getBookingSettings();
 
-  const waNumber = settings?.whatsapp_number?.replace(/\D/g, "") ?? null;
-  const waUrl = waNumber ? `https://wa.me/${waNumber}` : null;
+  const waUrl = waLink(
+    settings?.whatsapp_number,
+    "Hola Sandra, me gustaría hacerte una consulta.",
+  );
+  const hasMap = settings?.latitude != null && settings?.longitude != null;
 
   return (
     <main className="flex flex-col">
@@ -73,13 +79,30 @@ export default async function ContactoPage() {
                   </li>
                 )}
 
+                {settings?.instagram_url && (
+                  <li className="flex items-start gap-4">
+                    <InstagramIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <div>
+                      <p className="font-medium text-foreground">Instagram</p>
+                      <a
+                        href={settings.instagram_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
+                      >
+                        @sandcarpio
+                      </a>
+                    </div>
+                  </li>
+                )}
+
                 <li className="flex items-start gap-4">
                   <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                   <div>
                     <p className="font-medium text-foreground">Consultorio</p>
                     <p className="text-sm text-muted-foreground">
-                      {/* TODO: contenido de Sandra — dirección del consultorio */}
-                      Pendiente
+                      {/* dirección exacta: settings.address (pendiente de Sandra) */}
+                      {settings?.address ?? "Pendiente"}
                     </p>
                   </div>
                 </li>
@@ -97,20 +120,33 @@ export default async function ContactoPage() {
               </ul>
             </div>
 
-            {waUrl && (
+            {(waUrl || settings?.instagram_url) && (
               <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
                 <p className="text-sm font-medium text-foreground">
                   ¿Preferís escribir directo?
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Si tenés una consulta rápida, WhatsApp suele ser la forma más ágil.
+                  Para una consulta rápida, WhatsApp suele ser lo más ágil. También
+                  podés seguirme en Instagram.
                 </p>
-                <Button asChild variant="outline" className="w-full sm:w-auto">
-                  <a href={waUrl} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    Escribir por WhatsApp
-                  </a>
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  {waUrl && (
+                    <Button asChild variant="glass" className="w-full sm:w-auto">
+                      <a href={waUrl} target="_blank" rel="noopener noreferrer">
+                        <MessageCircle className="w-4 h-4 mr-2" />
+                        Escribir por WhatsApp
+                      </a>
+                    </Button>
+                  )}
+                  {settings?.instagram_url && (
+                    <Button asChild variant="outline" className="w-full sm:w-auto">
+                      <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer">
+                        <InstagramIcon className="w-4 h-4 mr-2" />
+                        Instagram
+                      </a>
+                    </Button>
+                  )}
+                </div>
               </div>
             )}
           </ScrollReveal>
@@ -123,6 +159,21 @@ export default async function ContactoPage() {
             <ContactForm contactEmail={settings?.contact_email ?? null} />
           </ScrollReveal>
         </div>
+
+        {/* Mapa del consultorio */}
+        {hasMap && (
+          <ScrollReveal className="max-w-5xl mx-auto mt-14 space-y-5">
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground">
+              Dónde estoy
+            </h2>
+            <LocationMap
+              latitude={settings!.latitude!}
+              longitude={settings!.longitude!}
+              mapsUrl={settings!.maps_url}
+              address={settings!.address}
+            />
+          </ScrollReveal>
+        )}
       </Section>
 
       {/* CTA */}

@@ -1,13 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getBookingSettings } from "@/app/booking/actions";
-import { NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS, waLink } from "@/lib/constants";
+import { MessageCircle } from "lucide-react";
+import { InstagramIcon } from "@/components/ui/brand-icons";
 
 const FOOTER_NAV = [{ href: "/", label: "Inicio" }, ...NAV_LINKS];
 
 export default async function Footer() {
   const settings = await getBookingSettings();
   const year = new Date().getFullYear();
+  const waUrl = waLink(settings?.whatsapp_number);
 
   return (
     <footer className="border-t bg-muted mt-auto">
@@ -21,15 +24,31 @@ export default async function Footer() {
           <p className="text-sm text-muted-foreground">
             Psicóloga · Costa Rica
           </p>
-          {settings?.whatsapp_number && (
-            <a
-              href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block text-sm text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
-            >
-              WhatsApp
-            </a>
+          {(waUrl || settings?.instagram_url) && (
+            <div className="flex items-center justify-center sm:justify-start gap-3 pt-1">
+              {waUrl && (
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Escribir por WhatsApp"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                </a>
+              )}
+              {settings?.instagram_url && (
+                <a
+                  href={settings.instagram_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram de Sandra"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <InstagramIcon className="w-5 h-5" />
+                </a>
+              )}
+            </div>
           )}
         </div>
 

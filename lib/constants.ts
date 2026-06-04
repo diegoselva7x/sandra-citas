@@ -19,6 +19,18 @@ export const HOME_ANCHOR_LINKS = [
   { href: "#contacto", label: "Contacto" },
 ] as const;
 
+// Construye un link de wa.me a partir de un número (con o sin formato) y un
+// mensaje opcional prellenado. Devuelve null si no hay número.
+export function waLink(
+  number: string | null | undefined,
+  text?: string,
+): string | null {
+  if (!number) return null;
+  const digits = number.replace(/\D/g, "");
+  if (!digits) return null;
+  return `https://wa.me/${digits}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
+}
+
 // Formateo de precios en colones costarricenses
 export function formatPrice(price: number | null): string {
   if (!price) return "";

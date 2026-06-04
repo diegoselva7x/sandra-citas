@@ -317,6 +317,11 @@ const settingsSchema = z.object({
   whatsapp_number: z.string().max(20).nullable().optional(),
   contact_email: z.string().email().nullable().optional(),
   online_instructions: z.string().max(500).nullable().optional(),
+  instagram_url: z.string().max(200).nullable().optional(),
+  address: z.string().max(300).nullable().optional(),
+  maps_url: z.string().max(2000).nullable().optional(),
+  latitude: z.number().min(-90).max(90).nullable().optional(),
+  longitude: z.number().min(-180).max(180).nullable().optional(),
 });
 
 export async function updateSettings(input: unknown): Promise<{ error?: string }> {

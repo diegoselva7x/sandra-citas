@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { PageHeader } from "@/components/ui/page-header";
@@ -33,12 +34,15 @@ export default function SobreMiPage() {
       <Section>
         <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
           <ScrollReveal className="flex justify-center md:justify-start">
-            {/* TODO: reemplazar con next/image cuando Sandra provea la foto */}
             <div className="relative w-full max-w-xs aspect-[3/4] rounded-3xl overflow-hidden bg-accent shadow-sm">
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
-                <div className="w-20 h-20 rounded-full bg-muted-foreground/15" />
-                <p className="text-sm font-medium text-foreground/80">TODO: Foto de Sandra</p>
-              </div>
+              <Image
+                src="/sandra-principal.png"
+                alt="Sandra Carpio, psicóloga"
+                fill
+                priority
+                sizes="(min-width: 768px) 20rem, 100vw"
+                className="object-cover"
+              />
             </div>
           </ScrollReveal>
 

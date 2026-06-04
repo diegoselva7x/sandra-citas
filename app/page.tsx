@@ -3,7 +3,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { getActiveServices, getBookingSettings } from "@/app/booking/actions";
-import { formatPrice } from "@/lib/constants";
+import { formatPrice, waLink } from "@/lib/constants";
+import { InstagramIcon } from "@/components/ui/brand-icons";
 import {
   Clock,
   Monitor,
@@ -44,9 +45,10 @@ export default async function HomePage() {
     getBookingSettings(),
   ]);
 
-  const whatsappHref = settings?.whatsapp_number
-    ? `https://wa.me/${settings.whatsapp_number.replace(/\D/g, "")}`
-    : null;
+  const whatsappHref = waLink(
+    settings?.whatsapp_number,
+    "Hola Sandra, me gustaría hacerte una consulta.",
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -138,18 +140,17 @@ export default async function HomePage() {
               </div>
             </ScrollReveal>
 
-            {/* Foto placeholder */}
+            {/* Foto principal */}
             <ScrollReveal delay={150} className="flex justify-center md:justify-end">
               <div className="relative w-full max-w-sm aspect-[3/4] rounded-3xl overflow-hidden bg-accent shadow-sm">
-                {/* TODO: reemplazar con next/image cuando Sandra provea la foto */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
-                  <div className="w-24 h-24 rounded-full bg-muted-foreground/15" />
-                  <p className="text-sm font-medium text-foreground/80">
-                    TODO: Foto de Sandra
-                  </p>
-                </div>
-                {/* Decoración: círculo lila tenue en esquina */}
-                <div className="absolute -bottom-8 -right-8 w-40 h-40 rounded-full bg-primary/20 blur-2xl" />
+                <Image
+                  src="/sandra-principal.png"
+                  alt="Sandra Carpio, psicóloga, en su consultorio"
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 24rem, 100vw"
+                  className="object-cover"
+                />
               </div>
             </ScrollReveal>
           </div>
@@ -168,15 +169,16 @@ export default async function HomePage() {
           className="bg-muted py-24 md:py-32 px-4"
         >
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-            {/* Foto placeholder */}
+            {/* Foto secundaria */}
             <ScrollReveal className="flex justify-center md:justify-start order-2 md:order-1">
               <div className="relative w-full max-w-xs aspect-[3/4] rounded-3xl overflow-hidden bg-accent shadow-sm">
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
-                  <div className="w-20 h-20 rounded-full bg-muted-foreground/15" />
-                  <p className="text-sm font-medium text-foreground/80">
-                    TODO: Foto de Sandra
-                  </p>
-                </div>
+                <Image
+                  src="/sandra-origami.jpg"
+                  alt="Sandra Carpio"
+                  fill
+                  sizes="(min-width: 768px) 20rem, 100vw"
+                  className="object-cover"
+                />
               </div>
             </ScrollReveal>
 
@@ -240,19 +242,19 @@ export default async function HomePage() {
             </ScrollReveal>
 
             {services.length > 0 ? (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid sm:grid-cols-2 gap-5 auto-rows-fr max-w-3xl mx-auto">
                 {services.slice(0, 6).map((service, i) => (
-                  <ScrollReveal key={service.id} delay={i * 60}>
-                    <article className="group rounded-2xl border border-border bg-card p-6 space-y-4 hover:border-primary/30 hover:shadow-md transition-all duration-200">
+                  <ScrollReveal key={service.id} delay={i * 60} className="h-full">
+                    <article className="group flex flex-col h-full rounded-2xl border border-border bg-card p-6 hover:border-primary/30 hover:shadow-md transition-all duration-200">
                       <h3 className="font-semibold text-foreground">
                         {service.name}
                       </h3>
                       {service.description && (
-                        <p className="text-sm text-muted-foreground leading-snug">
+                        <p className="mt-2 text-sm text-muted-foreground leading-snug">
                           {service.description}
                         </p>
                       )}
-                      <div className="flex items-center justify-between text-xs text-muted-foreground pt-1">
+                      <div className="mt-auto pt-4 flex items-center justify-between text-xs text-muted-foreground">
                         <span className="flex items-center gap-1.5">
                           <Clock className="w-3.5 h-3.5" />
                           {service.duration_minutes} min
@@ -402,11 +404,23 @@ export default async function HomePage() {
                       <span>{settings.whatsapp_number}</span>
                     </li>
                   )}
+                  {settings?.instagram_url && (
+                    <li className="flex items-center gap-3 text-sm">
+                      <InstagramIcon className="w-4 h-4 shrink-0 text-foreground/50" />
+                      <a
+                        href={settings.instagram_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
+                      >
+                        @sandcarpio
+                      </a>
+                    </li>
+                  )}
                   <li className="flex items-start gap-3 text-sm text-muted-foreground">
                     <MapPin className="w-4 h-4 shrink-0 text-foreground/50 mt-0.5" />
                     <span>
-                      {/* TODO: contenido de Sandra — dirección consultorio */}
-                      Costa Rica · Modalidad presencial y virtual
+                      {settings?.address ?? "Costa Rica · Modalidad presencial y virtual"}
                     </span>
                   </li>
                 </ul>
