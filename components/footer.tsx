@@ -26,7 +26,7 @@ export default async function Footer() {
               href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block text-sm text-primary underline"
+              className="inline-block text-sm text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
             >
               WhatsApp
             </a>

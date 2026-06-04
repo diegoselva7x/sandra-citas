@@ -47,7 +47,7 @@ export default async function ContactoPage() {
                         href={waUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-primary underline underline-offset-4"
+                        className="text-sm text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
                       >
                         {settings?.whatsapp_number}
                       </a>
@@ -65,7 +65,7 @@ export default async function ContactoPage() {
                       <p className="font-medium text-foreground">Email</p>
                       <a
                         href={`mailto:${settings.contact_email}`}
-                        className="text-sm text-primary underline underline-offset-4"
+                        className="text-sm text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
                       >
                         {settings.contact_email}
                       </a>

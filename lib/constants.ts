@@ -29,6 +29,12 @@ export function formatPrice(price: number | null): string {
   }).format(price);
 }
 
+// Modalidades de cita — etiquetas en español
+export const MODALITY_LABEL: Record<string, string> = {
+  online: "Virtual",
+  in_person: "Presencial",
+};
+
 // Estados de citas — etiquetas en español
 export const STATUS_LABEL: Record<string, string> = {
   confirmed: "Confirmada",

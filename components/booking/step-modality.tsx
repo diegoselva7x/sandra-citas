@@ -68,7 +68,7 @@ export function StepModality({ selected, onlineInstructions, whatsappNumber, onS
               href={`https://wa.me/${whatsappNumber.replace(/\D/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary underline"
+              className="inline-flex items-center gap-2 text-sm font-medium text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
             >
               Escribir por WhatsApp
             </a>

@@ -10,7 +10,7 @@ import { TIMEZONE } from "@/lib/types";
 import type { AdminAppointment } from "@/app/admin/actions";
 import { AppointmentDetailDialog } from "./appointment-detail-dialog";
 import { Calendar as MiniCalendar } from "@/components/ui/calendar";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 
 const localizer = dateFnsLocalizer({
   format: (date: Date, formatStr: string, culture?: string) =>
@@ -22,26 +22,19 @@ const localizer = dateFnsLocalizer({
   locales: { es },
 });
 
-const STATUS_COLOR: Record<string, string> = {
-  confirmed: "#2563eb",
-  completed: "#16a34a",
-  no_show:   "#dc2626",
-  cancelled: "#9ca3af",
-};
+// Colores de evento alineados a la paleta cálida de marca. Lila para confirmadas
+// (acento principal); el resto en tonos sobrios. Todos a L≈0.48 para que el texto
+// blanco del evento cumpla contraste WCAG.
+const STATUS_META: { key: string; label: string; color: string }[] = [
+  { key: "confirmed", label: "Confirmada", color: "oklch(0.48 0.13 300)" },
+  { key: "completed", label: "Completada", color: "oklch(0.48 0.11 155)" },
+  { key: "no_show", label: "No asistió", color: "oklch(0.48 0.17 27)" },
+  { key: "cancelled", label: "Cancelada", color: "oklch(0.5 0.012 70)" },
+];
 
-const STATUS_LABEL: Record<string, string> = {
-  confirmed: "Confirmada",
-  completed: "Completada",
-  no_show:   "No asistió",
-  cancelled: "Cancelada",
-};
-
-const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-  confirmed: "default",
-  completed: "secondary",
-  no_show:   "destructive",
-  cancelled: "outline",
-};
+const STATUS_COLOR: Record<string, string> = Object.fromEntries(
+  STATUS_META.map((s) => [s.key, s.color]),
+);
 
 interface CalendarEvent {
   id: string;
@@ -93,7 +86,8 @@ export function AdminCalendar({ appointments }: Props) {
 
   const eventStyleGetter = (event: CalendarEvent) => ({
     style: {
-      backgroundColor: STATUS_COLOR[event.resource.status] ?? "#2563eb",
+      backgroundColor: STATUS_COLOR[event.resource.status] ?? STATUS_COLOR.confirmed,
+      color: "#fff",
       borderRadius: "4px",
       border: "none",
       fontSize: "12px",
@@ -144,9 +138,7 @@ export function AdminCalendar({ appointments }: Props) {
                     <span className="font-medium text-sm">
                       {appt.profiles?.full_name ?? "Paciente"}
                     </span>
-                    <Badge variant={STATUS_VARIANT[appt.status]}>
-                      {STATUS_LABEL[appt.status]}
-                    </Badge>
+                    <StatusBadge status={appt.status} />
                   </div>
                   <p className="text-xs text-muted-foreground">
                     {formatInTimeZone(new Date(appt.starts_at), TIMEZONE, "h:mm a")}
@@ -163,12 +155,7 @@ export function AdminCalendar({ appointments }: Props) {
 
         {/* Leyenda */}
         <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-          {[
-            { color: "#2563eb", label: "Confirmada" },
-            { color: "#16a34a", label: "Completada" },
-            { color: "#dc2626", label: "No asistió" },
-            { color: "#9ca3af", label: "Cancelada" },
-          ].map(({ color, label }) => (
+          {STATUS_META.map(({ color, label }) => (
             <div key={label} className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: color }} />
               {label}
@@ -190,12 +177,7 @@ export function AdminCalendar({ appointments }: Props) {
             className="rounded-lg border bg-card p-0"
           />
           <div className="mt-3 space-y-1.5 text-xs text-muted-foreground px-1">
-            {[
-              { color: "#2563eb", label: "Confirmada" },
-              { color: "#16a34a", label: "Completada" },
-              { color: "#dc2626", label: "No asistió" },
-              { color: "#9ca3af", label: "Cancelada" },
-            ].map(({ color, label }) => (
+            {STATUS_META.map(({ color, label }) => (
               <div key={label} className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: color }} />
                 {label}

@@ -1,6 +1,7 @@
 import { getPatients } from "@/app/admin/actions";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Users } from "lucide-react";
 
 export default async function PacientesPage({
@@ -13,7 +14,7 @@ export default async function PacientesPage({
 
   return (
     <div className="p-6 max-w-4xl space-y-4">
-      <h1 className="text-2xl font-semibold">Pacientes</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">Pacientes</h1>
 
       <form>
         <Input
@@ -25,12 +26,11 @@ export default async function PacientesPage({
       </form>
 
       {patients.length === 0 ? (
-        <div className="rounded-lg border border-dashed p-12 text-center">
-          <Users className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-          <p className="text-muted-foreground text-sm">
-            {q ? "No se encontraron pacientes." : "Aún no hay pacientes registrados."}
-          </p>
-        </div>
+        <EmptyState
+          icon={Users}
+          title={q ? "No se encontraron pacientes" : "Aún no hay pacientes registrados"}
+          description={q ? "Probá con otro nombre, email o teléfono." : undefined}
+        />
       ) : (
         <div className="rounded-lg border divide-y overflow-hidden">
           {patients.map((p) => (

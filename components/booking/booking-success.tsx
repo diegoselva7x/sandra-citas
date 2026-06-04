@@ -46,7 +46,7 @@ export function BookingSuccess({ startsAt, modality, whatsappNumber }: Props) {
               href={`https://wa.me/${whatsappNumber.replace(/\D/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block text-primary underline font-medium"
+              className="inline-block font-medium text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
             >
               Escribir por WhatsApp
             </a>

@@ -61,7 +61,7 @@ export function AppointmentDetailDialog({ appointment, open, onClose }: Props) {
             {appointment.client_id && (
               <Link
                 href={`/admin/pacientes/${appointment.client_id}`}
-                className="text-xs underline text-primary"
+                className="text-xs underline underline-offset-2 text-foreground decoration-primary hover:text-foreground/70 transition-colors"
               >
                 Ver ficha del paciente
               </Link>

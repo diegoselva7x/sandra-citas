@@ -21,23 +21,11 @@ import {
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { STATUS_LABEL } from "@/lib/constants";
 import { ChevronDown } from "lucide-react";
 
 type Status = "confirmed" | "completed" | "no_show" | "cancelled";
-
-const STATUS_LABEL: Record<Status, string> = {
-  confirmed: "Confirmada",
-  completed: "Completada",
-  no_show: "No asistió",
-  cancelled: "Cancelada",
-};
-const STATUS_VARIANT: Record<Status, "default" | "secondary" | "destructive" | "outline"> = {
-  confirmed: "default",
-  completed: "secondary",
-  no_show: "destructive",
-  cancelled: "outline",
-};
 
 interface Props {
   appointmentId: string;
@@ -64,9 +52,7 @@ export function AppointmentStatusMenu({ appointmentId, currentStatus }: Props) {
             className="flex items-center gap-1 focus-visible:outline-none"
             disabled={isPending}
           >
-            <Badge variant={STATUS_VARIANT[currentStatus]}>
-              {STATUS_LABEL[currentStatus]}
-            </Badge>
+            <StatusBadge status={currentStatus} />
             <ChevronDown className="w-3 h-3 text-muted-foreground" />
           </button>
         </DropdownMenuTrigger>

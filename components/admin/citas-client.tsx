@@ -13,8 +13,10 @@ import { AppointmentDetailDialog } from "./appointment-detail-dialog";
 import { ManualAppointmentDialog } from "./manual-appointment-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { EmptyState } from "@/components/ui/empty-state";
+import { MODALITY_LABEL } from "@/lib/constants";
 import Link from "next/link";
-import { Plus, Calendar } from "lucide-react";
+import { Plus, Calendar, CalendarDays } from "lucide-react";
 
 const STATUS_OPTIONS = [
   { value: "all", label: "Todas" },
@@ -49,7 +51,7 @@ export function CitasClient({ appointments, services, filters }: Props) {
   return (
     <div className="p-6 space-y-4 max-w-5xl">
       <div className="flex items-center justify-between gap-4 flex-wrap">
-        <h1 className="text-2xl font-semibold">Citas</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Citas</h1>
         <div className="flex gap-2">
           <Button asChild variant="outline" size="sm">
             <Link href="/admin/citas/calendario">
@@ -92,9 +94,11 @@ export function CitasClient({ appointments, services, filters }: Props) {
 
       {/* Lista */}
       {appointments.length === 0 ? (
-        <div className="rounded-lg border border-dashed p-12 text-center">
-          <p className="text-muted-foreground text-sm">No se encontraron citas.</p>
-        </div>
+        <EmptyState
+          icon={CalendarDays}
+          title="No se encontraron citas"
+          description="Ajustá los filtros o creá una cita nueva."
+        />
       ) : (
         <div className="rounded-lg border divide-y overflow-hidden">
           {appointments.map((appt) => (
@@ -114,8 +118,7 @@ export function CitasClient({ appointments, services, filters }: Props) {
                   {appt.profiles?.full_name ?? "—"}
                 </p>
                 <p className="text-xs text-muted-foreground truncate">
-                  {appt.service_types?.name ?? "Sesión"} ·{" "}
-                  {appt.modality === "online" ? "Virtual" : "Presencial"}
+                  {appt.service_types?.name ?? "Sesión"} · {MODALITY_LABEL[appt.modality]}
                 </p>
               </div>
               <div onClick={(e) => e.stopPropagation()}>

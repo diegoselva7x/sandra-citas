@@ -29,7 +29,7 @@ export default function PrivacidadPage() {
               <strong className="text-foreground">Sandra Carpio</strong>, psicóloga
               colegiada en Costa Rica. Para cualquier consulta relacionada con sus datos
               podés escribirnos a través del{" "}
-              <Link href="/contacto" className="text-primary underline underline-offset-4">formulario de contacto</Link>.
+              <Link href="/contacto" className="text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors">formulario de contacto</Link>.
             </p>
           </div>
 
@@ -136,7 +136,7 @@ export default function PrivacidadPage() {
             </ul>
             <p>
               Para ejercer cualquiera de estos derechos, escribinos a través del{" "}
-              <Link href="/contacto" className="text-primary underline underline-offset-4">formulario de contacto</Link>.
+              <Link href="/contacto" className="text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors">formulario de contacto</Link>.
               Respondemos en un plazo máximo de 5 días hábiles.
             </p>
           </div>

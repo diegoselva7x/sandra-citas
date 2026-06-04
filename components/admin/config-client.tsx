@@ -20,9 +20,11 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { SuccessMessage } from "@/components/ui/success-message";
 import { Trash2, Plus } from "lucide-react";
 import { formatInTimeZone } from "date-fns-tz";
 import { TIMEZONE } from "@/lib/types";
+import { formatPrice } from "@/lib/constants";
 import { es } from "date-fns/locale";
 
 const DAYS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
@@ -113,7 +115,7 @@ function SettingsSection({ settings }: { settings: Settings }) {
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
-      {saved && <p className="text-sm text-green-600">Cambios guardados.</p>}
+      {saved && <SuccessMessage>Cambios guardados.</SuccessMessage>}
       <Button onClick={save} disabled={isPending}>{isPending ? "Guardando…" : "Guardar"}</Button>
     </div>
   );
@@ -155,7 +157,7 @@ function ServicesSection({ services }: { services: ServiceType[] }) {
           <div key={s.id} className="flex items-center gap-3 rounded-lg border p-3">
             <div className="flex-1 min-w-0">
               <p className={`font-medium text-sm ${!s.is_active ? "line-through text-muted-foreground" : ""}`}>{s.name}</p>
-              <p className="text-xs text-muted-foreground">{s.duration_minutes} min{s.price ? ` · ₡${s.price.toLocaleString()}` : ""}</p>
+              <p className="text-xs text-muted-foreground">{s.duration_minutes} min{s.price ? ` · ${formatPrice(s.price)}` : ""}</p>
             </div>
             <Switch checked={s.is_active} onCheckedChange={() => toggle(s.id, s.is_active)} />
             <Button size="sm" variant="ghost" onClick={() => setEditing(s)}>Editar</Button>

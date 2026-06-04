@@ -2,18 +2,12 @@ import { getDashboardData } from "./actions";
 import { formatInTimeZone } from "date-fns-tz";
 import { es } from "date-fns/locale";
 import { TIMEZONE } from "@/lib/types";
+import { MODALITY_LABEL } from "@/lib/constants";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { EmptyState } from "@/components/ui/empty-state";
 import { CalendarDays, CheckCircle, Clock } from "lucide-react";
-
-const MODALITY_LABEL = { online: "Virtual", in_person: "Presencial" };
-const STATUS_VARIANT: Record<string, "default" | "secondary" | "outline"> = {
-  confirmed: "default",
-  completed: "secondary",
-  no_show: "outline",
-  cancelled: "outline",
-};
 
 export default async function AdminPage() {
   const { todayCitas, stats } = await getDashboardData();
@@ -24,7 +18,7 @@ export default async function AdminPage() {
     <div className="p-6 max-w-4xl space-y-8">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold capitalize">{todayLabel}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight capitalize">{todayLabel}</h1>
           <p className="text-sm text-muted-foreground mt-0.5">Bienvenida, Sandra.</p>
         </div>
         <Button asChild size="sm">
@@ -55,9 +49,11 @@ export default async function AdminPage() {
           Citas de hoy
         </h2>
         {todayCitas.length === 0 ? (
-          <div className="rounded-lg border border-dashed p-8 text-center">
-            <p className="text-sm text-muted-foreground">No hay citas para hoy.</p>
-          </div>
+          <EmptyState
+            icon={CalendarDays}
+            title="No hay citas para hoy"
+            description="Tu agenda de hoy está libre."
+          />
         ) : (
           <div className="space-y-2">
             {todayCitas.map((cita) => (
@@ -77,9 +73,9 @@ export default async function AdminPage() {
                     {cita.service_types?.name ?? "Sesión"} · {MODALITY_LABEL[cita.modality]}
                   </p>
                 </div>
-                <Badge variant={STATUS_VARIANT[cita.status]} className="shrink-0 text-xs">
-                  {cita.status === "confirmed" ? "Confirmada" : cita.status}
-                </Badge>
+                <div className="shrink-0">
+                  <StatusBadge status={cita.status} />
+                </div>
               </Link>
             ))}
           </div>

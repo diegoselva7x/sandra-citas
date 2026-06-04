@@ -3,24 +3,12 @@ import { notFound } from "next/navigation";
 import { formatInTimeZone } from "date-fns-tz";
 import { es } from "date-fns/locale";
 import { TIMEZONE } from "@/lib/types";
-import { Badge } from "@/components/ui/badge";
 import { AppointmentNote } from "@/components/admin/appointment-note";
+import { EmptyState } from "@/components/ui/empty-state";
+import { MODALITY_LABEL } from "@/lib/constants";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, CalendarDays } from "lucide-react";
 import { AppointmentStatusMenu } from "@/components/admin/appointment-status-menu";
-
-const STATUS_LABEL: Record<string, string> = {
-  confirmed: "Confirmada",
-  completed: "Completada",
-  no_show: "No asistió",
-  cancelled: "Cancelada",
-};
-const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-  confirmed: "default",
-  completed: "secondary",
-  no_show: "destructive",
-  cancelled: "outline",
-};
 
 export default async function PatientDetailPage({
   params,
@@ -48,7 +36,7 @@ export default async function PatientDetailPage({
 
       {/* Datos del paciente */}
       <div className="rounded-lg border bg-card p-4 space-y-1">
-        <h1 className="text-xl font-semibold">{profile.full_name}</h1>
+        <h1 className="text-xl font-semibold tracking-tight">{profile.full_name}</h1>
         <p className="text-sm text-muted-foreground">{profile.email}</p>
         {profile.phone && <p className="text-sm text-muted-foreground">{profile.phone}</p>}
         <p className="text-xs text-muted-foreground">
@@ -63,7 +51,7 @@ export default async function PatientDetailPage({
           Historial de citas ({appointments.length})
         </h2>
         {appointments.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Sin citas.</p>
+          <EmptyState icon={CalendarDays} title="Sin citas registradas" />
         ) : (
           <div className="space-y-4">
             {appointments.map((appt, i) => (
@@ -79,8 +67,7 @@ export default async function PatientDetailPage({
                       )}
                     </p>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      {appt.service_types?.name ?? "Sesión"} ·{" "}
-                      {appt.modality === "online" ? "Virtual" : "Presencial"}
+                      {appt.service_types?.name ?? "Sesión"} · {MODALITY_LABEL[appt.modality]}
                     </p>
                   </div>
                   <AppointmentStatusMenu

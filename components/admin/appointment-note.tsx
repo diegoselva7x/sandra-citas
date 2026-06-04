@@ -5,6 +5,7 @@ import { useState, useTransition } from "react";
 import { saveAppointmentNote } from "@/app/admin/actions";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { SuccessMessage } from "@/components/ui/success-message";
 import { Lock } from "lucide-react";
 
 interface Props {
@@ -42,7 +43,7 @@ export function AppointmentNote({ appointmentId, initialNote }: Props) {
         className="text-sm"
       />
       {error && <p className="text-xs text-destructive">{error}</p>}
-      {saved && <p className="text-xs text-green-600">Nota guardada.</p>}
+      {saved && <SuccessMessage className="text-xs">Nota guardada.</SuccessMessage>}
       <Button size="sm" variant="outline" onClick={handleSave} disabled={isPending}>
         {isPending ? "Guardando…" : "Guardar nota"}
       </Button>
