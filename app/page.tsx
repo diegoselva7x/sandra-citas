@@ -24,12 +24,12 @@ export default async function HomePage() {
       <section className="bg-muted/40 py-20 px-4">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <div className="inline-block rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
+            <div className="inline-block rounded-full bg-accent px-4 py-1 text-sm font-medium text-foreground">
               Psicóloga · Costa Rica
             </div>
             <h1 className="text-4xl md:text-5xl font-semibold leading-tight tracking-tight">
               Tu bienestar emocional{" "}
-              <span className="text-primary">importa</span>
+              <span className="text-foreground">importa</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
               Acompañamiento psicológico individual, de pareja y familiar.
@@ -141,7 +141,7 @@ export default async function HomePage() {
                   href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-primary underline"
+                  className="text-sm text-foreground underline"
                 >
                   Escribir por WhatsApp
                 </a>
@@ -155,7 +155,7 @@ export default async function HomePage() {
       <section className="bg-primary text-primary-foreground py-16 px-4">
         <div className="max-w-2xl mx-auto text-center space-y-6">
           <h2 className="text-3xl font-semibold">¿Listo/a para dar el primer paso?</h2>
-          <p className="text-primary-foreground/80 leading-relaxed">
+          <p className="text-primary-foreground leading-relaxed">
             Reservar tu cita es fácil y toma menos de un minuto.
           </p>
           <Button asChild size="lg" variant="secondary">
