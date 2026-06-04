@@ -155,8 +155,8 @@ export default async function HomePage() {
             </ScrollReveal>
           </div>
 
-          {/* Indicador scroll */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground/50 motion-reduce:hidden">
+          {/* Indicador scroll — solo en desktop (en móvil se encimaba con la foto) */}
+          <div className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-1 text-muted-foreground/50 motion-reduce:hidden">
             <span className="text-xs tracking-widest uppercase">scroll</span>
             <div className="w-px h-8 bg-gradient-to-b from-muted-foreground/40 to-transparent" />
           </div>
