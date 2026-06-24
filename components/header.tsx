@@ -38,6 +38,7 @@ export default async function Header() {
             alt="Sandra Carpio Psicóloga"
             width={32}
             height={32}
+            priority
             className="object-contain"
           />
           <span className="font-semibold text-base tracking-tight">

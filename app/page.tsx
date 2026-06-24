@@ -51,48 +51,96 @@ export default async function HomePage() {
     "Hola Sandra, me gustaría hacerte una consulta.",
   );
 
+  // Datos del consultorio (fallbacks reales por si settings aún no está poblado en DB)
+  const telephone = settings?.whatsapp_number ?? "+506 8922 9507";
+  const instagram = settings?.instagram_url ?? "https://www.instagram.com/sandcarpio";
+  const street = settings?.address ?? "Cartago, Provincia de Cartago, Costa Rica";
+  const lat = settings?.latitude ?? 9.8612814;
+  const lng = settings?.longitude ?? -83.9111481;
+
+  // sameAs: perfiles sociales verificables (refuerza E-E-A-T y entidad)
+  const sameAs = [instagram].filter(Boolean) as string[];
+
+  // Persona (autora) — señal de E-E-A-T
+  const person = {
+    "@type": "Person",
+    "@id": `${SITE}/#sandra`,
+    name: "Sandra Carpio Monge",
+    jobTitle: "Psicóloga y psicoterapeuta",
+    url: `${SITE}/sobre-mi`,
+    image: `${SITE}/sandra-retrato.jpg`,
+    worksFor: { "@id": SITE },
+    knowsAbout: [
+      "Psicoterapia",
+      "EMDR",
+      "Trauma",
+      "Ansiedad",
+      "Terapia de pareja",
+      "Terapia familiar",
+    ],
+    ...(sameAs.length ? { sameAs } : {}),
+  };
+
+  // Negocio local / consultorio
+  const business = {
+    "@type": ["LocalBusiness", "MedicalBusiness"],
+    "@id": SITE,
+    name: "Sandra Carpio Monge · Psicóloga",
+    description:
+      "Psicología y psicoterapia individual, de pareja y familiar en Costa Rica. Enfoque integrativo con formación en trauma y certificación en EMDR. Modalidad presencial y virtual.",
+    url: SITE,
+    image: `${SITE}/og-image.jpg`,
+    priceRange: "$$",
+    telephone,
+    ...(settings?.contact_email ? { email: settings.contact_email } : {}),
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: street,
+      addressLocality: "Cartago",
+      addressRegion: "Cartago",
+      addressCountry: "CR",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: lat,
+      longitude: lng,
+    },
+    ...(settings?.maps_url ? { hasMap: settings.maps_url } : {}),
+    ...(sameAs.length ? { sameAs } : {}),
+    areaServed: {
+      "@type": "Country",
+      name: "Costa Rica",
+    },
+    availableLanguage: "es",
+    founder: { "@id": `${SITE}/#sandra` },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Servicios de psicología",
+      itemListElement: services.slice(0, 5).map((s, i) => ({
+        "@type": "Offer",
+        position: i + 1,
+        itemOffered: {
+          "@type": "Service",
+          name: s.name,
+          description: s.description ?? undefined,
+        },
+      })),
+    },
+  };
+
+  // Sitio web (entidad raíz)
+  const website = {
+    "@type": "WebSite",
+    "@id": `${SITE}/#website`,
+    url: SITE,
+    name: "Sandra Carpio · Psicóloga",
+    inLanguage: "es-CR",
+    publisher: { "@id": SITE },
+  };
+
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": ["LocalBusiness", "MedicalBusiness"],
-        "@id": SITE,
-        name: "Sandra Carpio Monge · Psicóloga",
-        description:
-          "Psicología y psicoterapia individual, de pareja y familiar en Costa Rica. Enfoque integrativo con formación en trauma y certificación en EMDR. Modalidad presencial y virtual.",
-        url: SITE,
-        image: `${SITE}/og-image.jpg`,
-        priceRange: "$$",
-        address: {
-          "@type": "PostalAddress",
-          addressCountry: "CR",
-          addressRegion: "Cartago",
-        },
-        areaServed: {
-          "@type": "Country",
-          name: "Costa Rica",
-        },
-        founder: {
-          "@type": "Person",
-          name: "Sandra Carpio Monge",
-          jobTitle: "Psicóloga y psicoterapeuta",
-          url: `${SITE}/sobre-mi`,
-        },
-        hasOfferCatalog: {
-          "@type": "OfferCatalog",
-          name: "Servicios de psicología",
-          itemListElement: services.slice(0, 5).map((s, i) => ({
-            "@type": "Offer",
-            position: i + 1,
-            itemOffered: {
-              "@type": "Service",
-              name: s.name,
-              description: s.description ?? undefined,
-            },
-          })),
-        },
-      },
-    ],
+    "@graph": [website, business, person],
   };
 
   return (
