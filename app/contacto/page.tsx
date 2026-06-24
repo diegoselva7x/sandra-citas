@@ -111,8 +111,8 @@ export default async function ContactoPage() {
                   <div>
                     <p className="font-medium text-foreground">Horario de atención</p>
                     <p className="text-sm text-muted-foreground">
-                      {/* TODO: contenido de Sandra — horario de atención */}
-                      Pendiente
+                      Atención con cita previa. Reservá tu horario disponible
+                      en línea.
                     </p>
                   </div>
                 </li>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { PageHeader } from "@/components/ui/page-header";
@@ -11,7 +12,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Servicios",
   description:
-    "Conocé los servicios de psicología que ofrece Sandra Carpio en Costa Rica.",
+    "Servicios de psicología y psicoterapia de Sandra Carpio en Costa Rica: terapia individual, de pareja y familiar, con enfoque integrativo y abordaje del trauma (EMDR). Presencial y virtual.",
   alternates: { canonical: "/servicios" },
 };
 
@@ -24,6 +25,39 @@ export default async function ServiciosPage() {
         title="Servicios"
         subtitle="Elegí el tipo de acompañamiento que mejor se adapte a lo que necesitás."
       />
+
+      {/* Intro con foto de sesión */}
+      <Section>
+        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+          <ScrollReveal className="flex justify-center md:justify-start">
+            <div className="relative w-full max-w-md aspect-[4/3] rounded-3xl overflow-hidden bg-accent shadow-sm">
+              <Image
+                src="/sandra-sesion.jpg"
+                alt="Sesión de psicoterapia con Sandra Carpio en su consultorio"
+                fill
+                priority
+                sizes="(min-width: 768px) 28rem, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={100} className="space-y-4">
+            <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+              Acompañamiento a tu medida
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Cada proceso es distinto. Trabajo desde un enfoque integrativo,
+              combinando herramientas respaldadas por la evidencia y adaptándolas
+              a lo que vos necesitás, con especial formación en el abordaje del
+              trauma y certificación en EMDR.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Podés elegir la modalidad que más te convenga: sesiones
+              presenciales en consultorio o virtuales desde donde estés.
+            </p>
+          </ScrollReveal>
+        </div>
+      </Section>
 
       {/* Lista de servicios */}
       <Section>

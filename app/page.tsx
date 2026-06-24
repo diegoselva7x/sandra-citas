@@ -56,16 +56,16 @@ export default async function HomePage() {
       {
         "@type": ["LocalBusiness", "MedicalBusiness"],
         "@id": SITE,
-        name: "Sandra Carpio · Psicóloga",
+        name: "Sandra Carpio Monge · Psicóloga",
         description:
-          "Servicio de psicología individual, de pareja y familiar en Costa Rica. Modalidad presencial y virtual.",
+          "Psicología y psicoterapia individual, de pareja y familiar en Costa Rica. Enfoque integrativo con formación en trauma y certificación en EMDR. Modalidad presencial y virtual.",
         url: SITE,
         image: `${SITE}/og-image.jpg`,
         priceRange: "$$",
         address: {
           "@type": "PostalAddress",
           addressCountry: "CR",
-          addressRegion: "San José",
+          addressRegion: "Cartago",
         },
         areaServed: {
           "@type": "Country",
@@ -73,8 +73,8 @@ export default async function HomePage() {
         },
         founder: {
           "@type": "Person",
-          name: "Sandra Carpio",
-          jobTitle: "Psicóloga",
+          name: "Sandra Carpio Monge",
+          jobTitle: "Psicóloga y psicoterapeuta",
           url: `${SITE}/sobre-mi`,
         },
         hasOfferCatalog: {
@@ -144,8 +144,8 @@ export default async function HomePage() {
             <ScrollReveal delay={150} className="flex justify-center md:justify-end">
               <div className="relative w-full max-w-sm aspect-[3/4] rounded-3xl overflow-hidden bg-accent shadow-sm">
                 <Image
-                  src="/sandra-principal.png"
-                  alt="Sandra Carpio, psicóloga, en su consultorio"
+                  src="/sandra-principal.jpg"
+                  alt="Sandra Carpio Monge, psicóloga, en su consultorio"
                   fill
                   priority
                   sizes="(min-width: 768px) 24rem, 100vw"
@@ -168,8 +168,8 @@ export default async function HomePage() {
             <ScrollReveal className="flex justify-center md:justify-start order-2 md:order-1">
               <div className="relative w-full max-w-xs aspect-[3/4] rounded-3xl overflow-hidden bg-accent shadow-sm">
                 <Image
-                  src="/sandra-origami.jpg"
-                  alt="Sandra Carpio"
+                  src="/sandra-retrato.jpg"
+                  alt="Sandra Carpio Monge, psicóloga"
                   fill
                   sizes="(min-width: 768px) 20rem, 100vw"
                   className="object-cover"
@@ -191,16 +191,16 @@ export default async function HomePage() {
                 </h2>
               </div>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
-                {/* TODO: contenido de Sandra — bio breve (2-3 párrafos) */}
                 <p>
-                  Soy psicóloga con formación en terapia individual, de pareja y
-                  familiar. Creo en un acompañamiento cálido, sin juicios, donde
-                  cada persona pueda explorar su mundo interior a su propio ritmo.
+                  Soy psicóloga y psicoterapeuta con un enfoque integrativo,
+                  orientado a comprender a cada persona de manera individual y a
+                  adaptar el acompañamiento a lo que realmente necesita.
                 </p>
                 <p>
-                  {/* TODO: contenido de Sandra — especialidad, enfoque terapéutico */}
-                  Mi enfoque es integrador, adaptado a las necesidades de cada
-                  persona. Trabajo tanto de forma presencial como virtual.
+                  Acompaño procesos de ansiedad, experiencias traumáticas y
+                  crecimiento personal desde un espacio seguro, respetuoso y
+                  colaborativo. Tengo especial formación en trauma y
+                  certificación en EMDR, y atiendo de forma presencial y virtual.
                 </p>
               </div>
               <Button asChild variant="outline" className="group">

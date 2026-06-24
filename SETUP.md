@@ -3,9 +3,6 @@
 Guía pensada para alguien que **nunca ha usado Supabase**. Seguí los pasos en
 orden. Después de cada bloque grande, verificá antes de continuar.
 
-> Si trabajás con Claude Code: pedile que te acompañe paso por paso por este
-> archivo y que se detenga a que confirmés tras cada bloque.
-
 ---
 
 ## 0. Requisitos previos
@@ -50,7 +47,7 @@ un proyecto Next.js. Lo creamos y luego metemos esos archivos adentro.
 
 2. Copiá los archivos del backend dentro de `sandra-web/`, respetando las rutas:
    `lib/`, `app/booking/`, `app/api/`, `middleware.ts`, `supabase/`, `vercel.json`,
-   `CLAUDE.md`, `ROADMAP.md`, `SETUP.md`, `.env.example`.
+   `ROADMAP.md`, `SETUP.md`, `.env.example`.
 
 3. Instalá las dependencias del backend:
 
@@ -147,8 +144,8 @@ registrarse y corré ese archivo en el SQL Editor.
 
 ---
 
-## Opcional (más adelante): Supabase MCP en Claude Code
-Existe un servidor MCP de Supabase que le permite a Claude Code correr
-migraciones y consultar la base directamente. Útil, pero **no lo necesitás para
-empezar** — el SQL Editor del dashboard alcanza. Dejalo para cuando ya domines lo
-básico de Supabase.
+## Opcional (más adelante): Supabase MCP
+Existe un servidor MCP de Supabase que permite correr migraciones y consultar la
+base directamente desde tu editor. Útil, pero **no lo necesitás para empezar** —
+el SQL Editor del dashboard alcanza. Dejalo para cuando ya domines lo básico de
+Supabase.

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s · Sandra Carpio Psicóloga",
   },
   description:
-    "Agenda tu cita de psicología en línea. Atención individual, de pareja y familiar. Modalidad presencial y virtual en Costa Rica.",
+    "Psicóloga y psicoterapeuta en Costa Rica. Enfoque integrativo con formación en trauma y certificación en EMDR. Terapia individual, de pareja y familiar, presencial y virtual. Agenda tu cita en línea.",
   openGraph: {
     type: "website",
     locale: "es_CR",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Sandra Carpio Psicóloga",
     title: "Sandra Carpio · Psicóloga",
     description:
-      "Agenda tu cita de psicología en línea. Atención individual, de pareja y familiar en Costa Rica.",
+      "Psicóloga y psicoterapeuta en Costa Rica. Especialista en EMDR y trauma. Terapia individual, de pareja y familiar, presencial y virtual.",
     images: [
       {
         url: "/og-image.jpg",

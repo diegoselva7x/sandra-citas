@@ -11,23 +11,34 @@ export const revalidate = 86400; // 24h — contenido estático
 export const metadata: Metadata = {
   title: "Sobre mí",
   description:
-    "Conocé la historia, formación y enfoque de Sandra Carpio, psicóloga en Costa Rica.",
+    "Sandra Carpio Monge, psicóloga y psicoterapeuta en Costa Rica. Enfoque integrativo con especial formación en trauma y certificación en EMDR. Acompañamiento en ansiedad, trauma y crecimiento personal.",
   alternates: { canonical: "/sobre-mi" },
 };
 
-const FORMACION = [
-  "Pendiente",
-  "Pendiente",
-  "Pendiente",
-  "Pendiente",
+// Formación académica
+const FORMACION_ACADEMICA = [
+  "Bachillerato en Psicología",
+  "Licenciatura en Psicología — Universidad Católica de Costa Rica",
+  "Maestría en Psicología Clínica",
+];
+
+// Certificaciones y formación especializada
+const CERTIFICACIONES = [
+  "Especialista en Terapia EMDR (certificada)",
+  "Entrenamiento básico en EMDR (Eye Movement Desensitization and Reprocessing)",
+  "Protocolos R-TEP y G-TEP",
+  "Terapia Dialéctica Comportamental (DBT) — The Linehan Institute · DBT Iberoamérica",
+  "Deep Brain Reorienting (DBR) — Reorientación Cerebral Profunda",
+  "Terapia Focalizada en las Emociones (EFT) — Externship",
+  "Hipnosis Clínica (UNIBE)",
 ];
 
 export default function SobreMiPage() {
   return (
     <main className="flex flex-col">
       <PageHeader
-        title="Sandra Carpio"
-        subtitle="Psicóloga clínica · Colegiada"
+        title="Sandra Carpio Monge"
+        subtitle="Psicóloga y psicoterapeuta · Especialista en EMDR · Enfoque integrativo"
       />
 
       {/* Presentación con foto */}
@@ -36,8 +47,8 @@ export default function SobreMiPage() {
           <ScrollReveal className="flex justify-center md:justify-start">
             <div className="relative w-full max-w-xs aspect-[3/4] rounded-3xl overflow-hidden bg-accent shadow-sm">
               <Image
-                src="/sandra-principal.png"
-                alt="Sandra Carpio, psicóloga"
+                src="/sandra-principal.jpg"
+                alt="Sandra Carpio Monge, psicóloga y psicoterapeuta"
                 fill
                 priority
                 sizes="(min-width: 768px) 20rem, 100vw"
@@ -51,8 +62,12 @@ export default function SobreMiPage() {
               Te acompaño en tu proceso
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              {/* TODO: contenido de Sandra — presentación breve */}
-              Pendiente
+              Soy psicóloga y psicoterapeuta con un enfoque integrativo,
+              orientado a comprender a cada persona de manera individual y a
+              adaptar las intervenciones a sus necesidades específicas. Mi
+              práctica clínica incorpora aportes de distintos modelos
+              terapéuticos respaldados por la evidencia, con especial formación
+              en trauma y certificación en EMDR.
             </p>
           </ScrollReveal>
         </div>
@@ -65,40 +80,121 @@ export default function SobreMiPage() {
             Mi historia
           </h2>
           <div className="space-y-4 text-muted-foreground leading-relaxed">
-            {/* TODO: contenido de Sandra — bio completa */}
-            <p>Pendiente</p>
+            <p>
+              A lo largo de mi trayectoria profesional he acompañado a personas
+              que enfrentan ansiedad, experiencias traumáticas, dificultades
+              emocionales y procesos de crecimiento personal.
+            </p>
+            <p>
+              Mi trabajo se fundamenta en la creación de un espacio seguro,
+              respetuoso y colaborativo, donde cada persona pueda desarrollar
+              recursos para afrontar sus desafíos y promover un mayor bienestar
+              emocional.
+            </p>
+            <p>
+              Concibo la terapia como un proceso de acompañamiento que integra
+              la comprensión de la historia personal, los recursos presentes y
+              el potencial de cambio de cada individuo.
+            </p>
           </div>
         </ScrollReveal>
       </Section>
 
-      {/* Formación y credenciales */}
+      {/* Mi enfoque terapéutico — con foto de sesión */}
       <Section>
-        <ScrollReveal className="max-w-2xl mx-auto space-y-6">
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
-            Formación y credenciales
-          </h2>
-          <ul className="space-y-4">
-            {FORMACION.map((item, i) => (
-              <li key={i} className="flex gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 shrink-0" />
-                <span className="text-muted-foreground">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </ScrollReveal>
+        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+          <ScrollReveal delay={100} className="space-y-4 order-2 md:order-1">
+            <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
+              Mi enfoque terapéutico
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Trabajo desde un enfoque integrativo: combino herramientas de
+              distintos modelos terapéuticos con respaldo en la evidencia y las
+              adapto a lo que cada persona necesita en su momento. Tengo especial
+              formación en el abordaje del trauma, con certificación en EMDR, una
+              de las terapias más respaldadas para procesar experiencias
+              difíciles.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Más que aplicar una técnica única, mi objetivo es acompañarte a tu
+              propio ritmo, en un vínculo de confianza donde puedas explorar tu
+              historia, reconocer tus recursos y avanzar hacia el cambio que
+              buscás.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal className="flex justify-center md:justify-end order-1 md:order-2">
+            <div className="relative w-full max-w-sm aspect-[4/3] rounded-3xl overflow-hidden bg-accent shadow-sm">
+              <Image
+                src="/sandra-sesion.jpg"
+                alt="Sandra Carpio en sesión con un paciente en su consultorio"
+                fill
+                sizes="(min-width: 768px) 24rem, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </ScrollReveal>
+        </div>
       </Section>
 
-      {/* Mi enfoque terapéutico */}
+      {/* Formación y credenciales */}
       <Section variant="cream">
-        <ScrollReveal className="max-w-2xl mx-auto space-y-6">
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
-            Mi enfoque terapéutico
-          </h2>
-          <p className="text-muted-foreground leading-relaxed">
-            {/* TODO: contenido de Sandra — enfoque terapéutico */}
-            Pendiente
-          </p>
-        </ScrollReveal>
+        <div className="max-w-4xl mx-auto space-y-10">
+          <ScrollReveal className="space-y-8">
+            <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
+              Formación y credenciales
+            </h2>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+                  Formación académica
+                </h3>
+                <ul className="space-y-3">
+                  {FORMACION_ACADEMICA.map((item, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 shrink-0" />
+                      <span className="text-muted-foreground">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+                  Certificaciones y especializaciones
+                </h3>
+                <ul className="space-y-3">
+                  {CERTIFICACIONES.map((item, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 shrink-0" />
+                      <span className="text-muted-foreground">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {/* Certificado destacado */}
+          <ScrollReveal delay={100}>
+            <figure className="max-w-md mx-auto space-y-3">
+              <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-card border border-border shadow-sm">
+                <Image
+                  src="/certificado-dbt.jpg"
+                  alt="Certificado de Terapia Dialéctica Comportamental (DBT) — The Linehan Institute, a nombre de Sandra Carpio Monge"
+                  fill
+                  sizes="(min-width: 768px) 28rem, 100vw"
+                  className="object-contain p-2"
+                />
+              </div>
+              <figcaption className="text-center text-sm text-muted-foreground">
+                Certificación en Terapia Dialéctica Comportamental (DBT) —
+                The Linehan Institute · DBT Iberoamérica
+              </figcaption>
+            </figure>
+          </ScrollReveal>
+        </div>
       </Section>
 
       {/* CTA */}

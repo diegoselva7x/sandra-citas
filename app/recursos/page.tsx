@@ -20,9 +20,7 @@ const RECURSOS = [
     contenido: `Buscar apoyo psicológico no es señal de debilidad, sino de valentía y autoconocimiento.
     Muchas personas esperan hasta estar en crisis para pedir ayuda, cuando en realidad la terapia
     puede ser valiosa en cualquier momento: cuando queremos crecer, cuando algo nos pesa, o
-    simplemente cuando necesitamos un espacio para nosotros.
-
-    Pendiente`,
+    simplemente cuando necesitamos un espacio para nosotros.`,
     cta: false,
   },
   {
@@ -30,9 +28,7 @@ const RECURSOS = [
     titulo: "¿Qué esperar de la primera sesión?",
     contenido: `La primera sesión es una conversación. No hay preguntas correctas ni incorrectas.
     Es un espacio para que te conozcamos y podamos entender qué te trajo aquí. No te preocupes
-    por "prepararte" — llegá como estás.
-
-    Pendiente`,
+    por "prepararte" — llegá como estás.`,
     cta: true,
   },
   {
@@ -46,9 +42,7 @@ const RECURSOS = [
     • Sienten que hablan pero no se escuchan
     • Los mismos conflictos se repiten sin resolución
     • Se alejaron emocionalmente
-    • Atravesaron un evento difícil (infidelidad, pérdida, cambio grande)
-
-    Pendiente`,
+    • Atravesaron un evento difícil (infidelidad, pérdida, cambio grande)`,
     cta: false,
   },
   {
@@ -56,9 +50,7 @@ const RECURSOS = [
     titulo: "Orientación familiar",
     contenido: `Las familias son sistemas vivos: cambian, se reorganizan, atraviesan crisis.
     La terapia familiar ayuda a mejorar la comunicación, a resolver conflictos entre generaciones
-    y a acompañar cambios importantes como divorcios, duelos o la llegada de un nuevo miembro.
-
-    Pendiente`,
+    y a acompañar cambios importantes como divorcios, duelos o la llegada de un nuevo miembro.`,
     cta: false,
   },
   {
@@ -66,9 +58,7 @@ const RECURSOS = [
     titulo: "Cuidar tu salud mental",
     contenido: `La salud mental es tan importante como la física, pero solemos ignorarla hasta
     que algo falla. Pequeños hábitos diarios, saber reconocer las señales de alerta y tener a
-    alguien con quien hablar marcan una diferencia enorme.
-
-    Pendiente`,
+    alguien con quien hablar marcan una diferencia enorme.`,
     cta: false,
   },
 ];

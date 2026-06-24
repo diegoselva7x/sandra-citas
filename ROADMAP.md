@@ -110,4 +110,4 @@ Necesitan el contenido real de Sandra. Estructurá con placeholders mientras lle
 
 ## Notas
 - Cualquier cambio de esquema = **migración nueva** (`0005_...`), no editar las aplicadas.
-- Mantené `CLAUDE.md` actualizado si tomás una decisión nueva de arquitectura o producto.
+- Documentá cualquier decisión nueva de arquitectura o producto para mantener el contexto del proyecto.
