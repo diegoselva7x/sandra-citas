@@ -65,6 +65,10 @@ const nextConfig: NextConfig = {
   // Imágenes: dominios permitidos (agregar el CDN de fotos si se usa)
   images: {
     remotePatterns: [],
+    // Formatos modernos: AVIF primero (mejor compresión), WebP como fallback
+    formats: ["image/avif", "image/webp"],
+    // Cachear las imágenes optimizadas 1 año (son estáticas, versionadas por hash)
+    minimumCacheTTL: 31536000,
   },
 
   // Suprimir el header X-Powered-By: Next.js

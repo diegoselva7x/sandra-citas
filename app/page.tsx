@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { getActiveServices, getBookingSettings } from "@/app/booking/actions";
 import { formatPrice, waLink } from "@/lib/constants";
+import { BLUR } from "@/lib/image-blur";
 import { InstagramIcon } from "@/components/ui/brand-icons";
 import {
   Clock,
@@ -148,6 +149,8 @@ export default async function HomePage() {
                   alt="Sandra Carpio Monge, psicóloga, en su consultorio"
                   fill
                   priority
+                  placeholder="blur"
+                  blurDataURL={BLUR.principal}
                   sizes="(min-width: 768px) 24rem, 100vw"
                   className="object-cover"
                 />
@@ -171,6 +174,8 @@ export default async function HomePage() {
                   src="/sandra-retrato.jpg"
                   alt="Sandra Carpio Monge, psicóloga"
                   fill
+                  placeholder="blur"
+                  blurDataURL={BLUR.retrato}
                   sizes="(min-width: 768px) 20rem, 100vw"
                   className="object-cover"
                 />

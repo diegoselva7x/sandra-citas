@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { PageHeader } from "@/components/ui/page-header";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import { BLUR } from "@/lib/image-blur";
 import type { Metadata } from "next";
 
 export const revalidate = 86400; // 24h — contenido estático
@@ -51,6 +52,8 @@ export default function SobreMiPage() {
                 alt="Sandra Carpio Monge, psicóloga y psicoterapeuta"
                 fill
                 priority
+                placeholder="blur"
+                blurDataURL={BLUR.principal}
                 sizes="(min-width: 768px) 20rem, 100vw"
                 className="object-cover"
               />
@@ -129,6 +132,8 @@ export default function SobreMiPage() {
                 src="/sandra-sesion.jpg"
                 alt="Sandra Carpio en sesión con un paciente en su consultorio"
                 fill
+                placeholder="blur"
+                blurDataURL={BLUR.sesion}
                 sizes="(min-width: 768px) 24rem, 100vw"
                 className="object-cover"
               />

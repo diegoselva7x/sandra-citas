@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { getActiveServices } from "@/app/booking/actions";
 import { formatPrice } from "@/lib/constants";
+import { BLUR } from "@/lib/image-blur";
 import { Clock } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -36,6 +37,8 @@ export default async function ServiciosPage() {
                 alt="Sesión de psicoterapia con Sandra Carpio en su consultorio"
                 fill
                 priority
+                placeholder="blur"
+                blurDataURL={BLUR.sesion}
                 sizes="(min-width: 768px) 28rem, 100vw"
                 className="object-cover"
               />
