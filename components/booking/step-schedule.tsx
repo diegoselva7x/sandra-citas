@@ -35,8 +35,8 @@ export function StepSchedule({ durationMinutes, selectedSlot, onSelect }: Props)
 
   // Cuando cambia el día seleccionado, carga los slots
   useEffect(() => {
-    setSlots([]);
     startTransition(async () => {
+      setSlots([]);
       const dayStr = formatInTimeZone(selectedDay, TIMEZONE, "yyyy-MM-dd");
       const result = await getAvailableSlots(dayStr, dayStr, durationMinutes);
       setSlots(result);

@@ -105,7 +105,7 @@ export default function TerminosPage() {
           <div className="space-y-3">
             <h2 className="text-lg font-semibold text-foreground">8. Limitación de responsabilidad</h2>
             <p>
-              Este sitio se ofrece "tal cual". No garantizamos disponibilidad ininterrumpida
+              Este sitio se ofrece «tal cual». No garantizamos disponibilidad ininterrumpida
               y no somos responsables por daños derivados del uso del sitio más allá de lo
               permitido por la legislación costarricense aplicable.
             </p>

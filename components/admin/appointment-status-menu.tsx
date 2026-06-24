@@ -81,7 +81,7 @@ export function AppointmentStatusMenu({ appointmentId, currentStatus }: Props) {
       <AlertDialog open={noShowDialog} onOpenChange={setNoShowDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Marcar como "No asistió"</AlertDialogTitle>
+            <AlertDialogTitle>Marcar como «No asistió»</AlertDialogTitle>
             <AlertDialogDescription>
               ¿Querés enviarle un correo empático al paciente invitándolo a reagendar?
             </AlertDialogDescription>
