@@ -157,8 +157,10 @@ Los siguientes datos se gestionan desde el panel admin, no están hardcodeados:
 ## SEO / GEO
 
 - Metadata completa por página (título, descripción, Open Graph, Twitter, canonical, keywords).
-- **JSON-LD `@graph`** en la landing: `WebSite` + `LocalBusiness/MedicalBusiness` + `Person` (señales E-E-A-T).
-- `sitemap.xml`, `robots.txt` y **`llms.txt`** (ficha para motores de IA).
+- **JSON-LD** completo: `@graph` en la landing (`WebSite` + `LocalBusiness/MedicalBusiness` + `Person`), `FAQPage` en `/recursos`, `Service` (`ItemList`) en `/servicios`, `ProfilePage`+`Person` en `/sobre-mi`, y `BreadcrumbList` en todas las páginas internas.
+- H1 con keyword, enlaces internos contextuales, `theme-color`.
+- `sitemap.xml`, `robots.txt` (con bots de IA permitidos) y **`llms.txt`** (ficha para motores de IA).
+- ⚠️ **El sitio aún NO está indexado en Google** (es nuevo; falta darlo de alta). Los pasos para lanzarlo y que aparezca en búsquedas están en **`docs/GUIA-LANZAMIENTO-SEO.md`**.
 
 ## Estado: listo para entregar (código)
 
@@ -177,6 +179,15 @@ Los siguientes datos se gestionan desde el panel admin, no están hardcodeados:
 - Perspectivas personales para los 5 artículos de `/recursos` (hoy con contenido base genérico).
 - Número de colegiatura, horario exacto y dirección textual (van por el admin).
 
-### Dominio y producción
+### Lanzamiento / visibilidad en Google (siguiente fase — ver `docs/GUIA-LANZAMIENTO-SEO.md`)
+El sitio está terminado pero **no aparece en Google todavía** porque es nuevo y no
+se ha dado de alta. Pasos pendientes (configuración, no código), en orden de impacto:
+1. **Google Business Profile** (lo más importante para SEO local — Sandra).
+2. **Decidir el dominio** antes de forzar la indexación (no indexar el `.vercel.app` si se usará el dominio real pronto).
+3. Conectar `psicologasandra.com` + actualizar `NEXT_PUBLIC_SITE_URL` en Vercel.
+4. **Google Search Console**: verificar propiedad, enviar sitemap, solicitar indexación.
+5. Backlinks (LinkedIn, Instagram, directorios) y contenido real de `/recursos`.
+
+### Producción
 - Deploy demo: URL `.vercel.app` (Hobby, gratuito).
 - Producción: dominio `psicologasandra.com`, verificar Resend, Vercel Pro para cron horario.
