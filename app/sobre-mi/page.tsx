@@ -5,6 +5,7 @@ import { Section } from "@/components/ui/section";
 import { PageHeader } from "@/components/ui/page-header";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { BLUR } from "@/lib/image-blur";
+import { BreadcrumbJsonLd } from "@/components/breadcrumb-jsonld";
 import type { Metadata } from "next";
 
 export const revalidate = 86400; // 24h — contenido estático
@@ -77,6 +78,7 @@ export default function SobreMiPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(profileLd) }}
       />
+      <BreadcrumbJsonLd items={[{ name: "Sobre mí", path: "/sobre-mi" }]} />
       <PageHeader
         title="Sandra Carpio Monge"
         subtitle="Psicóloga y psicoterapeuta · Especialista en EMDR · Enfoque integrativo"

@@ -5,6 +5,7 @@ import { Section } from "@/components/ui/section";
 import { PageHeader } from "@/components/ui/page-header";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { LocationMap } from "@/components/location-map";
+import { BreadcrumbJsonLd } from "@/components/breadcrumb-jsonld";
 import { InstagramIcon } from "@/components/ui/brand-icons";
 import { waLink } from "@/lib/constants";
 import { Mail, MessageCircle, MapPin, Clock } from "lucide-react";
@@ -29,6 +30,7 @@ export default async function ContactoPage() {
 
   return (
     <main className="flex flex-col">
+      <BreadcrumbJsonLd items={[{ name: "Contacto", path: "/contacto" }]} />
       <PageHeader
         title="Contacto"
         subtitle="¿Tenés preguntas o querés coordinar algo antes de reservar? Estoy disponible por WhatsApp, email o el formulario de abajo."

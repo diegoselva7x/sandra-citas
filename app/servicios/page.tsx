@@ -7,6 +7,7 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { getActiveServices } from "@/app/booking/actions";
 import { formatPrice } from "@/lib/constants";
 import { BLUR } from "@/lib/image-blur";
+import { BreadcrumbJsonLd } from "@/components/breadcrumb-jsonld";
 import { Clock } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -58,6 +59,7 @@ export default async function ServiciosPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesLd) }}
         />
       )}
+      <BreadcrumbJsonLd items={[{ name: "Servicios", path: "/servicios" }]} />
       <PageHeader
         title="Servicios de psicología"
         subtitle="Elegí el tipo de acompañamiento que mejor se adapte a lo que necesitás."

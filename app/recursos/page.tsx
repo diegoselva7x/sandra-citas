@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { PageHeader } from "@/components/ui/page-header";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import { BreadcrumbJsonLd } from "@/components/breadcrumb-jsonld";
 import type { Metadata } from "next";
 
 export const revalidate = 86400; // 24h — contenido educativo estático
@@ -13,9 +14,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "/recursos" },
 };
 
-const RECURSOS = [
+type Recurso = {
+  id: string;
+  titulo: string;
+  contenido: string;
+  cta?: boolean;
+  link?: { href: string; label: string };
+};
+
+const RECURSOS: Recurso[] = [
   {
     id: "ayuda",
+    link: { href: "/servicios", label: "Ver cómo te puedo acompañar" },
     titulo: "¿Por qué buscar ayuda psicológica?",
     contenido: `Buscar apoyo psicológico no es señal de debilidad, sino de valentía y autoconocimiento.
     Muchas personas esperan hasta estar en crisis para pedir ayuda, cuando en realidad la terapia
@@ -33,6 +43,7 @@ const RECURSOS = [
   },
   {
     id: "pareja",
+    link: { href: "/reservar", label: "Reservar una sesión de pareja" },
     titulo: "Terapia de pareja",
     contenido: `Las relaciones pasan por ciclos y momentos difíciles. La terapia de pareja no
     es solo para cuando hay crisis: también es una herramienta de crecimiento conjunto, de
@@ -47,6 +58,7 @@ const RECURSOS = [
   },
   {
     id: "familia",
+    link: { href: "/reservar", label: "Reservar una sesión" },
     titulo: "Orientación familiar",
     contenido: `Las familias son sistemas vivos: cambian, se reorganizan, atraviesan crisis.
     La terapia familiar ayuda a mejorar la comunicación, a resolver conflictos entre generaciones
@@ -55,6 +67,7 @@ const RECURSOS = [
   },
   {
     id: "salud-mental",
+    link: { href: "/sobre-mi", label: "Conocer mi enfoque terapéutico" },
     titulo: "Cuidar tu salud mental",
     contenido: `La salud mental es tan importante como la física, pero solemos ignorarla hasta
     que algo falla. Pequeños hábitos diarios, saber reconocer las señales de alerta y tener a
@@ -84,6 +97,7 @@ export default function RecursosPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
+      <BreadcrumbJsonLd items={[{ name: "Recursos", path: "/recursos" }]} />
       <PageHeader
         title="Recursos de salud mental"
         subtitle="Información y perspectivas sobre salud mental para que tomes decisiones informadas sobre tu bienestar."
@@ -110,6 +124,16 @@ export default function RecursosPage() {
                   <Button asChild>
                     <Link href="/reservar">Reservar tu primera cita</Link>
                   </Button>
+                )}
+                {recurso.link && (
+                  <p>
+                    <Link
+                      href={recurso.link.href}
+                      className="inline-flex items-center gap-1 text-sm font-medium text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
+                    >
+                      {recurso.link.label} →
+                    </Link>
+                  </p>
                 )}
               </article>
             </ScrollReveal>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { PageHeader } from "@/components/ui/page-header";
+import { BreadcrumbJsonLd } from "@/components/breadcrumb-jsonld";
 import type { Metadata } from "next";
 
 export const revalidate = 86400; // 24h — contenido legal estático
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export default function PrivacidadPage() {
   return (
     <main className="flex flex-col">
+      <BreadcrumbJsonLd items={[{ name: "Política de privacidad", path: "/privacidad" }]} />
       <PageHeader
         title="Política de privacidad"
         subtitle="Última actualización: mayo de 2026"
