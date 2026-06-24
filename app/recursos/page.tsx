@@ -64,10 +64,28 @@ const RECURSOS = [
 ];
 
 export default function RecursosPage() {
+  // FAQPage JSON-LD construido desde los Q&A visibles (citabilidad en IA + rich results)
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: RECURSOS.map((r) => ({
+      "@type": "Question",
+      name: r.titulo,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: r.contenido.replace(/\s+/g, " ").trim(),
+      },
+    })),
+  };
+
   return (
     <main className="flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
       <PageHeader
-        title="Recursos"
+        title="Recursos de salud mental"
         subtitle="Información y perspectivas sobre salud mental para que tomes decisiones informadas sobre tu bienestar."
       />
 

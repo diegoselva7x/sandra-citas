@@ -17,13 +17,49 @@ export const metadata: Metadata = {
   alternates: { canonical: "/servicios" },
 };
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://psicologasandra.com";
+
 export default async function ServiciosPage() {
   const services = await getActiveServices();
 
+  // JSON-LD: cada servicio como Service prestado por Sandra (refuerza SEO/GEO)
+  const servicesLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Servicios de psicología de Sandra Carpio",
+    itemListElement: services.map((s, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Service",
+        name: s.name,
+        ...(s.description ? { description: s.description } : {}),
+        serviceType: "Psicoterapia",
+        provider: {
+          "@type": "Person",
+          "@id": `${SITE}/#sandra`,
+          name: "Sandra Carpio Monge",
+          url: `${SITE}/sobre-mi`,
+        },
+        areaServed: { "@type": "Country", name: "Costa Rica" },
+        availableChannel: {
+          "@type": "ServiceChannel",
+          availableLanguage: "es",
+        },
+      },
+    })),
+  };
+
   return (
     <main className="flex flex-col">
+      {services.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesLd) }}
+        />
+      )}
       <PageHeader
-        title="Servicios"
+        title="Servicios de psicología"
         subtitle="Elegí el tipo de acompañamiento que mejor se adapte a lo que necesitás."
       />
 

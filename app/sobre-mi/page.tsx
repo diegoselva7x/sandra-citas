@@ -34,9 +34,49 @@ const CERTIFICACIONES = [
   "Hipnosis Clínica (UNIBE)",
 ];
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://psicologasandra.com";
+
 export default function SobreMiPage() {
+  // JSON-LD: ProfilePage + Person (mismo @id que la home) con credenciales → E-E-A-T
+  const profileLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    mainEntity: {
+      "@type": "Person",
+      "@id": `${SITE}/#sandra`,
+      name: "Sandra Carpio Monge",
+      jobTitle: "Psicóloga y psicoterapeuta",
+      url: `${SITE}/sobre-mi`,
+      image: `${SITE}/sandra-principal.jpg`,
+      description:
+        "Psicóloga y psicoterapeuta con enfoque integrativo, especialista en EMDR y abordaje del trauma, en Costa Rica.",
+      knowsAbout: [
+        "Psicoterapia",
+        "EMDR",
+        "Trauma",
+        "Ansiedad",
+        "Terapia de pareja",
+        "Terapia familiar",
+        "Terapia Dialéctica Comportamental (DBT)",
+      ],
+      alumniOf: {
+        "@type": "CollegeOrUniversity",
+        name: "Universidad Católica de Costa Rica",
+      },
+      hasCredential: CERTIFICACIONES.map((c) => ({
+        "@type": "EducationalOccupationalCredential",
+        name: c,
+      })),
+      sameAs: ["https://www.instagram.com/sandcarpio"],
+    },
+  };
+
   return (
     <main className="flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profileLd) }}
+      />
       <PageHeader
         title="Sandra Carpio Monge"
         subtitle="Psicóloga y psicoterapeuta · Especialista en EMDR · Enfoque integrativo"

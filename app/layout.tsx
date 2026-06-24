@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
@@ -68,6 +68,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE,
   },
+};
+
+export const viewport: Viewport = {
+  // Color de la barra del navegador en móvil (blanco cálido de la marca)
+  themeColor: "#FCFAF8",
 };
 
 export default function RootLayout({
