@@ -1,6 +1,6 @@
 # Backend de citas — Página web de Sandra
 
-Base del sistema de reservas: base de datos, seguridad, auth, correos y el cron de recordatorios. Pensado para Next.js 15 (App Router) + Supabase + Resend, desplegado en Vercel.
+Base del sistema de reservas: base de datos, seguridad, auth, correos y el cron de recordatorios. Pensado para Next.js 16 (App Router) + Supabase + Resend, desplegado en Vercel.
 
 ## Estructura
 

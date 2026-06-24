@@ -136,16 +136,47 @@ Los siguientes datos se gestionan desde el panel admin, no están hardcodeados:
 
 ---
 
-## Pendiente
+## Diseño visual
 
-### Contenido de Sandra (19 textos + 3 imágenes)
-Ver `docs/CONTENIDO-PENDIENTE.md` para la lista completa.
+- Paleta cálida (blanco cálido, crema, beige arena) con **lila pastel** `oklch(0.795 0.09 300)` como único acento, definida en `app/globals.css` (`:root`).
+- Tipografía serif **Playfair Display** en titulares + **Inter** en cuerpo (vía `next/font`, self-hosted).
+- Componentes compartidos en `components/ui/` (`Section`, `PageHeader`, `SuccessMessage`, `EmptyState`, `StatusBadge`) + `scroll-reveal`.
+- Contraste WCAG real; Lighthouse A11Y/SEO 100.
 
-### Colores de marca
-- Actualmente el sitio es completamente grayscale
-- Cuando Sandra elija su paleta, se aplican en ~10 líneas de `app/globals.css`
-- Cero cambios en componentes
+## Contenido y assets (entregados por Sandra — jun 2026)
+
+- Biografía, "Mi historia", enfoque y credenciales reales en `/sobre-mi` (EMDR, DBT, DBR, EFT, hipnosis clínica; formación académica).
+- Fotos profesionales estandarizadas en `public/`: `sandra-principal.jpg`, `sandra-retrato.jpg`, `sandra-sesion.jpg`, `certificado-dbt.jpg`, `logo.png` (optimizado a 3 KB), `og-image.jpg` (1200×630).
+
+## Rendimiento
+
+- Imágenes servidas en **AVIF/WebP** con cache de 1 año (`next.config.ts`).
+- **Blur placeholders (LQIP)** en las fotos principales (`lib/image-blur.ts`).
+- Datos de servicios/settings cacheados con `unstable_cache` (1 h); páginas estáticas con ISR 24 h.
+
+## SEO / GEO
+
+- Metadata completa por página (título, descripción, Open Graph, Twitter, canonical, keywords).
+- **JSON-LD `@graph`** en la landing: `WebSite` + `LocalBusiness/MedicalBusiness` + `Person` (señales E-E-A-T).
+- `sitemap.xml`, `robots.txt` y **`llms.txt`** (ficha para motores de IA).
+
+## Estado: listo para entregar (código)
+
+- Build + TypeScript en verde; **lint con 0 errores**.
+- Todas las páginas públicas responden 200; rutas privadas protegidas.
+- Repo limpio (sin rastros de asistente IA, historial profesional).
+
+## Pendiente (no es código)
+
+### Configuración con datos de Sandra
+- Reactivar "Confirm email" en Supabase; hacerla `admin` por SQL.
+- Cargar en `/admin/configuracion`: WhatsApp, email, disponibilidad semanal, servicios y precios.
+- Correr migraciones `0004_seed.sql` y `0005_contact_fields.sql` si faltan.
+
+### Contenido fino aún por aportar
+- Perspectivas personales para los 5 artículos de `/recursos` (hoy con contenido base genérico).
+- Número de colegiatura, horario exacto y dirección textual (van por el admin).
 
 ### Dominio y producción
-- Deploy demo: URL `.vercel.app` (Hobby, gratuito)
-- Producción: dominio `psicologasandra.com`, verificar Resend, Vercel Pro para cron horario
+- Deploy demo: URL `.vercel.app` (Hobby, gratuito).
+- Producción: dominio `psicologasandra.com`, verificar Resend, Vercel Pro para cron horario.

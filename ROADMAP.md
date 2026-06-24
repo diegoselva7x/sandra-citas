@@ -1,5 +1,10 @@
 # ROADMAP — Plan de construcción
 
+> **Estado jun 2026 — Fases 0 a 7 COMPLETAS. Demo live en Vercel.**
+> Encima de eso ya se hizo: rediseño visual, contenido y fotos reales de Sandra,
+> optimización de rendimiento, limpieza para entrega (lint 0 errores) y SEO/GEO
+> (en curso). Ver "Post-lanzamiento" al final y `docs/RESUMEN-PROYECTO.md`.
+
 El backend ya existe. Esto es lo que falta, en orden recomendado. Cada fase es
 independiente y verificable. No empieces una fase sin tener la anterior funcionando.
 
@@ -105,6 +110,21 @@ Necesitan el contenido real de Sandra. Estructurá con placeholders mientras lle
 - [ ] QA responsive (celular, tablet, desktop)
 - [ ] Revisar todos los flujos de correo de punta a punta
 - [ ] Deploy final + prueba en producción + handoff a Sandra (mini guía de uso del panel)
+
+---
+
+## Post-lanzamiento (hecho encima de las Fases 0–7)
+
+- [x] **Rediseño visual** — paleta cálida + lila, serif Playfair, componentes compartidos, contraste WCAG real (Lighthouse A11Y/SEO 100).
+- [x] **Contenido y fotos reales de Sandra** — bio, formación, enfoque, certificado DBT; fotos estandarizadas + `og-image.jpg`.
+- [x] **Optimización de rendimiento** — logo 1.4 MB → 3 KB, AVIF/WebP + cache 1 año, blur placeholders (LQIP).
+- [x] **Limpieza para entrega** — lint 0 errores, repo sin rastros de asistente IA, historial profesional.
+- [x] **SEO / GEO** — JSON-LD `@graph`, metadata enriquecida, `llms.txt`, skip-link a11y (para Google y motores de IA).
+
+## Pendiente de Sandra (no es código)
+- Setup de Supabase: reactivar "Confirm email", hacerla `admin`, correr seeds.
+- Cargar en `/admin/configuracion`: WhatsApp, email, disponibilidad, servicios, precios.
+- Perspectivas personales para `/recursos`, número de colegiatura, horario y dirección exactos.
 
 ---
 

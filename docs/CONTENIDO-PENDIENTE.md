@@ -1,6 +1,18 @@
 # Contenido Pendiente — Sandra necesita proveer
 
-Total: **19 textos + 3 archivos de imagen**
+> **Actualización jun 2026 — la mayoría ya está entregado e integrado.**
+>
+> ✅ **Provisto e integrado:** nombre completo (Sandra Carpio Monge), bio y "Mi
+> historia", enfoque terapéutico, formación académica y certificaciones (EMDR,
+> DBT, DBR, EFT, hipnosis), foto profesional (`sandra-principal.jpg` + retrato +
+> sesión), certificado DBT (`certificado-dbt.jpg`) y `og-image.jpg`.
+>
+> 🔲 **Aún pendiente:** perspectivas personales para los 5 artículos de
+> `/recursos` (hoy con contenido base genérico), número de colegiatura, horario
+> de atención exacto y dirección textual exacta. El horario, dirección, WhatsApp,
+> email y servicios se cargan desde `/admin/configuracion` (no requieren código).
+>
+> El detalle original se conserva abajo como referencia.
 
 ---
 
