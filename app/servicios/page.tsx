@@ -5,11 +5,15 @@ import { Section } from "@/components/ui/section";
 import { PageHeader } from "@/components/ui/page-header";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { getActiveServices } from "@/app/booking/actions";
-import { formatPrice } from "@/lib/constants";
+import { formatPrice, SITE_URL } from "@/lib/constants";
 import { BLUR } from "@/lib/image-blur";
 import { BreadcrumbJsonLd } from "@/components/breadcrumb-jsonld";
 import { Clock } from "lucide-react";
 import type { Metadata } from "next";
+
+// Lee servicios y ajustes de la base: se renderiza en cada visita para que
+// lo que Sandra cambia en el panel salga al toque.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Servicios",
@@ -18,7 +22,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/servicios" },
 };
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://psicologasandra.com";
+const SITE = SITE_URL;
 
 export default async function ServiciosPage() {
   const services = await getActiveServices();

@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 };
 import { redirect } from "next/navigation";
 import { getMyAppointments, getMyProfile } from "./actions";
+import { getBookingSettings } from "@/app/booking/actions";
 import { AccountTabs } from "@/components/account/account-tabs";
 
 export default async function MiCuentaPage() {
@@ -17,9 +18,10 @@ export default async function MiCuentaPage() {
 
   if (!user) redirect("/login");
 
-  const [appointments, profile] = await Promise.all([
+  const [appointments, profile, settings] = await Promise.all([
     getMyAppointments(),
     getMyProfile(),
+    getBookingSettings(),
   ]);
 
   if (!profile) redirect("/login");
@@ -44,7 +46,12 @@ export default async function MiCuentaPage() {
         </p>
       </div>
 
-      <AccountTabs upcoming={upcoming} past={past} profile={profile} />
+      <AccountTabs
+        upcoming={upcoming}
+        past={past}
+        profile={profile}
+        whatsapp={settings?.whatsapp_number ?? null}
+      />
     </main>
   );
 }

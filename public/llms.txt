@@ -18,17 +18,17 @@
 - Sesiones virtuales: por videollamada; el enlace se envía por WhatsApp antes de la cita
 
 ## Páginas principales
-- Inicio: https://psicologasandra.com/
-- Sobre mí: https://psicologasandra.com/sobre-mi
-- Servicios: https://psicologasandra.com/servicios
-- Recursos (salud mental): https://psicologasandra.com/recursos
-- Contacto: https://psicologasandra.com/contacto
-- Reservar cita: https://psicologasandra.com/reservar
+- Inicio: https://sandracarpio.com/
+- Sobre mí: https://sandracarpio.com/sobre-mi
+- Servicios: https://sandracarpio.com/servicios
+- Recursos (salud mental): https://sandracarpio.com/recursos
+- Contacto: https://sandracarpio.com/contacto
+- Reservar cita: https://sandracarpio.com/reservar
 
 ## Cómo agendar
 Las citas se reservan en línea desde la página "Reservar cita", eligiendo
 servicio, modalidad y horario disponible. También se puede consultar por WhatsApp.
 
 ## Legal
-- Política de privacidad: https://psicologasandra.com/privacidad
-- Términos de uso: https://psicologasandra.com/terminos
+- Política de privacidad: https://sandracarpio.com/privacidad
+- Términos de uso: https://sandracarpio.com/terminos

@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:preview": "opennextjs-cloudflare preview",
+    "cf:deploy": "opennextjs-cloudflare deploy",
+    "cf:typegen": "wrangler types --config wrangler.jsonc",
+    "cron:deploy": "wrangler deploy --config workers/cron/wrangler.jsonc"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
@@ -19,7 +24,7 @@
     "date-fns": "^4.4.0",
     "date-fns-tz": "^3.2.0",
     "lucide-react": "^1.17.0",
-    "next": "16.2.6",
+    "next": "^16.3.4",
     "radix-ui": "^1.4.3",
     "react": "19.2.4",
     "react-big-calendar": "^1.19.6",
@@ -34,13 +39,16 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260910.1",
+    "@opennextjs/cloudflare": "^1.20.6",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.6",
+    "eslint-config-next": "^16.3.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.130.0"
   }
 }

@@ -20,7 +20,7 @@ import { Plus, Calendar, CalendarDays } from "lucide-react";
 
 const STATUS_OPTIONS = [
   { value: "all", label: "Todas" },
-  { value: "confirmed", label: "Confirmadas" },
+  { value: "confirmed", label: "Confirmadas (Pendientes)" },
   { value: "completed", label: "Completadas" },
   { value: "no_show", label: "No asistió" },
   { value: "cancelled", label: "Canceladas" },
@@ -49,7 +49,7 @@ export function CitasClient({ appointments, services, filters }: Props) {
   };
 
   return (
-    <div className="p-6 space-y-4 max-w-5xl">
+    <div className="mx-auto max-w-6xl space-y-4 p-6">
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <h1 className="text-2xl font-semibold tracking-tight">Citas</h1>
         <div className="flex gap-2">

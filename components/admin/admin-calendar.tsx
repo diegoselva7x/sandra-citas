@@ -90,8 +90,8 @@ export function AdminCalendar({ appointments }: Props) {
       color: "#fff",
       borderRadius: "4px",
       border: "none",
-      fontSize: "12px",
-      padding: "1px 4px",
+      fontSize: "0.9375rem",
+      padding: "3px 6px",
     },
   });
 

@@ -7,8 +7,8 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { BLUR } from "@/lib/image-blur";
 import { BreadcrumbJsonLd } from "@/components/breadcrumb-jsonld";
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
-export const revalidate = 86400; // 24h — contenido estático
 
 export const metadata: Metadata = {
   title: "Sobre mí",
@@ -35,7 +35,7 @@ const CERTIFICACIONES = [
   "Hipnosis Clínica (UNIBE)",
 ];
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://psicologasandra.com";
+const SITE = SITE_URL;
 
 export default function SobreMiPage() {
   // JSON-LD: ProfilePage + Person (mismo @id que la home) con credenciales → E-E-A-T

@@ -100,6 +100,89 @@
 
 /* Dark mode no utilizado en este proyecto */
 
+/* ---------------------------------------------------------------------------
+   Escala tipográfica del panel de administración.
+
+   Sandra no ve bien, así que el panel necesita bastante más cuerpo que el sitio
+   público. En Tailwind v4 `text-sm` compila a `font-size: var(--text-sm)`, así
+   que redefinir esas variables dentro de un scope agranda las ~80 clases del
+   admin de una sola vez, sin tocar el sitio público ni fila por fila.
+
+   Los line-height por defecto de v4 son ratios sin unidad, así que acompañan
+   solos al nuevo tamaño.
+
+   Ojo: los tamaños arbitrarios (text-[10px], text-[0.8rem]) NO leen estas
+   variables. Esos están corregidos a mano en button.tsx y admin/layout.tsx.
+   --------------------------------------------------------------------------- */
+.admin-scale {
+  --text-xs: 0.9375rem;   /* 12 → 15px */
+  --text-sm: 1.0625rem;   /* 14 → 17px */
+  --text-base: 1.1875rem; /* 16 → 19px */
+  --text-lg: 1.3125rem;   /* 18 → 21px */
+  --text-xl: 1.5rem;      /* 20 → 24px */
+  --text-2xl: 2rem;       /* 24 → 32px */
+  --text-3xl: 2.25rem;    /* 30 → 36px */
+}
+
+/* Los primitivos de shadcn traen su tamaño fijado en la clase (h-7, text-xs,
+   text-[0.8rem]) y no leen las variables de arriba. Se corrigen por data-slot,
+   que ya viene puesto, para no alterar el sitio público.
+
+   Los botones del admin usan size="sm" en todos lados: 28px de alto y 12.8px de
+   letra. Además de ilegible, es difícil de atinar con el dedo — 40px es el
+   mínimo cómodo para un objetivo táctil. */
+.admin-scale [data-slot="button"] {
+  height: 2.5rem;
+  font-size: 1rem;
+  padding-inline: 0.875rem;
+  gap: 0.5rem;
+}
+.admin-scale [data-slot="button"][data-size^="icon"] {
+  width: 2.5rem;
+  padding-inline: 0;
+}
+.admin-scale [data-slot="button"] svg:not([class*="size-"]) {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.admin-scale [data-slot="badge"] {
+  height: auto;
+  min-height: 1.75rem;
+  font-size: var(--text-xs);
+  padding: 0.25rem 0.625rem;
+}
+
+.admin-scale [data-slot="input"] {
+  height: 2.5rem;
+  font-size: var(--text-sm);
+}
+
+.admin-scale [data-slot="label"] {
+  font-size: var(--text-sm);
+}
+
+.admin-scale [data-slot="tabs-trigger"] {
+  font-size: var(--text-sm);
+  padding-block: 0.5rem;
+}
+
+/* Los <select> nativos de la pantalla de configuración */
+.admin-scale select {
+  font-size: var(--text-sm);
+}
+
+/* react-big-calendar trae su propio CSS con tamaños chicos */
+.admin-scale .rbc-calendar,
+.admin-scale .rbc-toolbar button,
+.admin-scale .rbc-header,
+.admin-scale .rbc-date-cell {
+  font-size: var(--text-sm);
+}
+.admin-scale .rbc-toolbar button {
+  padding: 0.5rem 0.875rem;
+}
+
 /* Mini calendario: punto indicador en días con citas */
 .has-appointment {
   position: relative;

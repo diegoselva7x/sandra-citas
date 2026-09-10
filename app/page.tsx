@@ -2,10 +2,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { getActiveServices, getBookingSettings } from "@/app/booking/actions";
-import { formatPrice, waLink } from "@/lib/constants";
+import {
+  getActiveServices,
+  getBookingSettings,
+  getPublicAvailability,
+} from "@/app/booking/actions";
+import { formatPrice, waLink, SITE_URL } from "@/lib/constants";
 import { BLUR } from "@/lib/image-blur";
 import { InstagramIcon } from "@/components/ui/brand-icons";
+
+// Lee servicios y ajustes de la base: se renderiza en cada visita para que
+// lo que Sandra cambia en el panel salga al toque.
+export const dynamic = "force-dynamic";
 import {
   Clock,
   Monitor,
@@ -16,7 +24,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://psicologasandra.com";
+const SITE = SITE_URL;
 
 // Vista previa de recursos para la landing
 const RECURSOS_PREVIEW = [
@@ -41,9 +49,10 @@ const RECURSOS_PREVIEW = [
 ];
 
 export default async function HomePage() {
-  const [services, settings] = await Promise.all([
+  const [services, settings, disponibilidad] = await Promise.all([
     getActiveServices(),
     getBookingSettings(),
+    getPublicAvailability(),
   ]);
 
   const whatsappHref = waLink(
@@ -54,12 +63,32 @@ export default async function HomePage() {
   // Datos del consultorio (fallbacks reales por si settings aún no está poblado en DB)
   const telephone = settings?.whatsapp_number ?? "+506 8922 9507";
   const instagram = settings?.instagram_url ?? "https://www.instagram.com/psicologaclinica.sandra.carpio";
-  const street = settings?.address ?? "Cartago, Provincia de Cartago, Costa Rica";
   const lat = settings?.latitude ?? 9.8612814;
   const lng = settings?.longitude ?? -83.9111481;
 
   // sameAs: perfiles sociales verificables (refuerza E-E-A-T y entidad)
   const sameAs = [instagram].filter(Boolean) as string[];
+
+  // Schema.org pide el teléfono en E.164, sin espacios ni guiones.
+  const telephoneE164 = `+${telephone.replace(/[^0-9]/g, "")}`;
+
+  // Horario de atención derivado de availability_rules, no escrito a mano: si
+  // Sandra cambia su horario en el panel, Google ve el cambio sin tocar código.
+  const DIAS_SCHEMA = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const openingHours = disponibilidad.map((r) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: `https://schema.org/${DIAS_SCHEMA[r.day_of_week]}`,
+    opens: r.start_time.slice(0, 5),
+    closes: r.end_time.slice(0, 5),
+  }));
 
   // Persona (autora) — señal de E-E-A-T
   const person = {
@@ -83,19 +112,27 @@ export default async function HomePage() {
 
   // Negocio local / consultorio
   const business = {
-    "@type": ["LocalBusiness", "MedicalBusiness"],
+    // "Psychologist" es el tipo exacto de schema.org para esta actividad y la
+    // señal de categoría más directa que existe; los otros dos quedan como
+    // respaldo genérico para consumidores que no lo entiendan.
+    "@type": ["Psychologist", "LocalBusiness", "MedicalBusiness"],
     "@id": SITE,
     name: "Sandra Carpio Monge · Psicóloga",
     description:
-      "Psicología y psicoterapia individual, de pareja y familiar en Costa Rica. Enfoque integrativo con formación en trauma y certificación en EMDR. Modalidad presencial y virtual.",
+      "Psicología y psicoterapia individual, de pareja y familiar en Cartago, Costa Rica. Enfoque integrativo con formación en trauma y certificación en EMDR. Modalidad presencial y virtual.",
     url: SITE,
     image: `${SITE}/og-image.jpg`,
     priceRange: "$$",
-    telephone,
+    telephone: telephoneE164,
     ...(settings?.contact_email ? { email: settings.contact_email } : {}),
+    medicalSpecialty: "Psychiatric",
+    knowsLanguage: "es-CR",
+    ...(openingHours.length ? { openingHoursSpecification: openingHours } : {}),
     address: {
       "@type": "PostalAddress",
-      streetAddress: street,
+      // streetAddress recibía "Cartago, Provincia de Cartago, Costa Rica", que
+      // repetía la ciudad dentro del campo de calle y ensuciaba el NAP.
+      ...(settings?.address ? { streetAddress: settings.address } : {}),
       addressLocality: "Cartago",
       addressRegion: "Cartago",
       addressCountry: "CR",
@@ -107,10 +144,11 @@ export default async function HomePage() {
     },
     ...(settings?.maps_url ? { hasMap: settings.maps_url } : {}),
     ...(sameAs.length ? { sameAs } : {}),
-    areaServed: {
-      "@type": "Country",
-      name: "Costa Rica",
-    },
+    areaServed: [
+      { "@type": "City", name: "Cartago" },
+      { "@type": "AdministrativeArea", name: "Provincia de Cartago" },
+      { "@type": "Country", name: "Costa Rica" },
+    ],
     availableLanguage: "es",
     founder: { "@id": `${SITE}/#sandra` },
     hasOfferCatalog: {

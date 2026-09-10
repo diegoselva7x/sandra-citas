@@ -39,8 +39,16 @@ export interface Appointment {
   reminder_sent_at: string | null;
   cancelled_at: string | null;
   cancellation_reason: string | null;
+  /** Cancelada con menos de 12 h de antelación: Sandra decide si la cobra. */
+  late_cancellation: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface AvailabilityRule {
+  day_of_week: number; // 0 = domingo … 6 = sábado
+  start_time: string;  // "HH:MM:SS", hora local de Costa Rica
+  end_time: string;
 }
 
 export interface AvailabilitySlot {

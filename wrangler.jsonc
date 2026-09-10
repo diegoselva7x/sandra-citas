@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "sandra-citas",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Habilita el optimizador de imágenes de Cloudflare, para que next/image siga
+  // sirviendo AVIF/WebP como en Vercel en vez de tener que usar `unoptimized`.
+  "images": {
+    "binding": "IMAGES"
+  },
+  // Rate limiting compartido entre isolates. El Map en memoria que había antes
+  // no limita nada en Workers: cada isolate tiene el suyo y se recicla solo.
+  "kv_namespaces": [
+    {
+      "binding": "RATE_LIMIT",
+      "id": "0d7e3fac5f204d55bd76ac91f3871733"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

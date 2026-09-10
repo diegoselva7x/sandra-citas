@@ -3,7 +3,19 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { sendMissedYouEmail } from "@/lib/email/send";
+import {
+  sendMissedYouEmail,
+  sendCancellationEmail,
+  sendAppointmentConfirmation,
+  sinBloquear,
+} from "@/lib/email/send";
+import { supabaseAdmin } from "@/lib/supabase/admin";
+import {
+  inicioDelDiaCR,
+  finDelDiaCR,
+  inicioDeSemanaCR,
+  finDeSemanaCR,
+} from "@/lib/time";
 import type { Profile, ServiceType, Settings } from "@/lib/types";
 
 export interface AdminAppointment {
@@ -33,25 +45,20 @@ export interface PatientWithCount {
 export async function getDashboardData() {
   const supabase = await createClient();
 
-  const now = new Date();
-  const todayStart = new Date(now);
-  todayStart.setHours(0, 0, 0, 0);
-  const todayEnd = new Date(now);
-  todayEnd.setHours(23, 59, 59, 999);
+  // Anclado a la hora de Costa Rica: el servidor corre en UTC y setHours() daría
+  // la medianoche de Londres, desfasando "hoy" seis horas.
+  const todayStart = inicioDelDiaCR();
+  const todayEnd = finDelDiaCR();
+  const weekStart = inicioDeSemanaCR();
+  const weekEnd = finDeSemanaCR();
 
-  const weekStart = new Date(now);
-  weekStart.setDate(now.getDate() - now.getDay());
-  weekStart.setHours(0, 0, 0, 0);
-  const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekStart.getDate() + 6);
-  weekEnd.setHours(23, 59, 59, 999);
+  const CAMPOS =
+    "id, starts_at, ends_at, modality, status, client_id, service_type_id, service_types(name, duration_minutes), profiles!appointments_client_id_fkey(full_name, email, phone)";
 
-  const [todayResult, weekResult] = await Promise.all([
+  const [todayResult, weekResult, proximasResult] = await Promise.all([
     supabase
       .from("appointments")
-      .select(
-        "id, starts_at, ends_at, modality, status, client_id, service_type_id, service_types(name, duration_minutes), profiles!appointments_client_id_fkey(full_name, email, phone)",
-      )
+      .select(CAMPOS)
       .gte("starts_at", todayStart.toISOString())
       .lte("starts_at", todayEnd.toISOString())
       .neq("status", "cancelled")
@@ -61,13 +68,24 @@ export async function getDashboardData() {
       .select("id, status")
       .gte("starts_at", weekStart.toISOString())
       .lte("starts_at", weekEnd.toISOString()),
+    // Lo que viene después de hoy: sin esto el panel queda vacío la mayoría de
+    // los días, que era justo el problema.
+    supabase
+      .from("appointments")
+      .select(CAMPOS)
+      .gt("starts_at", todayEnd.toISOString())
+      .neq("status", "cancelled")
+      .order("starts_at")
+      .limit(8),
   ]);
 
   const todayCitas = (todayResult.data as unknown as AdminAppointment[]) ?? [];
+  const proximasCitas = (proximasResult.data as unknown as AdminAppointment[]) ?? [];
   const weekCitas = weekResult.data ?? [];
 
   return {
     todayCitas,
+    proximasCitas,
     stats: {
       totalWeek: weekCitas.length,
       confirmedToday: todayCitas.filter((c) => c.status === "confirmed").length,
@@ -153,29 +171,48 @@ const updateStatusSchema = z.object({
   id: z.string().uuid(),
   status: z.enum(validStatuses),
   sendNoShowEmail: z.boolean().optional(),
+  reason: z.string().max(300).optional(),
 });
 
 export async function updateAppointmentStatus(
   id: string,
   status: (typeof validStatuses)[number],
   sendNoShowEmail = false,
+  reason?: string,
 ): Promise<{ error?: string }> {
-  const parsed = updateStatusSchema.safeParse({ id, status, sendNoShowEmail });
+  const parsed = updateStatusSchema.safeParse({ id, status, sendNoShowEmail, reason });
   if (!parsed.success) return { error: "Estado inválido." };
 
-  const { id: safeId, status: safeStatus, sendNoShowEmail: safeNoShow } = parsed.data;
+  const {
+    id: safeId,
+    status: safeStatus,
+    sendNoShowEmail: safeNoShow,
+    reason: safeReason,
+  } = parsed.data;
 
   const supabase = await createClient();
   const updateData: Record<string, unknown> = { status: safeStatus };
   if (safeStatus === "cancelled") {
     updateData.cancelled_at = new Date().toISOString();
+    updateData.cancellation_reason = safeReason ?? "Cancelada por Sandra";
   }
 
   const { error } = await supabase.from("appointments").update(updateData).eq("id", safeId);
   if (error) return { error: "No se pudo actualizar el estado." };
 
   if (safeStatus === "no_show" && safeNoShow) {
-    await sendMissedYouEmail({ appointmentId: safeId }).catch(() => {});
+    await sinBloquear(
+      sendMissedYouEmail({ appointmentId: safeId }),
+      `te extrañamos de la cita ${safeId}`,
+    );
+  }
+
+  // Si Sandra cancela desde el panel, el paciente se tiene que enterar.
+  if (safeStatus === "cancelled") {
+    await sinBloquear(
+      sendCancellationEmail({ appointmentId: safeId }),
+      `cancelación (admin) de la cita ${safeId}`,
+    );
   }
 
   revalidatePath("/admin/citas");
@@ -233,9 +270,17 @@ export async function createManualAppointment(
     .single();
 
   if (error) return { error: "No se pudo crear la cita. Verificá que el horario esté disponible." };
+
+  const nuevaId = (data as { id: string }).id;
+  // La creación manual también confirma por correo, igual que una reserva web.
+  await sinBloquear(
+    sendAppointmentConfirmation({ appointmentId: nuevaId }),
+    `confirmación de la cita manual ${nuevaId}`,
+  );
+
   revalidatePath("/admin/citas");
   revalidatePath("/admin");
-  return { id: (data as { id: string }).id };
+  return { id: nuevaId };
 }
 
 // Sanitiza el término de búsqueda: elimina caracteres que podrían
@@ -246,6 +291,87 @@ function sanitizeSearch(raw: string): string {
     .trim()
     .slice(0, 100) // longitud máxima
     .replace(/[%_\\]/g, "\\$&"); // escapar wildcards de LIKE
+}
+
+const createPatientSchema = z.object({
+  fullName: z.string().min(2, "Ingresá el nombre completo"),
+  email: z.string().email("Correo inválido"),
+  phone: z
+    .string()
+    .min(8, "Teléfono inválido")
+    .regex(/^[0-9+\-\s()]+$/, "Teléfono inválido"),
+  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+});
+
+/**
+ * Crea un paciente desde el panel, para los que agendan por WhatsApp.
+ *
+ * Una cita exige un profile, y todo profile cuelga de un usuario de auth
+ * (el trigger handle_new_user es el único que los crea). Así que se crea el
+ * usuario con la API de administración y el trigger hace el resto.
+ *
+ * `email_confirm: true` marca el correo como verificado sin mandarle nada:
+ * el paciente no tiene que hacer ningún paso. Después puede entrar con la
+ * contraseña que Sandra le pase, o recuperarla desde "olvidé mi contraseña".
+ *
+ * OJO: supabaseAdmin salta RLS, así que acá el rol se verifica a mano.
+ */
+export async function createPatient(
+  input: unknown,
+): Promise<{ error?: string; patient?: PatientWithCount }> {
+  const parsed = createPatientSchema.safeParse(input);
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Datos inválidos" };
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "No autenticado." };
+
+  const { data: perfil } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+  if ((perfil as { role?: string } | null)?.role !== "admin") {
+    return { error: "No autorizado." };
+  }
+
+  const { fullName, email, phone, password } = parsed.data;
+
+  const { data: creado, error } = await supabaseAdmin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true, // activa la cuenta sin enviar correo de verificación
+    user_metadata: { full_name: fullName, phone },
+  });
+
+  if (error) {
+    const yaExiste =
+      error.message.toLowerCase().includes("already") ||
+      error.message.toLowerCase().includes("registered");
+    return {
+      error: yaExiste
+        ? "Ya hay una cuenta con ese correo. Buscala en el buscador de arriba."
+        : `No se pudo crear el paciente: ${error.message}`,
+    };
+  }
+
+  const id = creado.user?.id;
+  if (!id) return { error: "No se pudo crear el paciente." };
+
+  revalidatePath("/admin/pacientes");
+
+  return {
+    patient: {
+      id,
+      full_name: fullName,
+      email,
+      phone,
+      created_at: new Date().toISOString(),
+      appointment_count: 0,
+    },
+  };
 }
 
 export async function getPatients(search?: string): Promise<PatientWithCount[]> {

@@ -1,6 +1,6 @@
 export default function AdminLoading() {
   return (
-    <div className="flex-1 p-6 space-y-6 animate-pulse">
+    <div className="mx-auto max-w-6xl animate-pulse space-y-6 p-6">
       <div className="h-7 bg-muted rounded w-40" />
       {/* Tarjetas de estadísticas */}
       <div className="grid gap-4 sm:grid-cols-3">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -13,9 +14,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function RegistroPage() {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   const {
@@ -33,30 +34,12 @@ export default function RegistroPage() {
       if (result.error) {
         setServerError(result.error);
       } else {
-        setSuccess(true);
+        // Sin paso de verificación: signUp ya dejó la sesión abierta.
+        router.push("/reservar");
+        router.refresh();
       }
     });
   };
-
-  if (success) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Revisá tu correo</CardTitle>
-          <CardDescription>
-            Te enviamos un link de verificación. Hacé click en el link del correo para activar tu
-            cuenta y poder reservar tu primera cita.
-          </CardDescription>
-        </CardHeader>
-        <CardFooter>
-          <p className="text-sm text-muted-foreground">
-            ¿No lo ves?{" "}
-            <span className="text-foreground">Revisá la carpeta de spam.</span>
-          </p>
-        </CardFooter>
-      </Card>
-    );
-  }
 
   return (
     <Card>
@@ -150,7 +133,7 @@ export default function RegistroPage() {
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
         <Button type="submit" form="registro-form" className="w-full" disabled={isPending || !termsAccepted}>
-          {isPending ? "Creando cuenta…" : "Crear cuenta"}
+          {isPending ? "Creando tu cuenta…" : "Crear cuenta"}
         </Button>
         <p className="text-sm text-muted-foreground text-center">
           ¿Ya tenés cuenta?{" "}

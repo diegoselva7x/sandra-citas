@@ -14,10 +14,47 @@ import * as React from "react";
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
-// DEMO: usa onboarding@resend.dev (solo llega al email del dueño de la cuenta Resend).
-// PRODUCCIÓN: cambiar a "Sandra · Citas <citas@psicologasandra.com>" tras verificar dominio en Resend.
-const FROM = "Sandra · Citas <onboarding@resend.dev>";
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+// Remitente sobre el dominio verificado en Resend. Las respuestas van al Gmail
+// que Sandra sí revisa: nadie contesta a una casilla que no existe.
+const FROM = "Sandra Carpio · Citas <citas@sandracarpio.com>";
+const REPLY_TO = "sandracarpio@gmail.com";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://sandracarpio.com";
+
+/**
+ * Envía y verifica el resultado.
+ *
+ * El SDK de Resend NO lanza excepciones: devuelve `{ data, error }`. Si nadie
+ * inspecciona `error`, un 403 por dominio sin verificar es indistinguible de un
+ * envío exitoso, y el fallo se vuelve invisible. Por eso todo pasa por acá.
+ */
+async function enviar({
+  to,
+  subject,
+  html,
+  tipo,
+}: {
+  to: string;
+  subject: string;
+  html: string;
+  tipo: string;
+}) {
+  const { data, error } = await resend.emails.send({
+    from: FROM,
+    replyTo: REPLY_TO,
+    to,
+    subject,
+    html,
+  });
+
+  if (error) {
+    const detalle = `${error.name} (${error.statusCode ?? "sin código"}): ${error.message}`;
+    console.error(`[email] falló "${tipo}" hacia ${to} — ${detalle}`);
+    throw new Error(`No se pudo enviar el correo "${tipo}": ${detalle}`);
+  }
+
+  console.info(`[email] "${tipo}" enviado a ${to} (id ${data?.id})`);
+  return data;
+}
 
 function fecha(iso: string): string {
   return formatInTimeZone(
@@ -56,6 +93,20 @@ async function cfg() {
   return data;
 }
 
+/**
+ * Ejecuta un envío sin bloquear el flujo principal, pero dejando rastro si falla.
+ *
+ * Un correo perdido no debe tumbar una reserva; tampoco debe desaparecer en
+ * silencio, que es justo lo que hacían los `.catch(() => {})` que esto reemplaza.
+ */
+export async function sinBloquear(tarea: Promise<unknown>, contexto: string) {
+  try {
+    await tarea;
+  } catch (e) {
+    console.error(`[email] ${contexto}:`, e instanceof Error ? e.message : e);
+  }
+}
+
 // --------- IMPORTANTE: asuntos neutrales, sin la palabra "psicología" ---------
 // La gente comparte dispositivos. Nada en el asunto debe delatar el motivo.
 
@@ -68,7 +119,7 @@ export async function sendWelcomeEmail({ to, name }: { to: string; name: string 
       whatsapp: settings?.whatsapp_number,
     }),
   );
-  await resend.emails.send({ from: FROM, to, subject: "Tu cuenta está lista", html });
+  await enviar({ to, subject: "Tu cuenta está lista", html, tipo: "bienvenida" });
 }
 
 export async function sendAppointmentConfirmation({
@@ -94,11 +145,11 @@ export async function sendAppointmentConfirmation({
     }),
   );
 
-  await resend.emails.send({
-    from: FROM,
+  await enviar({
     to: cita.profiles.email,
     subject: rescheduled ? "Tu cita fue reagendada" : "Confirmación de tu cita",
     html,
+    tipo: rescheduled ? "reagendada" : "confirmación de cita",
   });
 }
 
@@ -118,11 +169,11 @@ export async function notifyAdminNewAppointment({ appointmentId }: { appointment
     }),
   );
 
-  await resend.emails.send({
-    from: FROM,
+  await enviar({
     to: settings.contact_email,
     subject: "Nueva cita agendada",
     html,
+    tipo: "aviso a Sandra",
   });
 }
 
@@ -140,11 +191,11 @@ export async function sendCancellationEmail({ appointmentId }: { appointmentId: 
     }),
   );
 
-  await resend.emails.send({
-    from: FROM,
+  await enviar({
     to: cita.profiles.email,
     subject: "Tu cita fue cancelada",
     html,
+    tipo: "cancelación",
   });
 }
 
@@ -166,11 +217,11 @@ export async function sendReminder(cita: {
     }),
   );
 
-  await resend.emails.send({
-    from: FROM,
+  await enviar({
     to: cita.profiles.email,
     subject: "Recordatorio de tu cita de mañana",
     html,
+    tipo: "recordatorio",
   });
 }
 
@@ -187,10 +238,10 @@ export async function sendMissedYouEmail({ appointmentId }: { appointmentId: str
     }),
   );
 
-  await resend.emails.send({
-    from: FROM,
+  await enviar({
     to: cita.profiles.email,
     subject: "Te extrañamos en tu sesión",
     html,
+    tipo: "te extrañamos",
   });
 }

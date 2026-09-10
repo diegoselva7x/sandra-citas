@@ -3,6 +3,11 @@
  * Centralizadas aquí para evitar duplicación.
  */
 
+// URL pública del sitio. Vive acá y no repetida en cada página porque el
+// fallback alimenta los canonical, el sitemap, los og:url y los @id del JSON-LD:
+// si apunta a un dominio que no resuelve, Google directamente no indexa.
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://sandracarpio.com";
+
 // Navegación principal — compartida entre header, footer y mobile-nav
 export const NAV_LINKS = [
   { href: "/sobre-mi", label: "Sobre mí" },
