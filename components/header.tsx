@@ -3,6 +3,7 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
+import { LayoutDashboard, LogOut, User } from "lucide-react";
 import { MobileNav } from "./mobile-nav";
 import { NavLinks } from "./nav-links";
 import { NAV_LINKS } from "@/lib/constants";
@@ -54,21 +55,22 @@ export default async function Header() {
           {user ? (
             <>
               {isAdmin && (
-                <Link
-                  href="/admin"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2"
-                >
-                  Admin
-                </Link>
+                <Button asChild variant="secondary" size="sm">
+                  <Link href="/admin">
+                    <LayoutDashboard aria-hidden="true" />
+                    Admin
+                  </Link>
+                </Button>
               )}
-              <Link
-                href="/mi-cuenta"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2"
-              >
-                {name?.split(" ")[0] ?? "Mi cuenta"}
-              </Link>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/mi-cuenta">
+                  <User aria-hidden="true" />
+                  {name?.split(" ")[0] ?? "Mi cuenta"}
+                </Link>
+              </Button>
               <form action={signOut}>
                 <Button type="submit" variant="outline" size="sm">
+                  <LogOut aria-hidden="true" />
                   Salir
                 </Button>
               </form>
