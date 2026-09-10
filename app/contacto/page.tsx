@@ -12,6 +12,10 @@ import { Mail, MessageCircle, MapPin, Clock } from "lucide-react";
 import ContactForm from "./contact-form";
 import type { Metadata } from "next";
 
+// Lee servicios y ajustes de la base: se renderiza en cada visita para que
+// lo que Sandra cambia en el panel salga al toque.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Contacto",
   description:

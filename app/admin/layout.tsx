@@ -33,9 +33,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const name = (profile as Pick<Profile, "full_name"> | null)?.full_name ?? "Admin";
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)]">
+    <div className="admin-scale flex min-h-[calc(100vh-3.5rem)]">
       {/* Sidebar desktop */}
-      <aside className="hidden md:flex w-56 flex-col border-r bg-card shrink-0">
+      <aside className="hidden md:flex w-64 flex-col border-r bg-card shrink-0">
         <div className="px-4 py-5 border-b">
           <p className="text-xs text-muted-foreground">Panel de administración</p>
           <p className="font-medium text-sm mt-0.5 truncate">{name}</p>
@@ -45,9 +45,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+              className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
             >
-              <Icon className="w-4 h-4 shrink-0" />
+              <Icon className="w-5 h-5 shrink-0" />
               {label}
             </Link>
           ))}
@@ -60,16 +60,16 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <Link
             key={href}
             href={href}
-            className="flex flex-1 flex-col items-center gap-0.5 py-2 text-muted-foreground hover:text-foreground transition-colors"
+            className="flex flex-1 flex-col items-center gap-1 py-2.5 text-muted-foreground hover:text-foreground transition-colors"
           >
             <Icon className="w-5 h-5" />
-            <span className="text-[10px]">{label}</span>
+            <span className="text-xs">{label}</span>
           </Link>
         ))}
       </div>
 
       {/* Contenido principal */}
-      <main className="flex-1 overflow-auto pb-16 md:pb-0">{children}</main>
+      <main className="flex-1 overflow-auto pb-20 md:pb-0">{children}</main>
     </div>
   );
 }

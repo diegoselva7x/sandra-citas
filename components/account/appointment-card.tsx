@@ -10,14 +10,16 @@ import { Button } from "@/components/ui/button";
 import { CancelDialog } from "./cancel-dialog";
 import { RescheduleDialog } from "./reschedule-dialog";
 import { STATUS_LABEL, STATUS_VARIANT } from "@/lib/constants";
+import { esCancelacionTardia, HORAS_MINIMAS_CANCELACION } from "@/lib/time";
 import { CalendarDays, Clock, MapPin, Monitor } from "lucide-react";
 
 interface Props {
   appointment: AppointmentWithService;
   upcoming: boolean;
+  whatsapp: string | null;
 }
 
-export function AppointmentCard({ appointment, upcoming }: Props) {
+export function AppointmentCard({ appointment, upcoming, whatsapp }: Props) {
   const [cancelOpen, setCancelOpen] = useState(false);
   const [rescheduleOpen, setRescheduleOpen] = useState(false);
 
@@ -29,6 +31,13 @@ export function AppointmentCard({ appointment, upcoming }: Props) {
   );
 
   const duration = appointment.service_types?.duration_minutes ?? 50;
+
+  // Dentro de las 12 h previas la cita ya no se puede soltar sola: hay que
+  // coordinarlo con Sandra. La RPC lo rechaza igual; esto lo explica antes.
+  const tardia = esCancelacionTardia(appointment.starts_at);
+  const linkWhatsapp = whatsapp
+    ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}`
+    : null;
 
   return (
     <>
@@ -67,24 +76,41 @@ export function AppointmentCard({ appointment, upcoming }: Props) {
         )}
 
         {upcoming && appointment.status === "confirmed" && (
-          <div className="flex gap-2 pt-1">
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1"
-              onClick={() => setRescheduleOpen(true)}
-            >
-              Reagendar
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex-1 text-destructive hover:text-destructive"
-              onClick={() => setCancelOpen(true)}
-            >
-              Cancelar
-            </Button>
-          </div>
+          tardia ? (
+            <div className="space-y-2 border-t pt-3">
+              <p className="text-xs text-muted-foreground">
+                Tu cita es en menos de {HORAS_MINIMAS_CANCELACION} horas. A esta altura
+                Sandra ya reservó el espacio, así que para cancelarla o moverla
+                escribile directamente.
+              </p>
+              {linkWhatsapp && (
+                <Button asChild variant="outline" size="sm" className="w-full">
+                  <a href={linkWhatsapp} target="_blank" rel="noopener noreferrer">
+                    Escribirle por WhatsApp
+                  </a>
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="flex gap-2 pt-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={() => setRescheduleOpen(true)}
+              >
+                Reagendar
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex-1 text-destructive hover:text-destructive"
+                onClick={() => setCancelOpen(true)}
+              >
+                Cancelar
+              </Button>
+            </div>
+          )
         )}
       </div>
 

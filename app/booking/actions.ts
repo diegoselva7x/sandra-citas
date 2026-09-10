@@ -2,19 +2,25 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { createClient as createAnonClient } from "@supabase/supabase-js";
-import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import {
   bookAppointmentSchema,
   cancelSchema,
   rescheduleSchema,
   signUpSchema,
 } from "@/lib/validations";
-import type { ServiceType, Settings, AvailabilitySlot } from "@/lib/types";
+import type {
+  ServiceType,
+  Settings,
+  AvailabilitySlot,
+  AvailabilityRule,
+} from "@/lib/types";
 import {
   sendAppointmentConfirmation,
   sendWelcomeEmail,
   notifyAdminNewAppointment,
   sendCancellationEmail,
+  sinBloquear,
 } from "@/lib/email/send";
 
 type ActionResult<T = unknown> = { data?: T; error?: string };
@@ -27,20 +33,24 @@ export async function signUp(input: unknown): Promise<ActionResult> {
   const { fullName, email, phone, password } = parsed.data;
   const supabase = await createClient();
 
+  // La confirmación por correo está desactivada en Supabase: signUp devuelve
+  // sesión de una vez y el paciente entra directo a reservar. Un paso de
+  // activación de más era la principal fuente de abandono.
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       // estos metadata los lee el trigger handle_new_user para crear el profile
       data: { full_name: fullName, phone },
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
     },
   });
 
   if (error) return { error: traducirAuthError(error.message) };
 
-  // El correo de verificación lo manda Supabase. El de bienvenida es nuestro.
-  await sendWelcomeEmail({ to: email, name: fullName }).catch(() => {});
+  await sinBloquear(
+    sendWelcomeEmail({ to: email, name: fullName }),
+    `bienvenida a ${email}`,
+  );
   return { data: { ok: true } };
 }
 
@@ -64,10 +74,17 @@ export async function bookAppointment(input: unknown): Promise<ActionResult<{ id
 
   if (error) return { error: error.message };
 
-  // Los correos no deben bloquear ni tumbar la reserva si fallan.
-  await Promise.allSettled([
-    sendAppointmentConfirmation({ appointmentId }),
-    notifyAdminNewAppointment({ appointmentId }),
+  // Los correos no deben bloquear ni tumbar la reserva si fallan, pero el
+  // fallo tiene que quedar registrado.
+  await Promise.all([
+    sinBloquear(
+      sendAppointmentConfirmation({ appointmentId }),
+      `confirmación de la cita ${appointmentId}`,
+    ),
+    sinBloquear(
+      notifyAdminNewAppointment({ appointmentId }),
+      `aviso a Sandra de la cita ${appointmentId}`,
+    ),
   ]);
 
   return { data: { id: appointmentId as string } };
@@ -84,7 +101,10 @@ export async function cancelAppointment(input: unknown): Promise<ActionResult> {
   });
   if (error) return { error: error.message };
 
-  await sendCancellationEmail({ appointmentId: parsed.data.appointmentId }).catch(() => {});
+  await sinBloquear(
+    sendCancellationEmail({ appointmentId: parsed.data.appointmentId }),
+    `cancelación de la cita ${parsed.data.appointmentId}`,
+  );
   return { data: { ok: true } };
 }
 
@@ -99,16 +119,19 @@ export async function rescheduleAppointment(input: unknown): Promise<ActionResul
   });
   if (error) return { error: error.message };
 
-  await sendAppointmentConfirmation({
-    appointmentId: parsed.data.appointmentId,
-    rescheduled: true,
-  }).catch(() => {});
+  await sinBloquear(
+    sendAppointmentConfirmation({
+      appointmentId: parsed.data.appointmentId,
+      rescheduled: true,
+    }),
+    `reagendado de la cita ${parsed.data.appointmentId}`,
+  );
   return { data: { ok: true } };
 }
 
 // Funciones de solo lectura que alimentan la UI del flujo de reserva.
 
-// Cliente anon sin cookies — válido para datos públicos dentro de unstable_cache
+// Cliente anon sin cookies — válido para datos públicos
 function anonClient() {
   return createAnonClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -116,18 +139,29 @@ function anonClient() {
   );
 }
 
-export const getActiveServices = unstable_cache(
-  async (): Promise<ServiceType[]> => {
-    const { data } = await anonClient()
-      .from("service_types")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order");
-    return (data as ServiceType[]) ?? [];
-  },
-  ["active-services"],
-  { tags: ["services"], revalidate: 3600 },
-);
+// `cache` de React deduplica dentro de un mismo render. Antes esto usaba
+// unstable_cache con revalidate de una hora, que en Cloudflare exigiría montar
+// el incremental cache de OpenNext (R2 + tag cache) para dos consultas triviales
+// a Supabase. Las páginas que las usan son dinámicas, así que siempre leen fresco.
+export const getActiveServices = cache(async (): Promise<ServiceType[]> => {
+  const { data } = await anonClient()
+    .from("service_types")
+    .select("*")
+    .eq("is_active", true)
+    .order("sort_order");
+  return (data as ServiceType[]) ?? [];
+});
+
+/** Horario de atención publicado. Alimenta el openingHoursSpecification del JSON-LD. */
+export const getPublicAvailability = cache(async (): Promise<AvailabilityRule[]> => {
+  const { data } = await anonClient()
+    .from("availability_rules")
+    .select("day_of_week, start_time, end_time")
+    .eq("is_active", true)
+    .order("day_of_week")
+    .order("start_time");
+  return (data as AvailabilityRule[]) ?? [];
+});
 
 export async function getAvailableSlots(
   from: string,
@@ -143,18 +177,14 @@ export async function getAvailableSlots(
   return (data as AvailabilitySlot[]) ?? [];
 }
 
-export const getBookingSettings = unstable_cache(
-  async (): Promise<Settings | null> => {
-    const { data } = await anonClient()
-      .from("settings")
-      .select("*")
-      .eq("id", 1)
-      .single();
-    return data as Settings | null;
-  },
-  ["booking-settings"],
-  { tags: ["settings"], revalidate: 3600 },
-);
+export const getBookingSettings = cache(async (): Promise<Settings | null> => {
+  const { data } = await anonClient()
+    .from("settings")
+    .select("*")
+    .eq("id", 1)
+    .single();
+  return data as Settings | null;
+});
 
 export async function hasExistingAppointments(): Promise<boolean> {
   const supabase = await createClient();

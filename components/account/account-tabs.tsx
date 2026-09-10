@@ -14,9 +14,10 @@ interface Props {
   upcoming: AppointmentWithService[];
   past: AppointmentWithService[];
   profile: Profile;
+  whatsapp: string | null;
 }
 
-export function AccountTabs({ upcoming, past, profile }: Props) {
+export function AccountTabs({ upcoming, past, profile, whatsapp }: Props) {
   return (
     <Tabs defaultValue="citas">
       <TabsList className="w-full mb-6">
@@ -51,7 +52,12 @@ export function AccountTabs({ upcoming, past, profile }: Props) {
           ) : (
             <div className="space-y-3">
               {upcoming.map((appt) => (
-                <AppointmentCard key={appt.id} appointment={appt} upcoming />
+                <AppointmentCard
+                  key={appt.id}
+                  appointment={appt}
+                  upcoming
+                  whatsapp={whatsapp}
+                />
               ))}
             </div>
           )}
@@ -65,7 +71,12 @@ export function AccountTabs({ upcoming, past, profile }: Props) {
             </h2>
             <div className="space-y-3">
               {past.map((appt) => (
-                <AppointmentCard key={appt.id} appointment={appt} upcoming={false} />
+                <AppointmentCard
+                  key={appt.id}
+                  appointment={appt}
+                  upcoming={false}
+                  whatsapp={whatsapp}
+                />
               ))}
             </div>
           </section>

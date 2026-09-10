@@ -1,4 +1,5 @@
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://psicologasandra.com";
+import { SITE_URL } from "@/lib/constants";
+const SITE = SITE_URL;
 
 interface Crumb {
   name: string;

@@ -15,7 +15,7 @@ export default async function ConfiguracionPage() {
   ]);
 
   return (
-    <div className="p-6 max-w-3xl space-y-4">
+    <div className="mx-auto max-w-4xl space-y-4 p-6">
       <h1 className="text-2xl font-semibold">Configuración</h1>
       <ConfigClient
         settings={settings!}

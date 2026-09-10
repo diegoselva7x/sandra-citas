@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { SITE_URL } from "@/lib/constants";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -16,7 +17,7 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://psicologasandra.com";
+const SITE = SITE_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),

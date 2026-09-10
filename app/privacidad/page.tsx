@@ -4,7 +4,6 @@ import { PageHeader } from "@/components/ui/page-header";
 import { BreadcrumbJsonLd } from "@/components/breadcrumb-jsonld";
 import type { Metadata } from "next";
 
-export const revalidate = 86400; // 24h — contenido legal estático
 
 export const metadata: Metadata = {
   title: "Política de privacidad",

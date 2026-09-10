@@ -13,7 +13,7 @@ export default async function PacientesPage({
   const patients = await getPatients(q);
 
   return (
-    <div className="p-6 max-w-4xl space-y-4">
+    <div className="mx-auto max-w-6xl space-y-4 p-6">
       <h1 className="text-2xl font-semibold tracking-tight">Pacientes</h1>
 
       <form>
