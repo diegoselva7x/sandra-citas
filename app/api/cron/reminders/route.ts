@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { sendReminder } from "@/lib/email/send";
 
 export const dynamic = "force-dynamic";
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
   const from = new Date(Date.now() + 23 * 60 * 60 * 1000).toISOString();
   const to = new Date(Date.now() + 25 * 60 * 60 * 1000).toISOString();
 
-  const { data: citas, error } = await supabaseAdmin
+  const { data: citas, error } = await getSupabaseAdmin()
     .from("appointments")
     .select(
       "id, starts_at, modality, profiles!appointments_client_id_fkey(full_name, email)",
@@ -67,7 +67,7 @@ export async function GET(request: Request) {
       await sendReminder(cita);
       // Sólo se marca después de un envío confirmado: si Resend rechaza, la
       // cita queda sin marcar y el próximo pase reintenta.
-      await supabaseAdmin
+      await getSupabaseAdmin()
         .from("appointments")
         .update({ reminder_sent_at: new Date().toISOString() })
         .eq("id", cita.id);

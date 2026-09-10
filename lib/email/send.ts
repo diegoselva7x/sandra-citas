@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 import { render } from "@react-email/components";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { formatInTimeZone } from "date-fns-tz";
 import { es } from "date-fns/locale";
 import { TIMEZONE } from "@/lib/types";
@@ -12,7 +12,20 @@ import { MissedYouEmail } from "./templates/missed-you";
 import { AdminNewAppointmentEmail } from "./templates/admin-new-appointment";
 import * as React from "react";
 
-const resend = new Resend(process.env.RESEND_API_KEY!);
+// Igual que el cliente de service role: el constructor de Resend lanza si la
+// API key viene vacía, así que crearlo al importar obligaba a tener el secreto
+// presente durante el build. Se difiere hasta el primer envío real.
+let resendCliente: Resend | null = null;
+
+function resend(): Resend {
+  if (resendCliente) return resendCliente;
+
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error("Falta RESEND_API_KEY en el entorno.");
+
+  resendCliente = new Resend(key);
+  return resendCliente;
+}
 
 // Remitente sobre el dominio verificado en Resend. Las respuestas van al Gmail
 // que Sandra sí revisa: nadie contesta a una casilla que no existe.
@@ -38,7 +51,7 @@ async function enviar({
   html: string;
   tipo: string;
 }) {
-  const { data, error } = await resend.emails.send({
+  const { data, error } = await resend().emails.send({
     from: FROM,
     replyTo: REPLY_TO,
     to,
@@ -66,7 +79,7 @@ function fecha(iso: string): string {
 }
 
 async function cargarCita(appointmentId: string) {
-  const { data } = await supabaseAdmin
+  const { data } = await getSupabaseAdmin()
     .from("appointments")
     .select(
       "id, starts_at, modality, status, profiles!appointments_client_id_fkey(full_name, email)",
@@ -85,7 +98,7 @@ async function cargarCita(appointmentId: string) {
 }
 
 async function cfg() {
-  const { data } = await supabaseAdmin
+  const { data } = await getSupabaseAdmin()
     .from("settings")
     .select("whatsapp_number, online_instructions, contact_email")
     .eq("id", 1)

@@ -9,7 +9,7 @@ import {
   sendAppointmentConfirmation,
   sinBloquear,
 } from "@/lib/email/send";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import {
   inicioDelDiaCR,
   finDelDiaCR,
@@ -314,7 +314,7 @@ const createPatientSchema = z.object({
  * el paciente no tiene que hacer ningún paso. Después puede entrar con la
  * contraseña que Sandra le pase, o recuperarla desde "olvidé mi contraseña".
  *
- * OJO: supabaseAdmin salta RLS, así que acá el rol se verifica a mano.
+ * OJO: el cliente de service role salta RLS, así que acá el rol se verifica a mano.
  */
 export async function createPatient(
   input: unknown,
@@ -339,7 +339,7 @@ export async function createPatient(
 
   const { fullName, email, phone, password } = parsed.data;
 
-  const { data: creado, error } = await supabaseAdmin.auth.admin.createUser({
+  const { data: creado, error } = await getSupabaseAdmin().auth.admin.createUser({
     email,
     password,
     email_confirm: true, // activa la cuenta sin enviar correo de verificación
