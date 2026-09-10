@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { signInSchema } from "@/lib/validations";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { SITE_URL } from "@/lib/constants";
 
 type ActionResult = { error?: string };
 
@@ -35,11 +36,17 @@ export async function requestPasswordReset(email: string): Promise<ActionResult>
   if (!parsed.success) return { error: "Correo inválido." };
 
   const supabase = await createClient();
+  // Tiene que apuntar al callback, no directo al formulario: el enlace trae un
+  // código que hay que canjear por sesión, y /auth/restablecer no lo hace.
+  // El callback lo canjea y de ahí manda al formulario.
   const { error } = await supabase.auth.resetPasswordForEmail(parsed.data, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/restablecer`,
+    redirectTo: `${SITE_URL}/auth/callback?type=recovery`,
   });
 
-  if (error) return { error: "No se pudo enviar el correo. Intentá de nuevo." };
+  if (error) {
+    console.error(`[auth] no se pudo enviar el reset a ${parsed.data}:`, error.message);
+    return { error: "No se pudo enviar el correo. Intentá de nuevo." };
+  }
   return {};
 }
 
@@ -54,10 +61,37 @@ export async function updatePassword(password: string): Promise<ActionResult> {
   if (!parsed.success) return { error: parsed.error.issues[0]?.message };
 
   const supabase = await createClient();
+
+  // Sin sesión no hay nada que actualizar. Pasa cuando el enlace expiró o se
+  // abrió en otro navegador; decirlo es mucho más útil que "intentá de nuevo".
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return {
+      error:
+        "El enlace expiró o se abrió en otro navegador. Pedí uno nuevo desde “¿Olvidaste tu contraseña?”.",
+    };
+  }
+
   const { error } = await supabase.auth.updateUser({ password });
-  if (error) return { error: "No se pudo actualizar la contraseña. Intentá de nuevo." };
+  if (error) {
+    console.error("[auth] updateUser falló:", error.message);
+    return { error: traducirUpdateError(error.message) };
+  }
 
   redirect("/mi-cuenta");
+}
+
+function traducirUpdateError(msg: string): string {
+  if (msg.includes("session") || msg.includes("Auth session missing"))
+    return "El enlace expiró o se abrió en otro navegador. Pedí uno nuevo.";
+  if (msg.includes("should be different") || msg.includes("same as the old"))
+    return "La contraseña nueva tiene que ser distinta a la anterior.";
+  if (msg.includes("Password should be at least"))
+    return "La contraseña es demasiado corta.";
+  if (msg.includes("Too many requests")) return "Demasiados intentos. Esperá unos minutos.";
+  return "No se pudo actualizar la contraseña. Intentá de nuevo.";
 }
 
 function traducirAuthError(msg: string): string {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { requestPasswordReset } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
@@ -9,10 +10,14 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function RecuperarPage() {
+  const params = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
+
+  // El callback manda acá con ?error=enlace cuando el link venció o ya se usó.
+  const enlaceVencido = params.get("error") === "enlace";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +60,11 @@ export default function RecuperarPage() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {enlaceVencido && (
+          <p className="mb-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            Ese enlace ya venció o se usó. Pedí uno nuevo acá abajo.
+          </p>
+        )}
         <form id="recuperar-form" onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="email">Correo electrónico</Label>
