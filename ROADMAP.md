@@ -1,6 +1,6 @@
 # ROADMAP — Plan de construcción
 
-> **Estado jun 2026 — Fases 0 a 7 COMPLETAS. Demo live en Vercel.**
+> **Estado sep 2026 — En producción en sandracarpio.com (Cloudflare Workers).**
 > Encima de eso ya se hizo: rediseño visual, contenido y fotos reales de Sandra,
 > optimización de rendimiento, limpieza para entrega (lint 0 errores) y SEO/GEO
 > (en curso). Ver "Post-lanzamiento" al final y `docs/RESUMEN-PROYECTO.md`.

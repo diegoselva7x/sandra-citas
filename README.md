@@ -1,6 +1,6 @@
 # Backend de citas — Página web de Sandra
 
-Base del sistema de reservas: base de datos, seguridad, auth, correos y el cron de recordatorios. Pensado para Next.js 16 (App Router) + Supabase + Resend, desplegado en Vercel.
+Base del sistema de reservas: base de datos, seguridad, auth, correos y el cron de recordatorios. Pensado para Next.js 16 (App Router) + Supabase + Resend, desplegado en Cloudflare Workers.
 
 ## Estructura
 
@@ -23,7 +23,7 @@ sandra-citas/
 │  ├─ booking/actions.ts   Server Actions: registro, reservar, cancelar, reagendar
 │  └─ api/cron/reminders/  Cron de recordatorio 24h
 ├─ middleware.ts           Refresca sesión y protege /admin y /mi-cuenta
-├─ vercel.json             Programación del cron
+├─ workers/cron/           Worker que dispara el recordatorio cada hora
 └─ .env.example            Variables de entorno
 ```
 
@@ -57,8 +57,9 @@ sandra-citas/
    y correrlo para convertirla en admin + cargar horarios/servicios.
 5. En Resend: verificar el dominio (registros SPF/DKIM/DMARC en el DNS) y ajustar
    el `FROM` en `lib/email/send.ts`. Sin esto, los correos caen en spam.
-6. Deploy en Vercel. El cron de `vercel.json` arranca solo (requiere `CRON_SECRET`
-   en las env vars del proyecto).
+6. Deploy: cada push a `main` lo compila y publica Cloudflare Workers Builds.
+   El recordatorio lo dispara el worker `sandra-citas-cron` cada hora.
+   Ver `docs/DESPLIEGUE.md` para el detalle.
 
 ## Zona horaria
 

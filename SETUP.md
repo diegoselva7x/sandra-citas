@@ -46,7 +46,7 @@ un proyecto Next.js. Lo creamos y luego metemos esos archivos adentro.
    - Import alias `@/*` → **Yes** (dejá el default)
 
 2. Copiá los archivos del backend dentro de `sandra-web/`, respetando las rutas:
-   `lib/`, `app/booking/`, `app/api/`, `middleware.ts`, `supabase/`, `vercel.json`,
+   `lib/`, `app/booking/`, `app/api/`, `middleware.ts`, `supabase/`,
    `ROADMAP.md`, `SETUP.md`, `.env.example`.
 
 3. Instalá las dependencias del backend:
@@ -135,12 +135,11 @@ registrarse y corré ese archivo en el SQL Editor.
 
 ## 6. Deploy (cuando ya haya algo que mostrar)
 
-1. Subí el repo a GitHub.
-2. En https://vercel.com → "Import Project" → elegí el repo.
-3. En Vercel → Project Settings → **Environment Variables**: pegá las mismas de
-   `.env.local` (con `NEXT_PUBLIC_SITE_URL` apuntando al dominio real).
-4. El cron de `vercel.json` se activa solo en Vercel (necesita `CRON_SECRET`).
-5. Dominio: compralo en Cloudflare **a nombre de Sandra** y apuntalo a Vercel.
+El proyecto ya está desplegado. El detalle completo —dónde vive cada pieza, qué
+variables van en build y cuáles en runtime— está en `docs/DESPLIEGUE.md`.
+
+En resumen: cada push a `main` lo compila y publica Cloudflare Workers Builds
+sobre el worker `sandra-citas`, servido en sandracarpio.com.
 
 ---
 

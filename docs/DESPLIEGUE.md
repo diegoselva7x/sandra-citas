@@ -14,9 +14,8 @@ Estado a partir del lanzamiento del 9 de septiembre de 2026.
 | Recordatorios | Worker `sandra-citas-cron`, cron `0 * * * *` | Código fuente en `workers/cron/` |
 | Rate limiting | Cloudflare KV, namespace `sandra-citas-rate-limit` | |
 
-`sandra-citas.vercel.app` sigue en pie como plan de emergencia. Si Cloudflare
-fallara, se puede volver apuntando el DNS a Vercel. Conviene apagarlo una vez
-que la operación en Cloudflare esté rodada.
+Vercel quedó fuera del proyecto el 10 de septiembre de 2026, una vez que la
+operación en Cloudflare estuvo verificada. Ya no hay nada que mantener ahí.
 
 ## Comandos
 

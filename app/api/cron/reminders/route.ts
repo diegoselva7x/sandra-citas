@@ -24,7 +24,7 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 export async function GET(request: Request) {
-  // Protección: Vercel Cron envía 'Authorization: Bearer <CRON_SECRET>'.
+  // Protección: el worker sandra-citas-cron envía 'Authorization: Bearer <CRON_SECRET>'.
   // Si CRON_SECRET no está configurado, rechazar siempre.
   const secret = process.env.CRON_SECRET;
   if (!secret) {

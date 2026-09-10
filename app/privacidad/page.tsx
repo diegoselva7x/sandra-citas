@@ -96,7 +96,7 @@ export default function PrivacidadPage() {
               {[
                 "Supabase Inc. — almacenamiento de base de datos (servidores en Estados Unidos)",
                 "Resend Inc. — envío de correos transaccionales",
-                "Vercel Inc. — alojamiento de la aplicación web",
+                "Cloudflare, Inc. — alojamiento de la aplicación web y red de distribución",
               ].map((item, i) => (
                 <li key={i} className="flex gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 shrink-0" />

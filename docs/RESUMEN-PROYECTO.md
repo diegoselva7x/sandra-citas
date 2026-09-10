@@ -18,7 +18,7 @@ Sitio web profesional completo para **Sandra Carpio**, psicóloga en Costa Rica.
 | **Supabase** (PostgreSQL + Auth + RLS) | Base de datos + autenticación |
 | **Resend + React Email** | Correos transaccionales (6 plantillas) |
 | **Tailwind CSS + shadcn/ui** | Estilos y componentes |
-| **Vercel** | Hosting + Cron jobs |
+| **Cloudflare Workers** | Hosting + Cron triggers + KV |
 | **react-big-calendar** | Calendario del admin |
 | **react-hook-form + Zod** | Formularios con validación |
 | **date-fns-tz** | Fechas siempre en `America/Costa_Rica` |
@@ -183,11 +183,11 @@ Los siguientes datos se gestionan desde el panel admin, no están hardcodeados:
 El sitio está terminado pero **no aparece en Google todavía** porque es nuevo y no
 se ha dado de alta. Pasos pendientes (configuración, no código), en orden de impacto:
 1. **Google Business Profile** (lo más importante para SEO local — Sandra).
-2. **Decidir el dominio** antes de forzar la indexación (no indexar el `.vercel.app` si se usará el dominio real pronto).
-3. Conectar `psicologasandra.com` + actualizar `NEXT_PUBLIC_SITE_URL` en Vercel.
+2. ~~Decidir el dominio~~ — hecho: sandracarpio.com, en producción.
+3. ~~Conectar el dominio~~ — hecho.
 4. **Google Search Console**: verificar propiedad, enviar sitemap, solicitar indexación.
 5. Backlinks (LinkedIn, Instagram, directorios) y contenido real de `/recursos`.
 
 ### Producción
-- Deploy demo: URL `.vercel.app` (Hobby, gratuito).
-- Producción: dominio `psicologasandra.com`, verificar Resend, Vercel Pro para cron horario.
+- Producción: sandracarpio.com sobre Cloudflare Workers.
+- Resend verificado; el cron horario corre en un Worker aparte (plan gratuito).
