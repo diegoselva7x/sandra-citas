@@ -35,6 +35,11 @@ export async function GET(request: NextRequest) {
     });
     if (!error) return NextResponse.redirect(`${origin}${destino}`);
     console.error("[auth] verifyOtp falló:", error.message);
+  } else if (type === "recovery") {
+    // Flujo implícito: el token viene en el fragmento (#access_token=…), que
+    // nunca llega al servidor. Se manda al formulario, que lo lee del lado del
+    // cliente. El fragmento sobrevive al redirect porque el destino no trae uno.
+    return NextResponse.redirect(`${origin}/auth/restablecer`);
   } else {
     console.error("[auth] callback sin code ni token_hash");
   }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { updatePassword } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,38 @@ export default function RestablecerPage() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [preparando, setPreparando] = useState(true);
+
+  // Supabase puede devolver la sesión de dos formas. Con el flujo PKCE llega
+  // como ?code= y ya la canjeó /auth/callback antes de traernos acá. Con el
+  // flujo implícito llega en el fragmento (#access_token=…), que nunca viaja al
+  // servidor: hay que leerlo del lado del cliente o el formulario se envía sin
+  // sesión y updateUser falla.
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash.includes("access_token")) {
+      setPreparando(false);
+      return;
+    }
+
+    const params = new URLSearchParams(hash.slice(1));
+    const access_token = params.get("access_token");
+    const refresh_token = params.get("refresh_token");
+
+    if (!access_token || !refresh_token) {
+      setPreparando(false);
+      return;
+    }
+
+    createClient()
+      .auth.setSession({ access_token, refresh_token })
+      .then(({ error }) => {
+        if (error) setError("El enlace expiró o ya se usó. Pedí uno nuevo.");
+        // Se limpia el token de la barra de direcciones.
+        window.history.replaceState(null, "", window.location.pathname);
+      })
+      .finally(() => setPreparando(false));
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,8 +104,13 @@ export default function RestablecerPage() {
         </form>
       </CardContent>
       <CardFooter>
-        <Button type="submit" form="restablecer-form" className="w-full" disabled={isPending}>
-          {isPending ? "Guardando…" : "Guardar contraseña"}
+        <Button
+          type="submit"
+          form="restablecer-form"
+          className="w-full"
+          disabled={isPending || preparando}
+        >
+          {preparando ? "Verificando el enlace…" : isPending ? "Guardando…" : "Guardar contraseña"}
         </Button>
       </CardFooter>
     </Card>
