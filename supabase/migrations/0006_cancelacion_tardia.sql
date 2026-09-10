@@ -91,6 +91,8 @@ declare
   v_duration int;
   v_new_end  timestamptz;
   v_horas    numeric;
+  v_tz       text;
+  v_dia      date;
 begin
   if v_uid is null then raise exception 'No autenticado.'; end if;
 
@@ -124,37 +126,31 @@ begin
       and a.status <> 'cancelled'
       and tstzrange(a.starts_at, a.ends_at) && tstzrange(p_new_starts_at, v_new_end)
   ) then
-    raise exception 'Ese horario ya no está disponible.';
+    raise exception 'Ese horario ya no esta disponible.';
   end if;
+
+  select coalesce(timezone, 'America/Costa_Rica') into v_tz
+    from public.settings where id = 1;
+  v_tz := coalesce(v_tz, 'America/Costa_Rica');
+  v_dia := (p_new_starts_at at time zone v_tz)::date;
 
   -- Bloqueos de agenda (vacaciones, capacitaciones). Sandra puede pasar por encima.
   if not v_admin and exists (
     select 1 from public.date_blocks b
     where tstzrange(b.starts_at, b.ends_at) && tstzrange(p_new_starts_at, v_new_end)
   ) then
-    raise exception 'Ese horario no está disponible.';
+    raise exception 'Ese horario no esta disponible.';
   end if;
 
   -- El horario nuevo tiene que caer dentro de la disponibilidad publicada.
   if not v_admin and not exists (
-    select 1
-    from public.availability_rules r,
-         lateral (
-           select (date_trunc('day', p_new_starts_at at time zone
-                    coalesce((select timezone from public.settings where id = 1),
-                             'America/Costa_Rica'))
-                  )::date as d
-         ) k
+    select 1 from public.availability_rules r
     where r.is_active
-      and r.day_of_week = extract(dow from k.d)::int
-      and (k.d + r.start_time) at time zone
-            coalesce((select timezone from public.settings where id = 1),
-                     'America/Costa_Rica') <= p_new_starts_at
-      and (k.d + r.end_time) at time zone
-            coalesce((select timezone from public.settings where id = 1),
-                     'America/Costa_Rica') >= v_new_end
+      and r.day_of_week = extract(dow from v_dia)::int
+      and ((v_dia + r.start_time) at time zone v_tz) <= p_new_starts_at
+      and ((v_dia + r.end_time)   at time zone v_tz) >= v_new_end
   ) then
-    raise exception 'Ese horario está fuera del horario de atención.';
+    raise exception 'Ese horario esta fuera del horario de atencion.';
   end if;
 
   -- reminder_sent_at se reinicia para que el recordatorio salga a la nueva hora
