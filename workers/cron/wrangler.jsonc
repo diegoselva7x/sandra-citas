@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "sandra-citas-cron",
+  "main": "index.ts",
+  "compatibility_date": "2026-09-01",
+  "triggers": {
+    // Cada hora en punto. Con la ventana de 23–25 h del endpoint, toda cita
+    // recibe su recordatorio con un día de anticipación.
+    "crons": ["0 * * * *"]
+  },
+  "vars": {
+    "SITE_URL": "https://sandracarpio.com"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

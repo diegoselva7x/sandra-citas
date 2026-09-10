@@ -34,7 +34,11 @@ export async function middleware(request: NextRequest) {
 
     if (limitCfg) {
       const key = `ip:${ip}:${action}`;
-      const { allowed, remaining, resetMs } = rateLimit(key, limitCfg.limit, limitCfg.windowMs);
+      const { allowed, remaining, resetMs } = await rateLimit(
+        key,
+        limitCfg.limit,
+        limitCfg.windowMs,
+      );
 
       if (!allowed) {
         const retryAfterSec = Math.ceil(resetMs / 1000);
