@@ -1,0 +1,30 @@
+# Cabeceras para los archivos estáticos que sirve Cloudflare directamente.
+#
+# Por defecto Workers Assets responde `public, max-age=0, must-revalidate` a
+# todo, incluidos los bundles de Next que llevan hash en el nombre. Eso obliga
+# al navegador a revalidar cada JS, CSS y fuente en cada visita: una decena de
+# viajes de ida y vuelta que deberían ser cero. Se nota sobre todo desde el
+# celular con datos móviles.
+#
+# Sólo afecta a los archivos estáticos. El HTML lo sirve el worker y conserva
+# su `no-store`, que es lo correcto porque el contenido depende de la sesión.
+
+# Nombre con hash de contenido: si cambia el archivo, cambia la URL.
+# Se puede guardar indefinidamente sin riesgo de servir algo viejo.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fotos y logo: estables, pero la URL no cambia si se reemplaza el archivo.
+# Una semana en caché, y mientras se revalida se sigue sirviendo la copia vieja.
+/*.jpg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/*.png
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/*.webp
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/*.svg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+# Texto que puede cambiar sin que cambie la URL: caché corta.
+/llms.txt
+  Cache-Control: public, max-age=3600

@@ -22,6 +22,7 @@ Thumbs.db
 
 # Herramientas locales de desarrollo
 .agents/
+.claude/
 skills-lock.json
 
 # Cloudflare
