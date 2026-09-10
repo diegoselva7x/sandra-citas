@@ -9,6 +9,7 @@ import { signUp } from "@/app/booking/actions";
 import { signUpSchema, type SignUpInput } from "@/lib/validations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -93,10 +94,9 @@ export default function RegistroPage() {
 
           <div className="space-y-1.5">
             <Label htmlFor="password">Contraseña</Label>
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
-              autoComplete="new-password"
+                            autoComplete="new-password"
               placeholder="Mínimo 8 caracteres"
               {...register("password")}
             />

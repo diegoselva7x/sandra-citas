@@ -4,7 +4,7 @@ import { useEffect, useState, useTransition } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { updatePassword } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -74,9 +74,8 @@ export default function RestablecerPage() {
         <form id="restablecer-form" onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="password">Nueva contraseña</Label>
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
               autoComplete="new-password"
               placeholder="Mínimo 8 caracteres"
               value={password}
@@ -86,9 +85,8 @@ export default function RestablecerPage() {
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="confirm">Confirmá la contraseña</Label>
-            <Input
+            <PasswordInput
               id="confirm"
-              type="password"
               autoComplete="new-password"
               placeholder="Repetí tu nueva contraseña"
               value={confirm}
