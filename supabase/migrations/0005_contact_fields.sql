@@ -16,7 +16,7 @@ alter table public.settings
 -- el mapa funciona con las coordenadas.
 update public.settings set
   whatsapp_number = '+506 8922 9507',
-  instagram_url   = 'https://www.instagram.com/sandcarpio/',
+  instagram_url   = 'https://www.instagram.com/psicologaclinica.sandra.carpio/',
   maps_url        = 'https://www.google.com/maps/place/9%C2%B051''40.6%22N+83%C2%B054''40.1%22W/@9.8607925,-83.9121244,18z/data=!4m4!3m3!8m2!3d9.8612814!4d-83.9111481?hl=es',
   latitude        = 9.8612814,
   longitude       = -83.9111481

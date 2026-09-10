@@ -92,7 +92,7 @@ export default async function ContactoPage() {
                         rel="noopener noreferrer"
                         className="text-sm text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
                       >
-                        @sandcarpio
+                        @psicologaclinica.sandra.carpio
                       </a>
                     </div>
                   </li>

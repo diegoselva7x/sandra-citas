@@ -68,7 +68,7 @@ export default function SobreMiPage() {
         "@type": "EducationalOccupationalCredential",
         name: c,
       })),
-      sameAs: ["https://www.instagram.com/sandcarpio"],
+      sameAs: ["https://www.instagram.com/psicologaclinica.sandra.carpio"],
     },
   };
 

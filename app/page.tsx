@@ -53,7 +53,7 @@ export default async function HomePage() {
 
   // Datos del consultorio (fallbacks reales por si settings aún no está poblado en DB)
   const telephone = settings?.whatsapp_number ?? "+506 8922 9507";
-  const instagram = settings?.instagram_url ?? "https://www.instagram.com/sandcarpio";
+  const instagram = settings?.instagram_url ?? "https://www.instagram.com/psicologaclinica.sandra.carpio";
   const street = settings?.address ?? "Cartago, Provincia de Cartago, Costa Rica";
   const lat = settings?.latitude ?? 9.8612814;
   const lng = settings?.longitude ?? -83.9111481;
@@ -479,7 +479,7 @@ export default async function HomePage() {
                         rel="noopener noreferrer"
                         className="text-foreground underline underline-offset-4 decoration-primary hover:text-foreground/70 transition-colors"
                       >
-                        @sandcarpio
+                        @psicologaclinica.sandra.carpio
                       </a>
                     </li>
                   )}
